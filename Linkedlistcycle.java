@@ -37,8 +37,6 @@ class Linkedlistcycle
                 fp = fp.next.next;
             }
         }
-        
-        boolean result = false;
         if(flag == true)
         {
             result = true;
@@ -88,7 +86,6 @@ class Linkedlistcycle
         //return
         return length;  
     } 
-
 
     public static void main(String[] args)
     {   
