@@ -162,4 +162,4 @@ class CyclicSort
         System.out.println(result.toString());
     }//main
 
-}//class
+}//Class

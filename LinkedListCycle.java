@@ -310,5 +310,4 @@ class LinkedListCycle
 
     } 
     
-}
-
+}//Class

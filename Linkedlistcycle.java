@@ -135,5 +135,5 @@ class Linkedlistcycle
         head.next.next.next.next.next.next = head.next.next.next;
         System.out.println("LinkedList cycle length: " + Linkedlistcycle.calculateLength(head));
     } 
-}
+}//Class
 
