@@ -136,3 +136,4 @@ class Linkedlistcycle
         System.out.println("LinkedList cycle length: " + Linkedlistcycle.calculateLength(head));
     } 
 }
+
