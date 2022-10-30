@@ -56,18 +56,19 @@ class CyclicSort
         
         //update returnValue
         int returnValue = -1;
-        for(int i = 0; i < arr.length; i++)
+        for(int k = 0; k < arr.length; k++)
         {
-            if(arr[i] != i)
+            if(arr[k] != k - 1)
             {
-                returnValue = i;
+                returnValue = arr[k];
                 break;
-            }
+            } 
         }
 
-        //return 
+        //return
         return returnValue;
-    }
+
+    }//
 
     public static List<Integer> findAllMissingNumbers(int[] arr)
     {
@@ -75,9 +76,8 @@ class CyclicSort
         if(arr == null)
         {
             return null;
-        }
+        } 
 
-        //swap
         for(int i = 0; i < arr.length; i++)
         {   
             while((arr[i] != arr[arr[i] - 1]) && (arr[i] - 1 < arr.length))
@@ -103,108 +103,107 @@ class CyclicSort
         return result;
     }
     
-    public static int findDuplicatesNUmber(int[] arr)
+    public static int findDuplicatesNumber(int[] arr)
     {
         if(arr == null)
         {
-        return -1;
-        }//for
+            return -1;
+        }
 
         //swap operation
         for(int i = 0; i < arr.length; i++)
         {   
-            int j = arr[i];
+            int j = arr[i] - 1;
             int temp = arr[j];
             while(arr[i] != arr[j] && arr[i] - 1 < arr.length)
             {
                 arr[j] = arr[i];
                 arr[i] = temp;
-                j = arr[i];
+                j = arr[i] - 1;
+                temp = arr[j];
             }//while
+
         }//for
 
         //find the duplicate number
         int returnValue = -1;
         for(int k = 0; k < arr.length; k++)
-        {
+        { System.out.println();
+            
             if(arr[k] - 1 != k)
             {
-                returnValue = k;
+                returnValue = arr[k];
                 break;
             } 
-        }//for
+        }
 
-        //return 
+        //return
         return returnValue;
+    }
+
+    public static List<Integer> findAllDuplicateNumber(int[] arr)
+    {   
+        if(arr == null)
+        {
+            return null;
+        }
+        
+    
+        //swap
+        for(int i = 0; i < arr.length; i++)
+        {
+            int j = arr[i] - 1;
+            int temp = arr[j];
+            while(arr[i] != arr[j] && arr[i] -1 < arr.length)
+            {
+                arr[j] = arr[i];
+                arr[i] = temp;
+                j = arr[i] - 1;
+                temp = arr[j];
+            }
+
+        }
+        
+        //form result
+        List<Integer> result = new ArrayList<>();
+        for(int k = 0; k < arr.length; k++)
+        {        
+            if(arr[k] - 1 != k )
+            {
+                result.add(arr[k]);
+            }
+        }
+       
+        //return
+        return result;
     }
 
     public static void main(String[] args)
     {
-        //sortate n
-        int[] arr = new int[] { 3, 1, 5, 4, 2 };
-        CyclicSort.sort(arr);
-        for(int i = 0; i < arr.length; i++)
-        {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println();
-        
-        arr = new int[] { 2, 6, 4, 3, 1, 5 };
-
-        arr = new int[] { 1, 5, 6, 4, 3, 2 };
-        CyclicSort.sort(arr);
-        for (int num : arr)
-        System.out.print(num + " ");
-        System.out.println();
-        
+        int[] arr = null;
 
         //Find missing number
-        System.out.println("\nFind missing number");
-
-        arr = new int[] {4, 0, 3, 1};
-        System.out.println(CyclicSort.findMissingNumber(arr));
-        for (int num : arr)
-            System.out.print(num + " ");
-        System.out.println();
-        
+        System.out.println("\nFind missing number");        
         arr = new int[] {8, 3, 5, 2, 4, 6, 0, 1};
         System.out.println(CyclicSort.findMissingNumber(arr));
-        for (int num : arr)
-            System.out.print(num + " ");
-        System.out.println();
 
         //Find all missing numbers
-        System.out.println("\nFind all missing numbers");
-
-        List<Integer> result = null; 
-        arr = new int[] {2, 3, 1, 8, 2, 3, 5, 1};
-        result = CyclicSort.findAllMissingNumbers(arr);
-        System.out.println(result.toString());
-        
-        arr = new int[] {2, 4, 1, 2 };
-        result = CyclicSort.findAllMissingNumbers(arr);
-        System.out.println(result.toString());
-
-        arr = new int[]{2, 3, 2, 1 };
-        result = CyclicSort.findAllMissingNumbers(arr);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-        System.out.println(result.toString());
-
+        arr = new int[]{2, 3, 2, 1 };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        System.out.println(CyclicSort.findAllMissingNumbers(arr));
 
         //Find duplicate number
-        arr = new int[] { 1, 4, 4, 3, 2 };
-        result = CyclicSort.findDuplicatesNUmber(arr);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-        System.out.println(result.toString());
+        System.out.println("\nFind duplicate numbers");
+        arr = new int[] { 1, 4, 4, 3, 2 };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+        System.out.println(CyclicSort.findDuplicatesNumber(arr));
+        arr = new int[]{ 2, 1, 3, 3, 5, 4 };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        System.out.println(CyclicSort.findDuplicatesNumber(arr) );
 
-        arr = new int[]{ 2, 1, 3, 3, 5, 4 };
-        result = CyclicSort.findDuplicatesNUmber(arr);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-        System.out.println(result.toString());
+        //Find all duplicate numbers
+        arr = new int[] {3, 4, 4, 5, 5 };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+        System.out.println(CyclicSort.findAllDuplicateNumber(arr));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+        arr = new int[]{ 5, 4, 7, 2, 3, 5, 3};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        System.out.println(CyclicSort.findAllDuplicateNumber(arr));
 
-        arr = new int[] {2, 4, 1, 4, 4 };
-        result = CyclicSort.findDuplicatesNUmber(arr);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-        System.out.println(result.toString());
+    }//
 
-        
-
-    }//main
-
-}//Class
+}//ClassString
