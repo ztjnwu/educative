@@ -58,11 +58,11 @@ class CyclicSort
         int returnValue = -1;
         for(int k = 0; k < arr.length; k++)
         {
-            if(arr[k] != k - 1)
+            if(arr[k] - 1 != k)
             {
                 returnValue = arr[k];
                 break;
-            } 
+            }
         }
 
         //return
@@ -128,8 +128,7 @@ class CyclicSort
         //find the duplicate number
         int returnValue = -1;
         for(int k = 0; k < arr.length; k++)
-        { System.out.println();
-            
+        { 
             if(arr[k] - 1 != k)
             {
                 returnValue = arr[k];
