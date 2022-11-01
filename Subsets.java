@@ -135,35 +135,32 @@ public class Subsets {
 
         //Find permuataion
         List<String> result = new ArrayList<>();
-        String temp = null;
-        result.add(temp);
+        result.add(s);
         int startIndex = 0, endIndex = result.size() - 1;
-        System.out.println("length: " + s.length());
+
         for(int i = 0; i < s.length(); i++)
         {
-
             char chartemp = s.charAt(i);
             for(int j = startIndex; j <= endIndex; j++)
             {
-                temp = result.get(j);
-                
-                if(chartemp >= '0' && chartemp <= '9')
+                char[] tempArr = result.get(j).toCharArray();
+                if(Character.isLetter(tempArr[i]))
                 {
-                    result.add(temp + chartemp);
+                    if(Character.isUpperCase(tempArr[i]))
+                    {
+                        tempArr[i] = Character.toLowerCase(chartemp);
+                    }   
+                    else if(Character.isLowerCase(tempArr[i]))
+                    {
+                        tempArr[i] = Character.toUpperCase(chartemp);
+                    }//else
+    
+                    result.add(String.valueOf(tempArr)); 
                 }
-                else if(chartemp >= 'a' && chartemp <= 'z')
-                {
-                    result.add(temp + chartemp);
-                    result.add(temp.substring(temp.length()) + Character.toUpperCase(chartemp)); 
-                }
+               
             }//for
 
             //update startIndex and endIndex
-            for(int k = startIndex; k < endIndex; k++)
-            {
-                result.remove(0);
-            }
-
             startIndex = 0;
             endIndex = result.size() - 1;
 
@@ -190,6 +187,7 @@ public class Subsets {
         System.out.print("Here are all the permutations: " + Subsets.findPermutation(new int[] { 1, 3, 5 })+ "\n");
 
         //Find string permutation
+        System.out.println(" String permutations are: " + Subsets.findStringPermutation(""));
         System.out.println(" String permutations are: " + Subsets.findStringPermutation("ad52"));
         System.out.println(" String permutations are: " + Subsets.findStringPermutation("ab7c"));    
 
