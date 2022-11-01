@@ -125,7 +125,54 @@ public class Subsets {
 
     }//permutation
 
+    public static List<String> findStringPermutation(String s)
+    {
+        //Check valadity
+        if(s.isEmpty())
+        {
+            return new ArrayList<>();
+        }
 
+        //Find permuataion
+        List<String> result = new ArrayList<>();
+        String temp = null;
+        result.add(temp);
+        int startIndex = 0, endIndex = result.size() - 1;
+        System.out.println("length: " + s.length());
+        for(int i = 0; i < s.length(); i++)
+        {
+
+            char chartemp = s.charAt(i);
+            for(int j = startIndex; j <= endIndex; j++)
+            {
+                temp = result.get(j);
+                
+                if(chartemp >= '0' && chartemp <= '9')
+                {
+                    result.add(temp + chartemp);
+                }
+                else if(chartemp >= 'a' && chartemp <= 'z')
+                {
+                    result.add(temp + chartemp);
+                    result.add(temp.substring(temp.length()) + Character.toUpperCase(chartemp)); 
+                }
+            }//for
+
+            //update startIndex and endIndex
+            for(int k = startIndex; k < endIndex; k++)
+            {
+                result.remove(0);
+            }
+
+            startIndex = 0;
+            endIndex = result.size() - 1;
+
+        }//for
+
+        //return
+        return result;
+
+    }//
 
     public static void main(String[] args)
     {
@@ -133,7 +180,7 @@ public class Subsets {
         System.out.println("Create Subsets:");
         System.out.println("Here is the list of subsets: " + Subsets.createSubsets(new int[] { 1, 3 }));
         System.out.println("Here is the list of subsets: " + Subsets.createSubsets(new int[] { 1, 5, 3 }) + "\n");
-    
+        
         //Find distinct subsets
         System.out.println("Create Subsets without duplicate subsets:");
         System.out.println("Here is the list of subsets: " + Subsets.createSubsetsWithoutDuplicateSubsets(new int[] { 1, 3, 3 }));
@@ -141,6 +188,10 @@ public class Subsets {
 
         //Find the permutation
         System.out.print("Here are all the permutations: " + Subsets.findPermutation(new int[] { 1, 3, 5 })+ "\n");
+
+        //Find string permutation
+        System.out.println(" String permutations are: " + Subsets.findStringPermutation("ad52"));
+        System.out.println(" String permutations are: " + Subsets.findStringPermutation("ab7c"));    
 
     }//main
 
