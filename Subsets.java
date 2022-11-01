@@ -140,25 +140,25 @@ public class Subsets {
 
         for(int i = 0; i < s.length(); i++)
         {
-            char chartemp = s.charAt(i);
-            for(int j = startIndex; j <= endIndex; j++)
+            if(Character.isLetter(s.charAt(i)))
             {
-                char[] tempArr = result.get(j).toCharArray();
-                if(Character.isLetter(tempArr[i]))
+                for(int j = startIndex; j <= endIndex; j++)
                 {
-                    if(Character.isUpperCase(tempArr[i]))
+                    char[] arr = result.get(j).toCharArray();
+
+                    if(Character.isUpperCase(arr[i]))
                     {
-                        tempArr[i] = Character.toLowerCase(chartemp);
+                        arr[i] = Character.toLowerCase(arr[i]);
                     }   
-                    else if(Character.isLowerCase(tempArr[i]))
+                    else if(Character.isLowerCase(arr[i]))
                     {
-                        tempArr[i] = Character.toUpperCase(chartemp);
+                        arr[i] = Character.toUpperCase(arr[i]);
                     }//else
-    
-                    result.add(String.valueOf(tempArr)); 
-                }
-               
-            }//for
+
+                    result.add(String.valueOf(arr)); 
+                
+                }//for
+            }//if
 
             //update startIndex and endIndex
             startIndex = 0;
