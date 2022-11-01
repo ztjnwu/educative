@@ -14,15 +14,19 @@ public class Subsets {
         List<List<Integer>> subsets = new ArrayList<>();
         List<Integer> temp = new ArrayList<>();
         subsets.add(temp);
+        int startIndex = 0, endIndex = subsets.size() - 1;
+
         for(int i = 0; i < arr.length; i++)
         {
-            int len = subsets.size();
-            for(int j = 0; j < len; j++)
+            for(int j = startIndex; j <= endIndex; j++)
             {
                 temp = new ArrayList<>(subsets.get(j));
                 temp.add(arr[i]);
                 subsets.add(temp);
             }
+            //update startIndex and endIndex
+            startIndex = 0;
+            endIndex = subsets.size() - 1;
         }
 
         //return
@@ -46,6 +50,7 @@ public class Subsets {
         List<Integer> temp = new ArrayList<>();
         results.add(temp);
         int startIndex = 0, endIndex = results.size() - 1;
+
         for(int i = 0; i < arr.length; i++)
         {
             for(int j = startIndex; j <= endIndex; j++)
@@ -87,6 +92,7 @@ public class Subsets {
         List<Integer> temp = new ArrayList<>();
         results.add(temp);
         int startIndex = 0, endIndex = results.size() - 1;
+
         for(int i = 0; i < arr.length; i++)
         {
             for(int j = startIndex; j <= endIndex; j++)
@@ -97,21 +103,25 @@ public class Subsets {
                 {
                     temp.add(k, arr[i]);
                     results.add(new ArrayList<>(temp));
-                    temp.remove(k);
-                    
+                    temp.remove(k);        
                 }//for
 
             }//for
 
+            //Delete previous items
+            for(int n = 1; n <= endIndex - startIndex + 1; n++)
+            {
+                results.remove(0);
+            }//for
+
             //update startIndex and endIndex
-            startIndex = endIndex + 1;
+            startIndex = 0;
             endIndex = results.size() - 1;
 
         }//for
 
         //return
-        return results.subList(startIndex, results.size());
-        
+        return results;
     }//
 
 
@@ -121,7 +131,7 @@ public class Subsets {
         //Create subsets
         System.out.println("Create Subsets:");
         System.out.println("Here is the list of subsets: " + Subsets.createSubsets(new int[] { 1, 3 }));
-        System.out.println("Here is the list of subsets: " + Subsets.createSubsets(new int[] { 1, 5, 3 }));
+        System.out.println("Here is the list of subsets: " + Subsets.createSubsets(new int[] { 1, 5, 3 }) + "\n");
     
         //Find distinct subsets
         System.out.println("Create Subsets without duplicate subsets:");
