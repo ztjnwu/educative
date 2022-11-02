@@ -5,13 +5,13 @@ public class BST {
     TreeNode root;
 
     //Construction function
-    BST()
+    BST(int[] arr)
     {
-        this.root = null;
+        this.root = create(arr);
     }
 
     //Create a BST tree
-    public static TreeNode create(int[] arr)
+    private TreeNode create(int[] arr)
     {
         if(arr == null)
         {
@@ -28,7 +28,7 @@ public class BST {
     }
 
     //Insert nodes into a BST 
-    public static TreeNode insert(TreeNode root, int x)
+    private TreeNode insert(TreeNode root, int x)
     {
         //the proper postion to be inserted 
         if(root == null)
@@ -53,32 +53,46 @@ public class BST {
 
 
     //Traverse a BST in preorder
-    public static void preOrder(TreeNode root)
+    private void preOrder()
     {
-        if(root == null)
+        if(this.root == null)
         {
             return;
         }
 
         //traverse
-        System.out.print(root.value + " ");
-        preOrder(root.left);
-        preOrder(root.right);
+        System.out.print(this.root.value + " ");
+        preOrder(this.root.left);
+        preOrder(this.root.right);
     }
 
-
-
-    public static void preOrder(TreeNode root)
+    //Traverse a BST in inorder
+    private void inOrder()
     {
-        if(root == null)
+        if(this.root == null)
         {
             return;
         }
 
         //traverse
-        System.out.print(root.value + " ");
-        preOrder(root.left);
-        preOrder(root.right);
+        inOrder(this.root.left);
+        System.out.print(this.root.value + " ");
+        inOrder(this.root.right);
+        
+    }
+
+    //Traverse a BST in postOrder
+    private void postOrder()
+    {
+        if(this.root == null)
+        {
+            return;
+        }
+
+        //traversr
+        postOrder(this.root.left);
+        postOrder(this.root.right);
+        System.out.print(this.root.value + "");
     }
 
     
