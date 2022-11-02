@@ -1,12 +1,11 @@
 import java.util.*;
-import package.BST;
+import BST;
 
 public class BFS {
 
     
     public static boolean traverse(TreeNode root)
     {
-        
         return true;
     }//
 
@@ -17,4 +16,5 @@ public class BFS {
         BST bst = new BST(new int[] {1, 2, 3, 4, 5, 6, 7, 8}); 
         bst.preOrder();
     }
+    
 }

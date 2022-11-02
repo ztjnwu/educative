@@ -1,8 +1,24 @@
 import java.util.*;
-import TreeNode;
+
+class TreeNode 
+{
+    int value;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int value)
+    {
+        this.value = value;
+        left = null;
+        right = null;
+
+    }//construction function
+
+}
+
 
 public class BST {
-    TreeNode root;
+    private TreeNode root;
 
     //Construction function
     BST(int[] arr)
@@ -53,7 +69,7 @@ public class BST {
 
 
     //Traverse a BST in preorder
-    private void preOrder()
+    public void preOrder()
     {
         if(this.root == null)
         {
@@ -64,10 +80,12 @@ public class BST {
         System.out.print(this.root.value + " ");
         preOrder(this.root.left);
         preOrder(this.root.right);
+        
     }
 
+
     //Traverse a BST in inorder
-    private void inOrder()
+    public void inOrder()
     {
         if(this.root == null)
         {
@@ -82,7 +100,7 @@ public class BST {
     }
 
     //Traverse a BST in postOrder
-    private void postOrder()
+    public void postOrder()
     {
         if(this.root == null)
         {
