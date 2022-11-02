@@ -4,11 +4,13 @@ import TreeNode;
 public class BST {
     TreeNode root;
 
+    //Construction function
     BST()
     {
         this.root = null;
     }
 
+    //Create a BST tree
     public static TreeNode create(int[] arr)
     {
         if(arr == null)
@@ -25,6 +27,7 @@ public class BST {
         return root;
     }
 
+    //Insert nodes into a BST 
     public static TreeNode insert(TreeNode root, int x)
     {
         //the proper postion to be inserted 
@@ -47,6 +50,22 @@ public class BST {
         return root;
 
     }//
+
+
+    //Traverse a BST in preorder
+    public static void preOrder(TreeNode root)
+    {
+        if(root == null)
+        {
+            return;
+        }
+
+        //traverse
+        System.out.print(root.value + " ");
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+
 
 
     public static void preOrder(TreeNode root)
