@@ -11,11 +11,16 @@ public class BFS {
     public static void main(String[] args)
     {
         //Traverse a binary tree
-        BST bst = new BST(new int[] {1, 2, 3, 4, 5, 6, 7, 8}); 
+        BST bst = new BST(new int[] {1, 2, 3, 4, 5, 6, 7, 8});
         bst.preOrder(bst.getRoot());
+        System.out.println();
+        bst.inOrder(bst.getRoot());
+        System.out.println();
+        bst.postOrder(bst.getRoot());
+        System.out.println();
     }
     
-}
+}//
 
 
 //
@@ -28,9 +33,8 @@ class TreeNode
     TreeNode(int value)
     {
         this.value = value;
-        left = null;
-        right = null;
-
+        this.left = null;
+        this.right = null;
     }//construction function
 
 }
@@ -62,9 +66,10 @@ class BST {
         TreeNode root = null;
         for(int i = 0; i < arr.length; i++)
         {
-            insert(root, arr[i]);
+            root = insert(root, arr[i]);
         }
-
+        //return
+        
         return root;
     }
 
@@ -75,7 +80,7 @@ class BST {
         if(root == null)
         {
             return new TreeNode(x);
-        }
+        }//if
         
         //Select a branch to insert a given node into the tree
         if(x < root.value)
@@ -85,7 +90,7 @@ class BST {
         else 
         {
             root.right = insert(root.right, x);
-        }
+        }//else
 
         //return
         return root;
@@ -135,7 +140,7 @@ class BST {
         //traversr
         postOrder(root.left);
         postOrder(root.right);
-        System.out.print(root.value + "");
+        System.out.print(root.value + " ");
     }//
 
 }//
