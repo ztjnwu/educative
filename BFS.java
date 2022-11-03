@@ -2,7 +2,6 @@ import java.util.*;
 
 public class BFS {
 
-    
     public static boolean traverse(TreeNode root)
     {
         return true;
@@ -13,7 +12,7 @@ public class BFS {
     {
         //Traverse a binary tree
         BST bst = new BST(new int[] {1, 2, 3, 4, 5, 6, 7, 8}); 
-        bst.preOrder();
+        bst.preOrder(bst.getRoot());
     }
     
 }
@@ -38,7 +37,7 @@ class TreeNode
 
 
 //
-public class BST {
+class BST {
     private TreeNode root;
 
     //Construction function
@@ -47,11 +46,11 @@ public class BST {
         this.root = create(arr);
     }
 
-    private TreeNode getRoot()
+    public TreeNode getRoot()
     {
         return this.root;
     }
-    
+
     //Create a BST tree
     private TreeNode create(int[] arr)
     {
@@ -139,5 +138,4 @@ public class BST {
         System.out.print(root.value + "");
     }//
 
-    
-}
+}//
