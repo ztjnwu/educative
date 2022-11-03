@@ -24,6 +24,7 @@ class Linkedlistcycle
         //judgement
         Listnode sp = head, fp = head.next.next; 
         boolean flag = false;
+        boolean result = false;
         while(sp != null && fp !=null)
         {
             if(sp == fp)

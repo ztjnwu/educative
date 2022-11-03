@@ -10,7 +10,7 @@ public class BFS {
     
     public static void main(String[] args)
     {
-        //Traverse a binary tree
+        //Traverse a BST
         BST bst = new BST(new int[] {1, 2, 3, 4, 5, 6, 7, 8});
         bst.preOrder(bst.getRoot());
         System.out.println();
@@ -18,12 +18,16 @@ public class BFS {
         System.out.println();
         bst.postOrder(bst.getRoot());
         System.out.println();
+
+        //Breath First Search 
+
+
     }
     
 }//
 
 
-//
+//TreeNode
 class TreeNode 
 {
     int value;
@@ -40,7 +44,7 @@ class TreeNode
 }
 
 
-//
+//BST
 class BST {
     private TreeNode root;
 

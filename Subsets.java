@@ -136,7 +136,7 @@ public class Subsets {
 
         //Find permuataion
         List<String> result = new ArrayList<>();
-        String temp = ;
+        String temp = s;
         result.add(temp);
         int startIndex = 0, endIndex = result.size() - 1;
         System.out.println("length: " + s.length());
