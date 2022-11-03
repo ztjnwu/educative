@@ -11,6 +11,7 @@ public class BFS {
     public static void main(String[] args)
     {
         //Traverse a BST
+        System.out.println("Traverse a BST in preorder, inorde and postorder.");
         BST bst = new BST(new int[] {1, 2, 3, 4, 5, 6, 7, 8});
         bst.preOrder(bst.getRoot());
         System.out.println();
@@ -20,7 +21,6 @@ public class BFS {
         System.out.println();
 
         //Breath First Search 
-
 
     }
     
