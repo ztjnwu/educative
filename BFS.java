@@ -11,9 +11,21 @@ public class BFS {
 
         //
         List<List<Integer>> result = new ArrayList<>();
-        result.add(bst.getRoot().value);
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode root = bst.getRoot();
+        TreeNode p = root;
+        while(p != null)
+        {
+            queue.add(p);
+            
 
-        
+        }
+
+
+
+
+
+
 
     }//
 
