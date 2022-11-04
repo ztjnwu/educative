@@ -2,9 +2,19 @@ import java.util.*;
 
 public class BFS {
 
-    public static boolean traverse(TreeNode root)
+    public static List<List<TreeNode>> traverse(BST bst)
     {
-        return true;
+        if(bst == null)
+        {
+            return null;
+        }
+
+        //
+        List<List<Integer>> result = new ArrayList<>();
+        result.add(bst.getRoot().value);
+
+        
+
     }//
 
     
