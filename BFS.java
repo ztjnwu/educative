@@ -14,18 +14,13 @@ public class BFS {
         Queue<TreeNode> queue = new LinkedList<>();
         TreeNode root = bst.getRoot();
         TreeNode p = root;
-        while(p != null)
+        List<Integer> temp = result.get(0);
+        while(queue.size() != 0)
         {
-            queue.add(p);
+            queue.poll(); //dequeue 
             
-
+            temp.add(p.value);
         }
-
-
-
-
-
-
 
     }//
 
