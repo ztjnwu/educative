@@ -1,7 +1,5 @@
 import java.util.*;
 
-import javax.sql.rowset.spi.SyncFactory;
-
 public class SlideWindow {
     public static int findMax(int K, int[] arr){
         //initialization
