@@ -12,7 +12,6 @@ public class DP {
     
     public static int fabonacciMemorization(int n){
         return -1;
-
     }
 
     public static int fabonacciTabulation(int n){
@@ -33,56 +32,73 @@ public class DP {
     
     public static int knapsack(int[] profits, int[] weights, int number, int capacity){
         //base checkes
-        if(number == 0 || capacity <= 0){
+        if(number <= 0 || capacity <= 0){
             return 0;
         }
         
         //recursive calls
+        //Do not select (number - 1)th item;
         int profit1 = knapsack(profits, weights, number - 1, capacity);
-        int profit2 = 0;
+        
+        //Do select (number - 1)th item;
+        int profit2;
         if(weights[number - 1] <= capacity){
             profit2 = profits[number - 1] + knapsack(profits, weights, number - 1, capacity - weights[number - 1]);
         }
-        else {
-            profit2 = profit1;
+        else
+        {
+            profit2 = 0;
         }
-        
+    
         //return
-        return Math.max(profit1, profit2);
+        int result = Math.max(profit1, profit2);
+        return result;
     }
 
-    public static int knapsnackTabulation(int[] profits, int[] weights, int number, int capacity){
-        //base check
-        if(number == 0 || capacity <= 0){
-            return 0;
-        }
-        
+    public static int knapsackDP(int[] profits, int[] weights, int length, int capacity)
+    {
+        if(length <= 0 || capacity <= 0)
+        {
+            return -1;
+        }//if
+
         //initialization
-        int[][] dp = new int[number + 1][capacity + 1];
-        for(int i = 0; i<= number; i++){
-            for(int j = 1; j <= capacity;  j++){
+        int[][] dp = new int[length + 1][capacity + 1];
+        for(int i = 0; i <= length; i++)
+        {
+            for(int j = 0; j <= capacity; j++)
+            {
                 dp[i][j] = 0;
             }
-        }
-       
+        }//initialization
+
         //DP
-        for(int i = 1; i <= number; i++){
-            for(int j = 1; j <= capacity; j++){
+        for(int i = 1; i <= length; i++)
+        {
+            for(int j = 1; j <= capacity; j++)
+            {
                 int profit1 = dp[i - 1][j];
-                int profit2 = 0;
-                if(weights[i - 1] <= j){
-                    profit2 = profits[i - 1] + dp[i - 1][j - weights[i - 1]];
-                }
-                else {
-                    profit2 = profit1;
-                }
+                int profit2;    
+                if(weights[i - 1] <= j)
+                {
+                    profit2 = profits[i - 1] + dp[i - 1][j - weights[i - 1]]; 
+                }//
+                else 
+                {
+                    profit2 = dp[i - 1][j];
+                }//
+                
                 dp[i][j] = Math.max(profit1, profit2);
-            }    
-        }
-        
-        //return 
-        return dp[number][capacity];
-    }
+            }//for
+
+        }//for
+
+        //return
+        int result;
+        result = dp[length][capacity];
+        return result;
+
+    }//knapsackDP
 
     public static int knapsnackTabulationDisplay(int[] profits, int[] weights, int number, int capacity){
         //base check
@@ -320,12 +336,12 @@ public class DP {
         System.out.println("result: " + result);
         System.out.println("");
 
-        System.out.println("0-1 problem: Tabulation");
-        int[] profits_dp = {1, 6, 10, 16};
-        int[] weights_dp = {1, 2, 3, 5};
-        result = DP.knapsnackTabulation(profits_dp, weights_dp, 4, 7);
+        System.out.println("0-1 problem: DP");
+        int[] profitsDP = {1, 6, 10, 16};
+        int[] weightsDP = {1, 2, 3, 5};
+        result = DP.knapsackDP(profitsDP, weightsDP, 4, 7);
         System.out.println("result: " + result);
-        result = DP.knapsnackTabulation(profits_dp, weights_dp, 4, 6);
+        result = DP.knapsackDP(profitsDP, weightsDP, 4, 6);
         System.out.println("result: " + result);
         System.out.println("");
 

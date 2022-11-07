@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class XOR {
     public static int findMissingNumber(int[] arr)
     {
