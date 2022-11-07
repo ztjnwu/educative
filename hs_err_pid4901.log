@@ -1,0 +1,388 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Cannot create worker GC thread. Out of system resources.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (workerManager.hpp:87), pid=4901, tid=4903
+#
+# JRE version:  (17.0.4.1+1) (build )
+# Java VM: OpenJDK 64-Bit Server VM (17.0.4.1+1, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, parallel gc, linux-amd64)
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/libexec/abrt-hook-ccpp %s %c %p %u %g %t e %P %I %h" (or dumping to /DCNFS/users/student/tzhu2/Desktop/educative/core.4901)
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: --add-modules=ALL-SYSTEM --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/sun.nio.fs=ALL-UNNAMED -Declipse.application=org.eclipse.jdt.ls.core.id1 -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Djava.import.generatesMetadataFilesAtProjectRoot=false -Dfile.encoding=utf8 -XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m -Xlog:disable -javaagent:/home/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/lombok/lombok-1.18.24.jar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/tzhu2/.config/Code/User/workspaceStorage/08b445d51ffe04c27a342e3ea95dec8e/redhat.java /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/server/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar -configuration /home/tzhu2/.config/Code/User/globalStorage/redhat.java/1.12.0/config_linux -data /home/tzhu2/.config/Code/User/workspaceStorage/08b445d51ffe04c27a342e3ea95dec8e/redhat.java/jdt_ws
+
+Host: 11th Gen Intel(R) Core(TM) i9-11900 @ 2.50GHz, 16 cores, 62G, CentOS Linux release 7.9.2009 (Core)
+Time: Sun Nov  6 17:25:02 2022 PST elapsed time: 0.009674 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f8814027630):  JavaThread "Unknown thread" [_thread_in_vm, id=4903, stack(0x00007f881b4df000,0x00007f881b5e0000)]
+
+Stack: [0x00007f881b4df000,0x00007f881b5e0000],  sp=0x00007f881b5de620,  free space=1021k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0xed8f51]  VMError::report_and_die(int, char const*, char const*, __va_list_tag*, Thread*, unsigned char*, void*, void*, char const*, int, unsigned long)+0x1a1
+V  [libjvm.so+0xed9b1d]  VMError::report_and_die(Thread*, char const*, int, unsigned long, VMErrorType, char const*, __va_list_tag*)+0x2d
+V  [libjvm.so+0x603823]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*, ...)+0xc3
+V  [libjvm.so+0xf0d14f]  WorkerManager::add_workers(WorkGang*, unsigned int, unsigned int, unsigned int, os::ThreadType, bool)+0x18f
+V  [libjvm.so+0xf0d2ea]  WorkGang::initialize_workers()+0x4a
+V  [libjvm.so+0xc32ead]  ParallelScavengeHeap::initialize()+0x15d
+V  [libjvm.so+0xe87502]  universe_init()+0xd2
+V  [libjvm.so+0x7f5bd7]  init_globals()+0x37
+V  [libjvm.so+0xe5e6f0]  Threads::create_vm(JavaVMInitArgs*, bool*)+0x3a0
+V  [libjvm.so+0x8b3122]  JNI_CreateJavaVM+0x52
+C  [libjli.so+0x4a1f]  JavaMain+0x8f
+C  [libjli.so+0x8e79]  ThreadJavaMain+0x9
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007f881a9f83a0, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x00007f8814027630 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=4903, stack(0x00007f881b4df000,0x00007f881b5e0000)]
+
+Threads with active compile tasks:
+
+VM state: not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap address: 0x00000000c0000000, size: 1024 MB, Compressed Oops mode: 32-bit
+
+CDS archive(s) mapped at: [0x0000000000000000-0x0000000000000000-0x0000000000000000), size 0, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0, Narrow klass range: 0x0
+
+GC Precious Log:
+<Empty>
+
+Heap:
+
+[error occurred during error reporting (printing heap information), id 0xb, SIGSEGV (0xb) at pc=0x00007f881a37da0a]
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+VM Operations (0 events):
+No events
+
+Events (2 events):
+Event: 0.006 Protecting memory [0x00007f881b4df000,0x00007f881b4e3000] with protection modes 0
+Event: 0.006 Loaded shared library /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjava.so
+
+
+Dynamic libraries:
+c0000000-100000000 ---p 00000000 00:00 0 
+562fa8808000-562fa8809000 r--p 00000000 00:30 17206722942                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/bin/java
+562fa8809000-562fa880a000 r-xp 00001000 00:30 17206722942                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/bin/java
+562fa880a000-562fa880b000 r--p 00002000 00:30 17206722942                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/bin/java
+562fa880b000-562fa880c000 r--p 00002000 00:30 17206722942                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/bin/java
+562fa880c000-562fa880d000 rw-p 00003000 00:30 17206722942                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/bin/java
+562faa5a5000-562faa5c6000 rw-p 00000000 00:00 0                          [heap]
+7f88023f0000-7f8802660000 rwxp 00000000 00:00 0 
+7f8802660000-7f8802b31000 ---p 00000000 00:00 0 
+7f8802b31000-7f8802da1000 rwxp 00000000 00:00 0 
+7f8802da1000-7f8809f90000 ---p 00000000 00:00 0 
+7f8809f90000-7f880a200000 rwxp 00000000 00:00 0 
+7f880a200000-7f88113f0000 ---p 00000000 00:00 0 
+7f88113f0000-7f8814000000 r--s 00000000 00:30 19349372617                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/modules
+7f8814000000-7f8814048000 rw-p 00000000 00:00 0 
+7f8814048000-7f8818000000 ---p 00000000 00:00 0 
+7f88182cb000-7f88186b6000 rw-p 00000000 00:00 0 
+7f88186b6000-7f88186b7000 ---p 00000000 00:00 0 
+7f88186b7000-7f88187b8000 rw-p 00000000 00:00 0 
+7f88187b8000-7f88189b8000 ---p 00000000 00:00 0 
+7f88189b8000-7f88189be000 rw-p 00000000 00:00 0 
+7f88189be000-7f8818aa2000 ---p 00000000 00:00 0 
+7f8818aa2000-7f8818aa7000 rw-p 00000000 00:00 0 
+7f8818aa7000-7f8818b8b000 ---p 00000000 00:00 0 
+7f8818b8b000-7f8818b97000 r-xp 00000000 103:03 134548169                 /usr/lib64/libnss_ldap.so.2
+7f8818b97000-7f8818d96000 ---p 0000c000 103:03 134548169                 /usr/lib64/libnss_ldap.so.2
+7f8818d96000-7f8818d97000 r--p 0000b000 103:03 134548169                 /usr/lib64/libnss_ldap.so.2
+7f8818d97000-7f8818d98000 rw-p 0000c000 103:03 134548169                 /usr/lib64/libnss_ldap.so.2
+7f8818d98000-7f8818daf000 r-xp 00000000 103:03 134375212                 /usr/lib64/libnsl-2.17.so
+7f8818daf000-7f8818fae000 ---p 00017000 103:03 134375212                 /usr/lib64/libnsl-2.17.so
+7f8818fae000-7f8818faf000 r--p 00016000 103:03 134375212                 /usr/lib64/libnsl-2.17.so
+7f8818faf000-7f8818fb0000 rw-p 00017000 103:03 134375212                 /usr/lib64/libnsl-2.17.so
+7f8818fb0000-7f8818fb2000 rw-p 00000000 00:00 0 
+7f8818fb2000-7f8818fbb000 r-xp 00000000 103:03 134375214                 /usr/lib64/libnss_compat-2.17.so
+7f8818fbb000-7f88191ba000 ---p 00009000 103:03 134375214                 /usr/lib64/libnss_compat-2.17.so
+7f88191ba000-7f88191bb000 r--p 00008000 103:03 134375214                 /usr/lib64/libnss_compat-2.17.so
+7f88191bb000-7f88191bc000 rw-p 00009000 103:03 134375214                 /usr/lib64/libnss_compat-2.17.so
+7f88191bc000-7f88192bd000 r-xp 00000000 103:03 134375210                 /usr/lib64/libm-2.17.so
+7f88192bd000-7f88194bc000 ---p 00101000 103:03 134375210                 /usr/lib64/libm-2.17.so
+7f88194bc000-7f88194bd000 r--p 00100000 103:03 134375210                 /usr/lib64/libm-2.17.so
+7f88194bd000-7f88194be000 rw-p 00101000 103:03 134375210                 /usr/lib64/libm-2.17.so
+7f88194be000-7f88194c5000 r-xp 00000000 103:03 134375360                 /usr/lib64/librt-2.17.so
+7f88194c5000-7f88196c4000 ---p 00007000 103:03 134375360                 /usr/lib64/librt-2.17.so
+7f88196c4000-7f88196c5000 r--p 00006000 103:03 134375360                 /usr/lib64/librt-2.17.so
+7f88196c5000-7f88196c6000 rw-p 00007000 103:03 134375360                 /usr/lib64/librt-2.17.so
+7f88196c6000-7f8819917000 r--p 00000000 00:30 16091031577                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/server/libjvm.so
+7f8819917000-7f881a630000 r-xp 00251000 00:30 16091031577                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/server/libjvm.so
+7f881a630000-7f881a8bb000 r--p 00f6a000 00:30 16091031577                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/server/libjvm.so
+7f881a8bb000-7f881a974000 r--p 011f4000 00:30 16091031577                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/server/libjvm.so
+7f881a974000-7f881a9a9000 rw-p 012ad000 00:30 16091031577                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/server/libjvm.so
+7f881a9a9000-7f881aa02000 rw-p 00000000 00:00 0 
+7f881aa02000-7f881abc6000 r-xp 00000000 103:03 134345183                 /usr/lib64/libc-2.17.so
+7f881abc6000-7f881adc5000 ---p 001c4000 103:03 134345183                 /usr/lib64/libc-2.17.so
+7f881adc5000-7f881adc9000 r--p 001c3000 103:03 134345183                 /usr/lib64/libc-2.17.so
+7f881adc9000-7f881adcb000 rw-p 001c7000 103:03 134345183                 /usr/lib64/libc-2.17.so
+7f881adcb000-7f881add0000 rw-p 00000000 00:00 0 
+7f881add0000-7f881add2000 r-xp 00000000 103:03 134375208                 /usr/lib64/libdl-2.17.so
+7f881add2000-7f881afd2000 ---p 00002000 103:03 134375208                 /usr/lib64/libdl-2.17.so
+7f881afd2000-7f881afd3000 r--p 00002000 103:03 134375208                 /usr/lib64/libdl-2.17.so
+7f881afd3000-7f881afd4000 rw-p 00003000 103:03 134375208                 /usr/lib64/libdl-2.17.so
+7f881afd4000-7f881afeb000 r-xp 00000000 103:03 134375228                 /usr/lib64/libpthread-2.17.so
+7f881afeb000-7f881b1ea000 ---p 00017000 103:03 134375228                 /usr/lib64/libpthread-2.17.so
+7f881b1ea000-7f881b1eb000 r--p 00016000 103:03 134375228                 /usr/lib64/libpthread-2.17.so
+7f881b1eb000-7f881b1ec000 rw-p 00017000 103:03 134375228                 /usr/lib64/libpthread-2.17.so
+7f881b1ec000-7f881b1f0000 rw-p 00000000 00:00 0 
+7f881b1f0000-7f881b205000 r-xp 00000000 103:03 134375371                 /usr/lib64/libz.so.1.2.7
+7f881b205000-7f881b404000 ---p 00015000 103:03 134375371                 /usr/lib64/libz.so.1.2.7
+7f881b404000-7f881b405000 r--p 00014000 103:03 134375371                 /usr/lib64/libz.so.1.2.7
+7f881b405000-7f881b406000 rw-p 00015000 103:03 134375371                 /usr/lib64/libz.so.1.2.7
+7f881b406000-7f881b428000 r-xp 00000000 103:03 134345172                 /usr/lib64/ld-2.17.so
+7f881b498000-7f881b49f000 rw-p 00000000 00:00 0 
+7f881b49f000-7f881b4a9000 ---p 00000000 00:00 0 
+7f881b4a9000-7f881b4b6000 r--p 00000000 00:30 19345563949                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjava.so
+7f881b4b6000-7f881b4c8000 r-xp 0000d000 00:30 19345563949                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjava.so
+7f881b4c8000-7f881b4ce000 r--p 0001f000 00:30 19345563949                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjava.so
+7f881b4ce000-7f881b4cf000 ---p 00025000 00:30 19345563949                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjava.so
+7f881b4cf000-7f881b4d0000 r--p 00025000 00:30 19345563949                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjava.so
+7f881b4d0000-7f881b4d1000 rw-p 00026000 00:30 19345563949                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjava.so
+7f881b4d1000-7f881b4d2000 rw-p 00000000 00:00 0 
+7f881b4d2000-7f881b4d4000 r--p 00000000 00:30 19345563944                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libinstrument.so
+7f881b4d4000-7f881b4da000 r-xp 00002000 00:30 19345563944                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libinstrument.so
+7f881b4da000-7f881b4dd000 r--p 00008000 00:30 19345563944                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libinstrument.so
+7f881b4dd000-7f881b4de000 r--p 0000a000 00:30 19345563944                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libinstrument.so
+7f881b4de000-7f881b4df000 rw-p 0000b000 00:30 19345563944                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libinstrument.so
+7f881b4df000-7f881b4e3000 ---p 00000000 00:00 0 
+7f881b4e3000-7f881b5e4000 rw-p 00000000 00:00 0 
+7f881b5e4000-7f881b5e7000 r--p 00000000 00:30 19345563954                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjli.so
+7f881b5e7000-7f881b5f1000 r-xp 00003000 00:30 19345563954                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjli.so
+7f881b5f1000-7f881b5f4000 r--p 0000d000 00:30 19345563954                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjli.so
+7f881b5f4000-7f881b5f5000 ---p 00010000 00:30 19345563954                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjli.so
+7f881b5f5000-7f881b5f6000 r--p 00010000 00:30 19345563954                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjli.so
+7f881b5f6000-7f881b5f7000 rw-p 00011000 00:30 19345563954                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjli.so
+7f881b5f7000-7f881b5f8000 rw-p 00000000 00:00 0 
+7f881b5f9000-7f881b5fb000 rw-p 00000000 00:00 0 
+7f881b5fb000-7f881b603000 rw-s 00000000 103:03 1577363                   /tmp/hsperfdata_tzhu2/4901
+7f881b603000-7f881b604000 ---p 00000000 00:00 0 
+7f881b604000-7f881b605000 r--p 00000000 00:00 0 
+7f881b605000-7f881b606000 ---p 00000000 00:00 0 
+7f881b606000-7f881b60a000 r--p 00000000 00:30 19345563953                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjimage.so
+7f881b60a000-7f881b61d000 r-xp 00004000 00:30 19345563953                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjimage.so
+7f881b61d000-7f881b623000 r--p 00017000 00:30 19345563953                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjimage.so
+7f881b623000-7f881b625000 r--p 0001c000 00:30 19345563953                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjimage.so
+7f881b625000-7f881b626000 rw-p 0001e000 00:30 19345563953                /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/jre/17.0.4.1-linux-x86_64/lib/libjimage.so
+7f881b626000-7f881b627000 rw-p 00000000 00:00 0 
+7f881b627000-7f881b628000 r--p 00021000 103:03 134345172                 /usr/lib64/ld-2.17.so
+7f881b628000-7f881b629000 rw-p 00022000 103:03 134345172                 /usr/lib64/ld-2.17.so
+7f881b629000-7f881b62a000 rw-p 00000000 00:00 0 
+7ffdba722000-7ffdba744000 rw-p 00000000 00:00 0                          [stack]
+7ffdba7e2000-7ffdba7e4000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+
+VM Arguments:
+jvm_args: --add-modules=ALL-SYSTEM --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/sun.nio.fs=ALL-UNNAMED -Declipse.application=org.eclipse.jdt.ls.core.id1 -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Djava.import.generatesMetadataFilesAtProjectRoot=false -Dfile.encoding=utf8 -XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m -Xlog:disable -javaagent:/home/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/lombok/lombok-1.18.24.jar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/tzhu2/.config/Code/User/workspaceStorage/08b445d51ffe04c27a342e3ea95dec8e/redhat.java 
+java_command: /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/server/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar -configuration /home/tzhu2/.config/Code/User/globalStorage/redhat.java/1.12.0/config_linux -data /home/tzhu2/.config/Code/User/workspaceStorage/08b445d51ffe04c27a342e3ea95dec8e/redhat.java/jdt_ws
+java_class_path (initial): /DCNFS/users/student/tzhu2/.vscode/extensions/redhat.java-1.12.0-linux-x64/server/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+    uintx AdaptiveSizePolicyWeight                 = 90                                        {product} {command line}
+     intx CICompilerCount                          = 12                                        {product} {ergonomic}
+    uintx GCTimeRatio                              = 4                                         {product} {command line}
+     bool HeapDumpOnOutOfMemoryError               = true                                   {manageable} {command line}
+    ccstr HeapDumpPath                             = /home/tzhu2/.config/Code/User/workspaceStorage/08b445d51ffe04c27a342e3ea95dec8e/redhat.java         {manageable} {command line}
+   size_t InitialHeapSize                          = 104857600                                 {product} {command line}
+   size_t MaxHeapSize                              = 1073741824                                {product} {command line}
+   size_t MaxNewSize                               = 357564416                                 {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 524288                                    {product} {ergonomic}
+   size_t MinHeapSize                              = 104857600                                 {product} {command line}
+   size_t NewSize                                  = 34603008                                  {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 7602480                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122027880                              {pd product} {ergonomic}
+   size_t OldSize                                  = 70254592                                  {product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122027880                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 1073741824                             {manageable} {ergonomic}
+     bool UseCompressedClassPointers               = true                           {product lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseParallelGC                            = true                                      {product} {command line}
+
+Logging:
+Log output configuration:
+ #0: stdout all=off uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+PATH=/usr/lib64/qt-3.3/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/lib:/usr/bin/X11:/usr/local/bin:/usr/lib:/usr/bin/X11:/usr/local/bin
+USERNAME=tzhu2
+SHELL=/usr/local/bin/bash
+DISPLAY=:0
+LANG=en_US.UTF-8
+TERM=dumb
+
+Signal Handlers:
+   SIGSEGV: crash_handler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
+    SIGBUS: crash_handler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
+    SIGFPE: crash_handler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
+   SIGPIPE: javaSignalHandler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
+   SIGXFSZ: javaSignalHandler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
+    SIGILL: crash_handler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
+   SIGUSR2: SR_handler in libjvm.so, mask=00000000000000000000000000000000, flags=SA_RESTART|SA_SIGINFO
+    SIGHUP: SIG_DFL, mask=00000000000000000000000000000000, flags=none
+    SIGINT: SIG_DFL, mask=00000000000000000000000000000000, flags=none
+   SIGTERM: SIG_DFL, mask=00000000000000000000000000000000, flags=none
+   SIGQUIT: javaSignalHandler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
+   SIGTRAP: crash_handler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:
+CentOS Linux release 7.9.2009 (Core)
+uname: Linux 3.10.0-1160.66.1.el7.x86_64 #1 SMP Wed May 18 16:02:34 UTC 2022 x86_64
+OS uptime: 72 days 4:22 hours
+libc: glibc 2.17 NPTL 2.17 
+rlimit (soft/hard): STACK 8192k/infinity , CORE 0k/infinity , NPROC 1024/256015 , NOFILE 4096/4096 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , FSIZE infinity/infinity , MEMLOCK 64k/64k
+load average: 0.75 0.59 0.53
+
+/proc/meminfo:
+MemTotal:       65695580 kB
+MemFree:        42778248 kB
+MemAvailable:   59172668 kB
+Buffers:            5196 kB
+Cached:         16061984 kB
+SwapCached:            0 kB
+Active:         13937152 kB
+Inactive:        6162680 kB
+Active(anon):    4035020 kB
+Inactive(anon):   309572 kB
+Active(file):    9902132 kB
+Inactive(file):  5853108 kB
+Unevictable:          16 kB
+Mlocked:              16 kB
+SwapTotal:       2097148 kB
+SwapFree:        2097148 kB
+Dirty:               212 kB
+Writeback:             4 kB
+AnonPages:       4002700 kB
+Mapped:           814072 kB
+Shmem:            311940 kB
+Slab:            1535652 kB
+SReclaimable:    1176144 kB
+SUnreclaim:       359508 kB
+KernelStack:       24576 kB
+PageTables:        92616 kB
+NFS_Unstable:         68 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    34944936 kB
+Committed_AS:   17203164 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      435616 kB
+VmallocChunk:   34358945788 kB
+Percpu:             5184 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:    833536 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:      863692 kB
+DirectMap2M:    29263872 kB
+DirectMap1G:    36700160 kB
+
+/sys/kernel/mm/transparent_hugepage/enabled: [always] madvise never
+/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter): [always] madvise never
+
+Process Memory:
+Virtual Size: 1457444K (peak: 1457444K)
+Resident Set Size: 11732K (peak: 11732K) (anon: 5788K, file: 5944K, shmem: 0K)
+Swapped out: 0K
+C-Heap outstanding allocations: 4380K, retained: 67K
+glibc malloc tunables: (default)
+
+/proc/sys/kernel/threads-max (system-wide limit on the number of threads): 512030
+/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 65530
+/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers): 32768
+
+container (cgroup) information:
+container_type: cgroupv1
+cpu_cpuset_cpus: 0-15
+cpu_memory_nodes: 0
+active_processor_count: 16
+cpu_quota: no quota
+cpu_period: 100000
+cpu_shares: no shares
+memory_limit_in_bytes: unlimited
+memory_and_swap_limit_in_bytes: unlimited
+memory_soft_limit_in_bytes: unlimited
+memory_usage_in_bytes: 7217540 k
+memory_max_usage_in_bytes: 7647464 k
+maximum number of tasks: unlimited
+current number of tasks: 1027
+
+Steal ticks since vm start: 0
+Steal ticks percentage since vm start:  0.000
+
+CPU: total 16 (initial active 16) (8 cores per cpu, 2 threads per core) family 6 model 167 stepping 1 microcode 0x50, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, adx, avx512f, avx512dq, avx512cd, avx512bw, avx512vl, sha, fma, vzeroupper, avx512_vpopcntdq, avx512_vpclmulqdq, avx512_vaes, avx512_vnni, clflush, clflushopt, avx512_vbmi2, avx512_vbmi
+CPU Model and flags from /proc/cpuinfo:
+model name	: 11th Gen Intel(R) Core(TM) i9-11900 @ 2.50GHz
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch epb invpcid_single intel_pt ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx avx512f avx512dq rdseed adx smap avx512ifma clflushopt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+
+Online cpus: 0-15
+Offline cpus: 
+BIOS frequency limitation: <Not Available>
+Frequency switch latency (ns): 4294967295
+Available cpu frequencies: <Not Available>
+Current governor: powersave
+Core performance/turbo boost: <Not Available>
+
+Memory: 4k page, physical 65695580k(42775828k free), swap 2097148k(2097148k free)
+Page Sizes: 4k
+
+vm_info: OpenJDK 64-Bit Server VM (17.0.4.1+1) for linux-amd64 JRE (17.0.4.1+1), built on Aug 12 2022 00:00:00 by "temurin" with gcc 10.3.0
+
+END.
