@@ -125,7 +125,7 @@ public class DP {
             //Update i and j
             if(dp[i][j] != dp[i - 1][j])
             {
-                j -= weights[i];
+                j -= weights[i - 1];
             }
             i--;
         }//
@@ -377,10 +377,10 @@ public class DP {
         System.out.println("0-1 problem: Route Dispaly");
         profits = new int[]{1, 6, 10, 16};
         weights = new int[]{1, 2, 3, 5};
-        List<Integer> result = DP.knapsackDPRouteShow(profits, weights, 4, 7);
-        System.out.println("result: " + result);
-        result = DP.knapsackDPRouteShow(profits, weights, 4, 6);
-        System.out.println("result: " + result);
+        List<Integer> resultt = DP.knapsackDPRouteShow(profits, weights, 4, 7);
+        System.out.println("result: " + resultt);
+        resultt = DP.knapsackDPRouteShow(profits, weights, 4, 6);
+        System.out.println("result(index start from 1 to length): " + resultt);
         System.out.println("");
 
 
