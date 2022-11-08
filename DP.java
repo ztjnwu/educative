@@ -1,34 +1,6 @@
 import java.util.*;
 
 public class DP {
-    public static int fabonaci(int n){
-        if(n < 2){
-            return n;
-        }
-        else {
-            return fabonaci(n - 1) + fabonaci(n - 2);
-        }
-    }
-    
-    public static int fabonacciMemorization(int n){
-        return -1;
-    }
-
-    public static int fabonacciTabulation(int n){
-        if(n <=1 ){
-            return n;
-        }
-
-        int[] dp = new int[n + 1];
-        dp[0] = 0;
-        dp[1] = 1;
-        for(int i = 2; i < dp.length; i++){
-            dp[i] = dp[i - 1] + dp[i - 2];
-        }
-
-        //return
-        return dp[n];
-    }
     
     public static int knapsack(int[] profits, int[] weights, int number, int capacity){
         //base checkes
@@ -57,10 +29,10 @@ public class DP {
 
     public static int knapsackDP(int[] profits, int[] weights, int length, int capacity)
     {
-        if(length <= 0 || capacity <= 0)
+        if(profits == null || weights == null || length < 0 || capacity < 0)
         {
             return -1;
-        }//if
+        }//
 
         //initialization
         int[][] dp = new int[length + 1][capacity + 1];
@@ -99,6 +71,69 @@ public class DP {
         return result;
 
     }//knapsackDP
+
+    public static List<Integer> knapsackDPRouteShow(int[] profits, int[] weights, int length, int capacity)
+    {
+        if(profits == null || weights == null || length < 0 || capacity < 0)
+        {
+            return null;
+        }//
+
+        //Show the route
+        int[][] dp = new int[length + 1][capacity + 1];
+        for(int i = 0; i <= length; i++)
+        {
+            for(int j = 0; j <= capacity; j++)
+            {
+                dp[i][j] = 0;
+            }
+        }//initialization
+
+        //DP
+        for(int i = 1; i <= length; i++)
+        {
+            for(int j = 1; j <= capacity; j++)
+            {
+                int profit1 = dp[i - 1][j];
+                int profit2;    
+                if(weights[i - 1] <= j)
+                {
+                    profit2 = profits[i - 1] + dp[i - 1][j - weights[i - 1]]; 
+                }//
+                else 
+                {
+                    profit2 = dp[i - 1][j];
+                }//
+                
+                dp[i][j] = Math.max(profit1, profit2);
+            }//for
+
+        }//for
+
+
+        //Show the route
+        int i = length, j = capacity;
+        List<Integer> path = new ArrayList<>();
+        while(i != 0)
+        {
+            if(dp[i][j] != dp[i - 1][j])
+            {
+                path.add(i);
+            }
+            
+            
+            //Update i and j
+            if(dp[i][j] != dp[i - 1][j])
+            {
+                j -= weights[i];
+            }
+            i--;
+        }//
+
+        //return
+        List<Integer> result = new ArrayList<>(path);
+        return result;
+    }//
 
     public static int knapsnackTabulationDisplay(int[] profits, int[] weights, int number, int capacity){
         //base check
@@ -320,30 +355,34 @@ public class DP {
 
 
     public static void main(String[] args){
-        System.out.println("Fibonacci array");
-        int result = DP.fabonaci(9);
-        System.out.println("result_recursive: "+ result);
-        result = DP.fabonacciTabulation(9);
-        System.out.println("result-tabulation: "+ result);
-        System.out.println("");
 
-        System.out.println("0-1 problem: Recursive");
+        System.out.println("0 - 1 problem: Recursive");
         int[] profits = {1, 6, 10, 16};
         int[] weights = {1, 2, 3, 5};
-        result = DP.knapsack(profits, weights, 4, 7);
+        int result = DP.knapsack(profits, weights, 4, 7);
         System.out.println("result: " + result);
         result = DP.knapsack(profits, weights, 4, 6);
         System.out.println("result: " + result);
         System.out.println("");
 
         System.out.println("0-1 problem: DP");
-        int[] profitsDP = {1, 6, 10, 16};
-        int[] weightsDP = {1, 2, 3, 5};
-        result = DP.knapsackDP(profitsDP, weightsDP, 4, 7);
+        profits = new int[]{1, 6, 10, 16};
+        weights = new int[]{1, 2, 3, 5};
+        result = DP.knapsackDP(profits, weights, 4, 7);
         System.out.println("result: " + result);
-        result = DP.knapsackDP(profitsDP, weightsDP, 4, 6);
+        result = DP.knapsackDP(profits, weights, 4, 6);
+        System.out.println("result: " + result);
+        System.out.println(""); 
+
+        System.out.println("0-1 problem: Route Dispaly");
+        profits = new int[]{1, 6, 10, 16};
+        weights = new int[]{1, 2, 3, 5};
+        List<Integer> result = DP.knapsackDPRouteShow(profits, weights, 4, 7);
+        System.out.println("result: " + result);
+        result = DP.knapsackDPRouteShow(profits, weights, 4, 6);
         System.out.println("result: " + result);
         System.out.println("");
+
 
         System.out.println("0-1 problem: Tabulation Display");
         int[] profits_dp_display = {1, 6, 10, 16};
