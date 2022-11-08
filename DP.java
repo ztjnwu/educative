@@ -135,56 +135,6 @@ public class DP {
         return result;
     }//
 
-    public static int knapsnackTabulationDisplay(int[] profits, int[] weights, int number, int capacity){
-        //base check
-        if(number == 0 || capacity <= 0){
-            return 0;
-        }
-        
-        //initialization
-        int[][] dp = new int[number + 1][capacity + 1];
-        for(int i = 0; i<= number; i++){
-            for(int j = 0; j <= capacity;  j++){
-                dp[i][j] = 0;
-            }
-        }
-       
-        //DP
-        for(int i = 1; i <= number; i++){
-            for(int j = 1; j <= capacity; j++){
-                int profit1 = dp[i - 1][j];
-                int profit2 = 0;
-                if(weights[i - 1] <= j){
-                    profit2 = profits[i - 1] + dp[i - 1][j - weights[i - 1]];
-                }
-                else {
-                    profit2 = profit1;
-                }
-                dp[i][j] = Math.max(profit1, profit2);
-            }   
-        }
-        
-        List<Integer> sequence_index = new ArrayList<>();
-        List<Integer> sequence_weight = new ArrayList<>();
-        int i = number, j = capacity;
-        while(i != 0 && j != 0){
-            if(dp[i][j] == dp[i - 1][j]){
-                i--;
-            }
-            else {
-                sequence_index.add(i - 1);
-                sequence_weight.add(weights[i - 1]);
-                j -= weights[i-1];
-                i--;
-            }
-        }
-
-        //return 
-        System.out.println("Sequence Index: " + sequence_index.toString());
-        System.out.println("Sequence Weight: " + sequence_weight.toString());
-        return dp[number][capacity];
-    }
-
     public static int knapsnackTabulationOptimization(int[] profits, int[] weights, int number, int capacity){
         //base check
         if(number == 0 || capacity <= 0){
@@ -383,15 +333,6 @@ public class DP {
         System.out.println("result(index start from 1 to length): " + resultt);
         System.out.println("");
 
-
-        System.out.println("0-1 problem: Tabulation Display");
-        int[] profits_dp_display = {1, 6, 10, 16};
-        int[] weights_dp_display = {1, 2, 3, 5};
-        result = DP.knapsnackTabulationDisplay(profits_dp_display, weights_dp_display, 4, 7);
-        System.out.println("result: " + result);
-        result = DP.knapsnackTabulationDisplay(profits_dp_display, weights_dp_display, 4, 6);
-        System.out.println("result: " + result);
-        System.out.println("");
         
         //**********************
         System.out.println("0-1 problem Optimization: 3 * (capacity + 1)");
