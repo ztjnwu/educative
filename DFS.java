@@ -22,8 +22,8 @@ public class DFS {
 
     }//
 
-    public static void findAllPaths(TreeNode root, int preNodeSum, int sum, List<Integer> currentPath,
-            List<List<Integer>> allPaths) {
+    public static void findAllPaths(TreeNode root, int preNodeSum, int sum, List<Integer> currentPath, List<List<Integer>> allPaths) 
+    {
 
         // Check validity
         if (root == null) {
@@ -32,6 +32,8 @@ public class DFS {
 
         // related operation on current nodes
         List<Integer> updatePath = new ArrayList<>(currentPath);
+
+        //
         if (root.left == null && root.right == null) {
             if (root.value + preNodeSum == sum) {
                 updatePath.add(root.value);
@@ -40,14 +42,13 @@ public class DFS {
             }
         }
 
-        // traverse left subtree and right subtree
+        //Traverse left subtree and right subtree
         updatePath.add(root.value);
         preNodeSum += root.value;
         findAllPaths(root.left, preNodeSum, sum, updatePath, allPaths);
         findAllPaths(root.right, preNodeSum, sum, updatePath, allPaths);
 
     }//
-
 
     public static void findAllRootToLeafPaths(TreeNode root, List<Integer> currentPath, List<List<Integer>> allPaths)
     {
@@ -67,15 +68,15 @@ public class DFS {
             updatePath.remove(updatePath.size() - 1);
         }
 
-
         //Traverse the remaining subtrees
+        updatePath.add(root.value);
         findAllRootToLeafPaths(root.left, updatePath, allPaths);
         findAllRootToLeafPaths(root.right, updatePath, allPaths);
         
     }//
 
-    public static void main(String[] args) {
-        // Find a path of sum S
+;     public static void main(String[] argv)
+    {
         System.out.println("Find a path of sum S");
         BST bst = new BST(new int[] { 6, 4, 2, 1, 3, 5, 8, 7, 9 });
         int sum = 13;
@@ -84,7 +85,7 @@ public class DFS {
         boolean flag = false;
         if (result.size() != 0) {
             flag = true;
-        }        sum = 15;
+        } 
         System.out.println("sum:" + sum + " result:" + flag);
 
         sum = 15;
@@ -107,50 +108,6 @@ public class DFS {
 
         sum = 23;
         result = new ArrayList<>();
-        findPathSum(bst.getRoot(), 0, sum, result);
-        flag = false;
-        if (result.size() != 0) {
-            flag = true;
-        }
-        System.out.println("sum:" + sum + " result:" + flag);
-
-        sum = 14;
-        result = new ArrayList<>();  sum = 15;
-        result = new ArrayList<>();
-        findPathSum(bst.getRoot(), 0, sum, result);
-        flag = false;
-        if (result.size() != 0) {
-            flag = true;
-        }
-        System.out.println("sum:" + sum + " result:" + flag);
-
-        sum = 21;
-        result = new ArrayList<>();
-        findPathSum(bst.getRoot(), 0, sum, result);
-        flag = false;
-        if (result.size() != 0) {
-            flag = true;
-        }
-        System.out.println("sum:" + sum + " result:" + flag);
-
-        sum = 23;
-        result = new ArrayList<>();
-        findPathSum(bst.getRoot(), 0, sum, result);
-        flag = false;
-        if (result.size() != 0) {
-            flag = true;
-        }
-        System.out.println("sum:" + sum + " result:" + flag);
-
-        sum = 14;
-        result = new ArrayList<>();
-        findPathSum(bst.getRoot(), 0, sum, result);
-        flag = false;
-        if (result.size() != 0) {
-            flag = true;
-        }
-        System.out.println("sum:" + sum + " result:" + flag);
-
         findPathSum(bst.getRoot(), 0, sum, result);
         flag = false;
         if (result.size() != 0) {
@@ -159,7 +116,7 @@ public class DFS {
         System.out.println("sum:" + sum + " result:" + flag);
 
         // Find all paths of sum S
-        System.out.println("Find all paths of sum S");
+        System.out.println("\nFind all paths of sum S");
         bst = new BST(new int[] { 6, 4, 2, 1, 3, 5, 8, 7, 9 });
         List<List<Integer>> allPaths = new ArrayList<>();
         List<Integer> currentPath = new ArrayList<>();
@@ -168,19 +125,23 @@ public class DFS {
         System.out.println("sum:" + sum + " result:" + allPaths);
 
         //Find all root-to-leaf path
-        System.out.println("Find all root-to-leaf paths");
+        System.out.println("\nFind all root-to-leaf paths");
         bst = new BST(new int[] { 6, 4, 2, 1, 3, 5, 8, 7, 9 });
         allPaths = new ArrayList<>();
         currentPath = new ArrayList<>();
         findAllRootToLeafPaths(bst.getRoot(), currentPath, allPaths);
-        System.out.println("sum:" + sum + " result:" + allPaths);
+        System.out.println("result:" + allPaths);
 
     }//
-
-}//
+       
+}// DFS
 
 // TreeNode
-class TreeNode {with the maximum sum.
+class TreeNode {
+    int value;
+    TreeNode left;
+    TreeNode right;
+
     TreeNode(int value) {
         this.value = value;
         this.left = null;
