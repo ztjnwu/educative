@@ -75,8 +75,7 @@ public class KWayMerge {
         }//while
 
         System.out.println();
-
-    }
+    }//public
     
 }
 
