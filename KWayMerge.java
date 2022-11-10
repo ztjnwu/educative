@@ -15,7 +15,6 @@ public class KWayMerge {
         for(int i = 0; i < lists.length; i++)
         {
             minHeap.add(lists[i]);
-            lists[i] = lists[i].next;
         }
         
         //Merge
@@ -34,17 +33,17 @@ public class KWayMerge {
             {
                 head = temp;
             }
-
+            
             if(tail == null)
             {
-                tail = temp;
+                tail = head;
             }
             else 
             {
                 tail.next = temp;
+                tail = temp;
             }
-            tail.next = null;
-
+        
         }//while
 
         //return
@@ -71,9 +70,11 @@ public class KWayMerge {
         ListNode temp = result;
         while(temp != null)
         {
-            System.out.println(temp.value);
+            System.out.print(temp.value + " ");
             temp = temp.next;
         }//while
+
+        System.out.println();
 
     }
     
