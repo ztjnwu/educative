@@ -10,7 +10,6 @@ class ListNode
     }
 }
 
-
 class LinkedListCycle
 {
     public static boolean hasCycle(ListNode head)
