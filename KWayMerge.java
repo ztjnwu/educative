@@ -9,7 +9,7 @@ public class KWayMerge {
         }
 
         //merge
-        PriorityQueue<ListNode> minHeap = new PriorityQueue<ListNode>(Comparator.naturalOrder());
+        PriorityQueue<ListNode> minHeap = new PriorityQueue<ListNode>((a, b) -> a.value - b.value);
 
         //Initialization
         for(int i = 0; i < lists.length; i++)
@@ -23,16 +23,27 @@ public class KWayMerge {
         while(!minHeap.isEmpty())
         {
             ListNode temp = minHeap.poll();
-            minHeap.add(temp.next);
+
+            if(temp.next != null)
+            {
+                minHeap.add(temp.next);
+            }
             temp.next = null;
 
             if(head == null)
             {
                 head = temp;
-            }//   
-            
-            tail.next = temp;
-            temp.next = null;
+            }
+
+            if(tail == null)
+            {
+                tail = temp;
+            }
+            else 
+            {
+                tail.next = temp;
+            }
+            tail.next = null;
 
         }//while
 
