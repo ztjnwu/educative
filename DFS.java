@@ -20,7 +20,7 @@ public class DFS {
         findPathSum(root.left, preNodeSum, sum, result);
         findPathSum(root.right, preNodeSum, sum, result);
 
-    }//
+    }// findPathSum
 
     public static void findAllPaths(TreeNode root, int preNodeSum, int sum, List<Integer> currentPath, List<List<Integer>> allPaths) 
     {
@@ -48,7 +48,7 @@ public class DFS {
         findAllPaths(root.left, preNodeSum, sum, updatePath, allPaths);
         findAllPaths(root.right, preNodeSum, sum, updatePath, allPaths);
 
-    }//
+    }//findAllPaths
 
     public static void findAllRootToLeafPaths(TreeNode root, List<Integer> currentPath, List<List<Integer>> allPaths)
     {
