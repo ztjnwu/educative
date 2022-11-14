@@ -75,7 +75,7 @@ public class DFS {
         
     }//
 
-    public static boolean findSpecificPath(BST bst, int[] arr)
+    public static boolean findSpecificPath(BST bst, int[] path)
     {
         if(bst == null)
         {
@@ -83,16 +83,16 @@ public class DFS {
         }
 
         //
-        List<TreeNode> currentPath = new LinkedList<>();
         Boolean result = false;
-        dFS(bst.getRoot(), arr, currentPath, result);
+        int level = 0;
+        dFS(bst.getRoot(), path, level, result);
 
         //return
         return result;
 
     }//findSpecificPath
 
-    private static void dFS(TreeNode root, int[] arr, List<TreeNode> currentPath, Boolean result)
+    private static void dFS(TreeNode root, int[] path, int level, Boolean result)
     {
         if(root == null)
         {
@@ -100,12 +100,16 @@ public class DFS {
         }
 
         //
-        List<TreeNode> copyCurrentPath = new LinkedList<>(currentPath);
-        if(root.left == null && root.right == null)
+        if(root.value != path[level])
         {
-            copyCurrentPath.add(root);
-            if(copyCurrentPath.is)
+            return;
         }
+
+        //
+        
+
+
+       
 
     }
 
