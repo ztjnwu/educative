@@ -92,6 +92,7 @@ public class BFS {
 
     }
 
+    //Zigzag
     public static List<List<Integer>> zigzagTraverse(BST bst)
     {
         //check validity
@@ -100,11 +101,13 @@ public class BFS {
             return null;
         }
 
-        //
+        //Initialization
         List<List<Integer>> result = new ArrayList<>();
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(bst.getRoot());
+        queue.offer(bst.getRoot());
         int level = 1;
+
+        //add nodes in a zigzag way
         while(queue.size() != 0)
         {
             List<Integer> tempList = new ArrayList<>();
@@ -116,6 +119,7 @@ public class BFS {
                 {
                     queue.add(tempNode.left);
                 }
+                
                 if(tempNode.right != null)
                 {
                     queue.add(tempNode.right);
@@ -143,6 +147,57 @@ public class BFS {
 
     }//
 
+    //Average
+    public static List<Double> findLevelAverage(BST bst)
+    {
+        //check validity
+        if(bst == null)
+        {
+            return null;
+        }
+        
+        //Initialization
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(bst.getRoot());
+        List<Double> averages = new ArrayList<>();
+
+        //
+        while(queue.size() != 0)
+        {
+            int length = queue.size();
+            double sum = 0;
+            TreeNode current = null;
+
+            for(int i = 0; i < length; i++)
+            {
+                current = queue.poll();
+
+                if(current.left != null)
+                {
+                    queue.offer(current.left);
+                }
+                if(current.right != null)
+                {
+                    queue.offer(current.right);
+                }
+
+                sum += current.value;
+                System.out.print(" " + current.value);
+
+            }// for
+            System.out.println();
+            
+            averages.add(sum / length); 
+
+        }// while
+
+
+        //return
+        return averages;
+
+    }//
+    
+
     public static void main(String[] args)
     {
         //Traverse a BST
@@ -169,6 +224,12 @@ public class BFS {
         System.out.println("\nZigzag a BST in BST.");
         bst = new BST(new int[] {6, 4, 2, 1, 3, 5, 8, 7, 9});
         System.out.println("Level order traversal: " + zigzagTraverse(bst));
+
+        //Compute the average of each level
+        System.out.println("\n average a BST in BST.");
+        bst = new BST(new int[]{12, 7, 1, 9, 2, 10, 5});
+        List<Double> result = BFS.findLevelAverage(bst);
+        System.out.println(result);
         
     }
     

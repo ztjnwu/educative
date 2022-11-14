@@ -75,7 +75,42 @@ public class DFS {
         
     }//
 
-;     public static void main(String[] argv)
+    public static boolean findSpecificPath(BST bst, int[] arr)
+    {
+        if(bst == null)
+        {
+            return false;
+        }
+
+        //
+        List<TreeNode> currentPath = new LinkedList<>();
+        Boolean result = false;
+        dFS(bst.getRoot(), arr, currentPath, result);
+
+        //return
+        return result;
+
+    }//findSpecificPath
+
+    private static void dFS(TreeNode root, int[] arr, List<TreeNode> currentPath, Boolean result)
+    {
+        if(root == null)
+        {
+            return;
+        }
+
+        //
+        List<TreeNode> copyCurrentPath = new LinkedList<>(currentPath);
+        if(root.left == null && root.right == null)
+        {
+            copyCurrentPath.add(root);
+            if(copyCurrentPath.is)
+        }
+
+    }
+
+
+    public static void main(String[] argv)
     {
         System.out.println("Find a path of sum S");
         BST bst = new BST(new int[] { 6, 4, 2, 1, 3, 5, 8, 7, 9 });
@@ -131,6 +166,13 @@ public class DFS {
         currentPath = new ArrayList<>();
         findAllRootToLeafPaths(bst.getRoot(), currentPath, allPaths);
         System.out.println("result:" + allPaths);
+
+        //Find a specific path
+        System.out.println("\nFind all root-to-leaf paths");
+        bst = new BST(new int[] { 1, 0 ,1, 1, 6, 5});
+        System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 0, 7 }));
+        System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 1, 6 }));
+        
 
     }//
        
