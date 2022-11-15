@@ -79,7 +79,7 @@ public class DP {
             return null;
         }//
 
-        //Show the route
+        //initialization
         int[][] dp = new int[length + 1][capacity + 1];
         for(int i = 0; i <= length; i++)
         {
@@ -87,7 +87,7 @@ public class DP {
             {
                 dp[i][j] = 0;
             }
-        }//initialization
+        }
 
         //DP
         for(int i = 1; i <= length; i++)
@@ -196,6 +196,36 @@ public class DP {
         return result;
     }
 
+    public static boolean subSumEqual(int[] arr)
+    {
+        if(arr == null)
+        {
+            return false;
+        }
+
+        //Initialization
+        boolean[] dp = new boolean[arr.length];
+        for(int i = 0; i < arr.length; i++)
+        {
+            dp[i] = false;
+        }
+
+        //
+        for(int i = 0; i < arr.length; i++)
+        {
+            int result1 = dp[i - 1];
+            int result2;
+            
+        }
+
+
+        
+
+
+
+    }
+
+    
     public static boolean sumPartipationDP(int[] arr, int number, int sum){
 
         //base check
@@ -227,15 +257,11 @@ public class DP {
                     flag2 = dp[i - 1][j - arr[i - 1]];
                 }
                 else {
-                    flag2 = flag1;
                 }
-                dp[i][j] = flag1 || flag2;
             }
         }
 
-        //return
-        return dp[number][sum];
-    }
+        //returned to put these items in a knapsack with a capacity ‘C.’ The goal is to get the maximum profit out of the knapsack items. Each item can only be sele
 
     public static boolean sumEqualRE(int[] arr, int number, int sum){
         //base chcek
@@ -267,8 +293,7 @@ public class DP {
 
     public static boolean sumEqualDP(int[] arr, int number, int sum){
         //base check
-        if(number < 0 || sum < 0){
-            return false;
+        if(number < 0 || sum < 0){ked to put these items in a knapsack with a capacity ‘C.’ The goal is to get the maximum profit out of the knapsack items. Each item can only be sele
         }
         if(sum == 0){
             return true;
