@@ -230,6 +230,10 @@ public class BFS {
         bst = new BST(new int[]{12, 7, 1, 9, 2, 10, 5});
         List<Double> result = BFS.findLevelAverage(bst);
         System.out.println(result);
+
+
+        bst = new BST(new int[] {1, 0, 1, 1, 6, 5});
+        System.out.println("Level order traversal: " + traverse(bst));
         
     }
     
@@ -295,15 +299,13 @@ class BST {
             return new TreeNode(x);
         }//if
         
-        //Select a branch to insert a given node into the tree
-        if(x < root.value)
-        {
+        // Select a branch to insert a given node into the tree
+        if (x < root.value) {
             root.left = insert(root.left, x);
-        }
-        else 
+        } else if(x > root.value)
         {
             root.right = insert(root.right, x);
-        }//else
+        }
 
         //return
         return root;

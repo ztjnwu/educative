@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.crypto.NullCipher;
+
 public class DFS {
     public static void findPathSum(TreeNode root, int preNodeSum, int sum, List<Boolean> result) {
         if (root == null) {
@@ -82,35 +84,36 @@ public class DFS {
             return false;
         }
 
-        //
-        Boolean result = false;
+        //initialization
+        Boolean[] result = new Boolean[] {Boolean.FALSE};
         int level = 0;
+
+        //traverse
         dFS(bst.getRoot(), path, level, result);
 
         //return
-        return result;
+        return result[0].booleanValue();
 
     }//findSpecificPath
 
-    private static void dFS(TreeNode root, int[] path, int level, Boolean result)
+    private static void dFS(TreeNode root, int[] path, int level, Boolean[] result)
     {
-        if(root == null)
+        //The condition of termination
+        if(root == null || root.value != path[level])
         {
             return;
         }
 
-        //
-        if(root.value != path[level])
+        //visit current node
+        if(root.left == null && root.right == null)
         {
-            return;
+            result[0] = Boolean.TRUE;
         }
-
-        //
-        
-
-
        
-
+        //traverse left subtree and right subtree
+        dFS(root.left, path, level + 1, result);
+        dFS(root.right, path, level + 1, result);
+        
     }
 
 
@@ -172,10 +175,10 @@ public class DFS {
         System.out.println("result:" + allPaths);
 
         //Find a specific path
-        System.out.println("\nFind all root-to-leaf paths");
+        System.out.println("\nMatch the specific path!");
         bst = new BST(new int[] { 1, 0 ,1, 1, 6, 5});
-        System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 0, 7 }));
-        System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 1, 6 }));
+        System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 0}));
+        System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 6, 5 }));
         
 
     }//
@@ -225,7 +228,7 @@ class BST {
 
     // Insert nodes into a BST
     private TreeNode insert(TreeNode root, int x) {
-        // the proper postion to be inserted
+        // the proper postion to be insertednull
         if (root == null) {
             return new TreeNode(x);
         } // if
@@ -233,9 +236,10 @@ class BST {
         // Select a branch to insert a given node into the tree
         if (x < root.value) {
             root.left = insert(root.left, x);
-        } else {
+        } else if(x > root.value)
+        {
             root.right = insert(root.right, x);
-        } // else
+        }
 
         // return
         return root;
