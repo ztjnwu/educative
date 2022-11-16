@@ -196,33 +196,54 @@ public class DP {
         return result;
     }
 
-    public static boolean subSumEqual(int[] arr)
+    public static boolean subSumEqual(int[] arr, int sum)
     {
-        if(arr == null)
+        if(arr == null || sum % 2 != 0)
         {
             return false;
         }
 
         //Initialization
-        boolean[] dp = new boolean[arr.length];
-        for(int i = 0; i < arr.length; i++)
+        boolean[][] dp = new boolean[arr.length + 1][(sum/2) + 1];
+        for(int i = 0; i <= arr.length; i++)
         {
-            dp[i] = false;
-        }
-
-        //
-        for(int i = 0; i < arr.length; i++)
-        {
-            int result1 = dp[i - 1];
-            int result2;
+            for(int j = 0; j <= sum/2; j++)
+            {
+                dp[i][j] = false;
+            }
             
         }
 
+        //Compute dp[][]
+        for(int i = 1; i <= arr.length; i++)
+        {
+            for(int j = 1; j <= sum; j++)
+            {
+                boolean result1 = dp[i - 1][j];
+                boolean result2;
+                if(arr[i] >= j)
+                {
+                    result2 = result1;
+                }//
+                else //arr[i] < sum
+                {
+                    if(dp[i - 1][j - arr[i]] == true)
+                    {
+                        result2 = true;
+                    }
+                    else // 
+                    {
+                        result2 = false;
+                    }//else
 
-        
+                }//else
+                
+            }//
 
+        }//for
 
-
+        //return
+        return dp[arr.length][sum];
     }
 
     
@@ -358,6 +379,11 @@ public class DP {
         System.out.println("result(index start from 1 to length): " + resultt);
         System.out.println("");
 
+        System.out.println("Equal sum");
+        System.out.println(DP.subSumEqual(new int[]{1, 2, 3, 4}, 10));
+        System.out.println(DP.subSumEqual(new int[]{1, 1, 3, 4, 7}, 16));
+        System.out.println(DP.subSumEqual(new int[]{2, 3, 4, 6}, 15));
+
         
         //**********************
         System.out.println("0-1 problem Optimization: 3 * (capacity + 1)");
@@ -471,9 +497,6 @@ public class DP {
         }
         System.out.println("result: " + result_dp);
         System.out.println();
-
-        //**********************
-        System.out.println("RE: Sum Equation");
 
         arr = new int[]{1, 2, 3, 7};
         result_dp = DP.sumEqualRE(arr, 4, 6);
