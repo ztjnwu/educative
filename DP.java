@@ -196,7 +196,7 @@ public class DP {
         return result;
     }
 
-    public static boolean subPartitionDP(int[] arr, int sum)
+    public static boolean sumPartitionDP(int[] arr, int sum)
     {
         if(arr == null || sum % 2 != 0)
         {
@@ -360,9 +360,9 @@ public class DP {
         System.out.println("");
 
         System.out.println("0-1 problem Equal sum");
-        System.out.println(DP.subSumEqual(new int[]{1, 2, 3, 4}, 10));
-        System.out.println(DP.subSumEqual(new int[]{1, 1, 3, 4, 7}, 16));
-        System.out.println(DP.subSumEqual(new int[]{2, 3, 4, 6}, 15));
+        System.out.println(DP.sumPartitionDP(new int[]{1, 2, 3, 4}, 10));
+        System.out.println(DP.sumPartitionDP(new int[]{1, 1, 3, 4, 7}, 16));
+        System.out.println(DP.sumPartitionDP(new int[]{2, 3, 4, 6}, 15));
 
         
         //**********************
@@ -492,20 +492,20 @@ public class DP {
         System.out.println();
 
 
-         //**********************
-         System.out.println("DP: Sum Equation");
-         arr = new int[]{1, 2, 3, 7};
-         result_dp = DP.sumEqualDP(arr, 4, 6);
-         System.out.println("result: " + result_dp);
- 
-         arr = new int[]{1, 2, 7, 1, 5};
-         result_dp = DP.sumEqualDP(arr, 5, 10);    
-         System.out.println("result: " + result_dp);
- 
-         arr = new int[]{1, 3, 4, 8};
-         result_dp = DP.sumEqualDP(arr, 4, 6);
-         System.out.println("result: " + result_dp);
-         System.out.println();
+        //**********************
+        System.out.println("DP: Sum Equation");
+        arr = new int[]{1, 2, 3, 7};
+        result_dp = DP.sumEqualDP(arr, 4, 6);
+        System.out.println("result: " + result_dp);
+
+        arr = new int[]{1, 2, 7, 1, 5};
+        result_dp = DP.sumEqualDP(arr, 5, 10);    
+        System.out.println("result: " + result_dp);
+
+        arr = new int[]{1, 3, 4, 8};
+        result_dp = DP.sumEqualDP(arr, 4, 6);
+        System.out.println("result: " + result_dp);
+        System.out.println();
 
     }
 }//Class

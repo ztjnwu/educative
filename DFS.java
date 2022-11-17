@@ -116,6 +116,51 @@ public class DFS {
         
     }
 
+    public static List<Double> findPathSums(BST bst)
+    {
+        if(bst == null)
+        {
+            return null;
+        }
+
+        //Initialization
+        List<Double> result = new ArrayList<>();
+        TreeNode root = bst.getRoot();
+        int level = 0; 
+        double currentSum = 0;
+
+        //Invoke function
+        dFSfindPathSums(root, level, currentSum, result);
+
+        //return
+        return result;
+    }
+
+    public static void dFSfindPathSums(TreeNode root, int level, double currentSum, List<Double> result)
+    {
+        if(root == null || level < 0)
+        {
+            return;
+        }
+
+        //operations on current node
+        double weight = Math.pow(10, level);
+        double sum = weight * root.value + currentSum;
+
+        if(root.left == null && root.right == null)
+        {
+            result.add(sum);
+        }
+
+        //Traverse initialization
+        level++;     
+        currentSum = sum;
+        dFSfindPathSums(root.left, level, currentSum, result);
+        dFSfindPathSums(root.right, level, currentSum, result);
+        
+    }
+
+
 
     public static void main(String[] argv)
     {
@@ -180,6 +225,10 @@ public class DFS {
         System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 0}));
         System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 6, 5 }));
         
+        //Find a specific path
+        System.out.println("\nMatch the specific path!");
+        bst = new BST(new int[] { 6, 4, 2, 1, 3, 5, 8, 7, 9});
+        System.out.println("Path sums " + DFS.findPathSums(bst));
 
     }//
        
