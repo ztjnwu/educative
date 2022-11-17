@@ -196,7 +196,7 @@ public class DP {
         return result;
     }
 
-    public static boolean subSumEqual(int[] arr, int sum)
+    public static boolean subPartitionDP(int[] arr, int sum)
     {
         if(arr == null || sum % 2 != 0)
         {
@@ -209,25 +209,40 @@ public class DP {
         {
             for(int j = 0; j <= sum/2; j++)
             {
-                dp[i][j] = false;
-            }
+                if(i == 0 && j == 0)
+                {
+                    dp[i][j] = true;
+                }//
+                else 
+                {
+                    dp[i][j] = false;
+                }//
+                
+            }//
             
+        }//for
+
+        int[] arr_copy = new int[arr.length + 1];
+        for(int j = 1; j <= arr.length; j++)
+        {
+            arr_copy[j] = arr[j - 1];
         }
+
 
         //Compute dp[][]
         for(int i = 1; i <= arr.length; i++)
         {
-            for(int j = 1; j <= sum; j++)
+            for(int j = 1; j <= sum / 2; j++)
             {
                 boolean result1 = dp[i - 1][j];
                 boolean result2;
-                if(arr[i] >= j)
+                if(arr_copy[i] > j)
                 {
                     result2 = result1;
                 }//
-                else //arr[i] < sum
+                else //arr_copy[i] < j
                 {
-                    if(dp[i - 1][j - arr[i]] == true)
+                    if(dp[i - 1][j - arr_copy[i]] == true)
                     {
                         result2 = true;
                     }
@@ -237,52 +252,16 @@ public class DP {
                     }//else
 
                 }//else
+
+                dp[i][j] = result1 || result2;
                 
             }//
 
         }//for
 
         //returnx
-        return dp[arr.length][sum];
+        return dp[arr.length][sum / 2];
     }
-
-    
-    public static boolean sumPartipationDP(int[] arr, int number, int sum){
-
-        //base check
-        if(number < 0 || sum < 0){
-            return false;
-        }
-
-        if(sum == 0){
-            return true;
-        }
-        else if(number == 0){
-            return false;
-        }
-
-        //loop
-        boolean[][] dp = new boolean[number + 1][sum + 1];
-        for(int i = 0; i < number + 1; i++){
-            dp[i][0] = true;
-        }
-        for(int j = 1; j < sum + 1; j++){
-            dp[0][j] = false;
-        }
-        
-        for(int i = 1; i < number + 1; i++){
-            for(int j = 1; j < sum + 1; j++){
-                boolean flag1 = dp[i - 1][j];
-                boolean flag2 = false;
-                if(arr[i - 1] <= j){
-                    flag2 = dp[i - 1][j - arr[i - 1]];
-                }
-                else {
-                }
-            }
-        }
-
-        //returned to put these items in a knapsack with a capacity ‘C.’ The goal is to get the maximum profit out of the knapsack items. Each item can only be sele
 
     public static boolean sumEqualRE(int[] arr, int number, int sum){
         //base chcek
@@ -314,7 +293,8 @@ public class DP {
 
     public static boolean sumEqualDP(int[] arr, int number, int sum){
         //base check
-        if(number < 0 || sum < 0){ked to put these items in a knapsack with a capacity ‘C.’ The goal is to get the maximum profit out of the knapsack items. Each item can only be sele
+        if(number < 0 || sum < 0){//ked to put these items in a knapsack with a capacity ‘C.’ The goal is to get the maximum profit out of the knapsack items. Each item can only be sele
+            return false;
         }
         if(sum == 0){
             return true;
@@ -379,14 +359,14 @@ public class DP {
         System.out.println("result(index start from 1 to length): " + resultt);
         System.out.println("");
 
-        System.out.println("Equal sum");
+        System.out.println("0-1 problem Equal sum");
         System.out.println(DP.subSumEqual(new int[]{1, 2, 3, 4}, 10));
         System.out.println(DP.subSumEqual(new int[]{1, 1, 3, 4, 7}, 16));
         System.out.println(DP.subSumEqual(new int[]{2, 3, 4, 6}, 15));
 
         
         //**********************
-        System.out.println("0-1 problem Optimization: 3 * (capacity + 1)");
+        System.out.println("\n0-1 problem Optimization: 3 * (capacity + 1)");
         int[] profits_dp_optimization = {1, 6, 10, 16};
         int[] weights_dp_optimization = {1, 2, 3, 5};
         result = DP.knapsnackTabulationOptimization(profits_dp_optimization, weights_dp_optimization, 4, 7);
