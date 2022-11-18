@@ -207,9 +207,9 @@ public class DP {
         boolean[][] dp = new boolean[arr.length + 1][(sum/2) + 1];
         for(int i = 0; i <= arr.length; i++)
         {
-            for(int j = 0; j <= sum/2; j++)
+            for(int j = 0; j <= (sum / 2); j++)
             {
-                if(i == 0 && j == 0)
+                if(j == 0)
                 {
                     dp[i][j] = true;
                 }//
@@ -232,13 +232,13 @@ public class DP {
         //Compute dp[][]
         for(int i = 1; i <= arr.length; i++)
         {
-            for(int j = 1; j <= sum / 2; j++)
+            for(int j = 1; j <= (sum / 2); j++)
             {
                 boolean result1 = dp[i - 1][j];
-                boolean result2;
+                boolean result2 = false;;
                 if(arr_copy[i] > j)
                 {
-                    result2 = result1;
+                    result2 = dp[i - 1][j];
                 }//
                 else //arr_copy[i] < j
                 {
@@ -263,76 +263,77 @@ public class DP {
         return dp[arr.length][sum / 2];
     }
 
-    public static boolean sumEqualRE(int[] arr, int number, int sum){
-        //base chcek
-        if(number < 0 || sum < 0){
-            return false;
-        }
-        //empty subset
-        if(sum == 0){
-            return true;
-        }
-        else if(number == 0){
+    public static boolean sumEqualSDP(int[] arr, int S)
+    {
+        //Check validity
+        if(arr == null || S <= 0)
+        {
             return false;
         }
 
-        //loop
-        boolean flag1 = sumEqualRE(arr, number - 1, sum);
-        boolean flag2 = false;
-        if(arr[number - 1] <= sum){
-            flag2 = sumEqualRE(arr, number - 1, sum - arr[number - 1]);
-        }
-        else {
-            flag2 = flag1;
-        }
-        
-        //return
-        boolean result = flag1 || flag2;
-        return result;
-    }
-
-    public static boolean sumEqualDP(int[] arr, int number, int sum){
-        //base check
-        if(number < 0 || sum < 0){//ked to put these items in a knapsack with a capacity ‘C.’ The goal is to get the maximum profit out of the knapsack items. Each item can only be sele
-            return false;
-        }
-        if(sum == 0){
-            return true;
-        }
-        else if(number == 0){
-            return false;
-        }
-
-        //loop
-        boolean[][] dp = new boolean[number + 1][sum + 1];
-        for(int i = 0; i < number + 1; i++){
-            dp[i][0] = true;
-        }
-        for(int j = 1 ;j < sum + 1; j++){
-            dp[0][j] = false;
-        }
-        for(int i = 1; i < number + 1; i++){
-            for(int j = 1; j < sum + 1; j++){
-                boolean flag1 = dp[i - 1][j];
-                boolean flag2 = false;
-                if(arr[i - 1] <= j){
-                    flag2 = dp[i - 1][j - arr[i - 1]];
+        //Initialization
+        boolean[][] dp = new boolean[arr.length + 1][S + 1];
+        for(int i = 0; i <= arr.length; i++)
+        {
+            for(int j = 0; j <= S; j++)
+            {
+                if(j == 0)
+                {
+                    dp[i][j] = true;
                 }
-                else {
-                    flag2 = dp[i - 1][j];
-                }
-                dp[i][j] = flag1 || flag2;
+                else 
+                {
+                    dp[i][j] = false;
+                }//
             }
-        }
+        }//
+
+        int[] arr_copy = new int[arr.length + 1];
+        for(int k = 1; k <= arr.length; k++)
+        {
+            arr_copy[k] = arr[k - 1];
+        }//
+
+
+        //find the specific subset
+        for(int i = 1; i <= arr.length; i++)
+        {
+            for(int j = 1; j <= S; j++)
+            {
+                boolean result1 = dp[i - 1][j];
+                boolean result2 = false;
+                if(arr_copy[i] > j)
+                {
+                    result1 = dp[i - 1][j];
+                }//
+                else 
+                {
+                    if(dp[i - 1][j - arr_copy[i]] == true)
+                    {
+                        result2 = true;
+                    }
+                    else
+                    {
+                        result2 = false;
+                    }// else
+
+                }// else
+                
+                dp[i][j] = result1 || result2;
+
+            }// for
+
+        }// for
 
         //return
-        return dp[number][sum];
-    }
+        return dp[arr.length][S];
 
+    }//
 
-    public static void main(String[] args){
+    public static void main(String[] args)
+    {
 
-        System.out.println("0 - 1 problem: Recursive");
+        System.out.println("Recursive");
         int[] profits = {1, 6, 10, 16};
         int[] weights = {1, 2, 3, 5};
         int result = DP.knapsack(profits, weights, 4, 7);
@@ -341,7 +342,7 @@ public class DP {
         System.out.println("result: " + result);
         System.out.println("");
 
-        System.out.println("0-1 problem: DP");
+        System.out.println("\n DP");
         profits = new int[]{1, 6, 10, 16};
         weights = new int[]{1, 2, 3, 5};
         result = DP.knapsackDP(profits, weights, 4, 7);
@@ -350,7 +351,7 @@ public class DP {
         System.out.println("result: " + result);
         System.out.println(""); 
 
-        System.out.println("0-1 problem: Route Dispaly");
+        System.out.println("\n Route Dispaly");
         profits = new int[]{1, 6, 10, 16};
         weights = new int[]{1, 2, 3, 5};
         List<Integer> resultt = DP.knapsackDPRouteShow(profits, weights, 4, 7);
@@ -359,153 +360,16 @@ public class DP {
         System.out.println("result(index start from 1 to length): " + resultt);
         System.out.println("");
 
-        System.out.println("0-1 problem Equal sum");
+        System.out.println("\n Partition sum");
         System.out.println(DP.sumPartitionDP(new int[]{1, 2, 3, 4}, 10));
         System.out.println(DP.sumPartitionDP(new int[]{1, 1, 3, 4, 7}, 16));
         System.out.println(DP.sumPartitionDP(new int[]{2, 3, 4, 6}, 15));
 
-        
-        //**********************
-        System.out.println("\n0-1 problem Optimization: 3 * (capacity + 1)");
-        int[] profits_dp_optimization = {1, 6, 10, 16};
-        int[] weights_dp_optimization = {1, 2, 3, 5};
-        result = DP.knapsnackTabulationOptimization(profits_dp_optimization, weights_dp_optimization, 4, 7);
-        System.out.println("optimization: " + result);
-        result = DP.knapsnackTabulationOptimization(profits_dp_optimization, weights_dp_optimization, 4, 6);
-        System.out.println("optimization: " + result);
-        System.out.println("");
-        
-        //**********************
-        System.out.println("0-1 problem Optimization: Best optimization");
-        int[] profits_single = {1, 6, 10, 16};
-        int[] weights_single = {1, 2, 3, 5};
-        result = DP.knapsnackTabulationOptimization(profits_single, weights_single, 4, 7);
-        System.out.println("optimization: " + result);
-        result = DP.knapsnackTabulationOptimization(profits_single, weights_single, 4, 6);
-        System.out.println("optimization: " + result);
-        System.out.println("");
-        
-        //**********************
-        System.out.println("RE: Sum Participation");
-        int[] arr = {1, 2, 3, 4};
-        int sum = 0;
-        boolean result_sum = false;
-        for(int i = 0; i < arr.length; i++){
-            sum += arr[i];
-        }
-        if(sum % 2 != 0){
-            result_sum = false;
-        }
-        else {
-            result_sum = DP.sumPartipationRE(arr, 4, sum / 2);
-            
-        }
-        System.out.println("result: " + result_sum);
+        System.out.println("\n Same sum");
+        System.out.println(DP.sumEqualSDP(new int[]{1, 2, 3, 7 }, 5));
+        System.out.println(DP.sumEqualSDP(new int[]{1, 2, 7, 1, 5 }, 15));
+        System.out.println(DP.sumEqualSDP(new int[]{1, 3, 4, 8}, 13));
 
-        arr = new int[]{1, 1, 3, 4, 7};
-        sum = 0;
-        result_sum = false;
-        for(int i = 0; i < arr.length; i++){
-            sum += arr[i];
-        }
-        if(sum % 2 != 0){
-            result_sum = false;
-        }
-        else {
-            result_sum = DP.sumPartipationRE(arr, 5, sum / 2);
-            
-        }
-        System.out.println("result: " + result_sum);
+    }// main
 
-        arr = new int[]{2, 3, 4, 6};
-        sum = 0;
-        result_sum = false;
-        for(int i = 0; i < arr.length; i++){
-            sum += arr[i];
-        }
-        if(sum % 2 != 0){
-            result_sum = false;
-        }
-        else {
-            result_sum = DP.sumPartipationRE(arr, 4, sum / 2);
-        }
-        System.out.println("result: " + result_sum);
-        System.out.println();
-
-        System.out.println("DP: Sum Participation");
-        arr = new int[]{1, 2, 3, 4};
-        int sum_dp = 0;
-        boolean result_dp = false;
-        for(int i = 0; i < arr.length; i++){
-            sum_dp += arr[i];
-        }
-        if(sum_dp % 2 != 0){
-            result_dp = false;
-        }
-        else {
-            result_dp = DP.sumPartipationDP(arr, 4, sum_dp / 2);
-            
-        }
-        System.out.println("result: " + result_dp);
-
-        arr = new int[]{1, 1, 3, 4, 7};
-        sum_dp = 0;
-        result_sum = false;
-        for(int i = 0; i < arr.length; i++){
-            sum_dp += arr[i];
-        }
-        if(sum_dp % 2 != 0){
-            result_dp = false;
-        }
-        else {
-            result_dp = DP.sumPartipationDP(arr, 5, sum_dp / 2);    
-        }
-        System.out.println("result: " + result_dp);
-
-        arr = new int[]{2, 3, 4, 6};
-        sum_dp = 0;
-        result_dp = false;
-        for(int i = 0; i < arr.length; i++){
-            sum_dp += arr[i];
-        }
-        if(sum_dp % 2 != 0){
-            result_dp = false;
-        }
-        else {
-            result_dp = DP.sumPartipationDP(arr, 4, sum_dp / 2);
-            
-        }
-        System.out.println("result: " + result_dp);
-        System.out.println();
-
-        arr = new int[]{1, 2, 3, 7};
-        result_dp = DP.sumEqualRE(arr, 4, 6);
-        System.out.println("result: " + result_dp);
-
-        arr = new int[]{1, 2, 7, 1, 5};
-        result_dp = DP.sumEqualRE(arr, 5, 10);    
-        System.out.println("result: " + result_dp);
-
-        arr = new int[]{1, 3, 4, 8};
-        result_dp = DP.sumEqualRE(arr, 4, 6);
-        System.out.println("result: " + result_dp);
-        System.out.println();
-
-
-        //**********************
-        System.out.println("DP: Sum Equation");
-        arr = new int[]{1, 2, 3, 7};
-        result_dp = DP.sumEqualDP(arr, 4, 6);
-        System.out.println("result: " + result_dp);
-
-        arr = new int[]{1, 2, 7, 1, 5};
-        result_dp = DP.sumEqualDP(arr, 5, 10);    
-        System.out.println("result: " + result_dp);
-
-        arr = new int[]{1, 3, 4, 8};
-        result_dp = DP.sumEqualDP(arr, 4, 6);
-        System.out.println("result: " + result_dp);
-        System.out.println();
-
-    }
 }//Class
