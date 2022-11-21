@@ -304,18 +304,11 @@ public class DP {
                 boolean result2 = false;
                 if(arr_copy[i] > j)
                 {
-                    result1 = dp[i - 1][j];
+                    result2 = dp[i - 1][j];
                 }//
                 else 
                 {
-                    if(dp[i - 1][j - arr_copy[i]] == true)
-                    {
-                        result2 = true;
-                    }
-                    else
-                    {
-                        result2 = false;
-                    }// else
+                    result2 = true;
 
                 }// else
                 
@@ -323,9 +316,20 @@ public class DP {
 
             }// for
 
+
         }// for
 
         //return
+        for(int i = 0; i < arr.length; i++)
+        {
+            for(int j = 0; j <= S; j++)
+            {
+                System.out.print(" " + dp[i][j]);
+            }
+
+            System.out.println();
+            
+        }
         return dp[arr.length][S];
 
     }//
