@@ -336,6 +336,7 @@ public class DP {
 
     public static int minimumDiffrence(int[] arr)
     {
+        //Check validity
         if(arr == null)
         {
             return -1;
@@ -351,13 +352,12 @@ public class DP {
         boolean[][] dp = new boolean[arr.length + 1][(sum/2) + 1];
         for(int i = 0;i <= arr.length; i++)
         {
-            for(int j = 0; j <= (sum/2);j ++)
+            for(int j = 0; j <= (sum/2);j++)
             {
                 if(j == 0)
                 {
                     dp[i][j] = true;
                 }//
-                else 
                 {
                     dp[i][j] = false;
                 }//
