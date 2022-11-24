@@ -245,7 +245,7 @@ public class DFS {
         }
         System.out.println("sum:" + sum + " result:" + flag);
 
-        // Find all paths of sum S
+        //Find all paths of sum S
         System.out.println("\nFind all paths of sum S");
         bst = new BST(new int[] { 6, 4, 2, 1, 3, 5, 8, 7, 9 });
         List<List<Integer>> allPaths = new ArrayList<>();

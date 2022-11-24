@@ -197,6 +197,56 @@ public class BFS {
 
     }//
     
+    //Minimum levels
+    public static int findMinimumLevel(BST bst)
+    {
+        if(bst == null)
+        {
+            return -1;
+        }
+
+        //Initialization
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(bst.getRoot());
+        int currentLevel = 0;
+        int miniLevel = Integer.MAX_VALUE;
+
+        //Compute minimum layers
+        while(queue.size() != 0)
+        {
+            int length = queue.size();
+            for(int i = 0; i < length; i++)
+            {
+                TreeNode tempNode = queue.poll();
+                if(tempNode.left == null && tempNode.right == null)
+                {
+                    if(miniLevel > currentLevel)
+                    {
+                        miniLevel = currentLevel;
+                    }//
+                }//
+                
+                if(tempNode.left != null)
+                {   
+                    queue.offer(tempNode.left);
+                }//
+
+                if(tempNode.right != null)
+                {;
+                    queue.offer(tempNode.right);
+                }//
+
+                
+            }//
+
+            //update level
+            currentLevel++;
+        }//
+
+        //return
+        return miniLevel;
+    }//
+
 
     public static void main(String[] args)
     {
@@ -206,8 +256,6 @@ public class BFS {
         bst.preOrder(bst.getRoot());
         System.out.println();
         bst.inOrder(bst.getRoot());
-        System.out.println();
-        bst.postOrder(bst.getRoot());
         System.out.println();
 
         //Breath First Search 
@@ -231,10 +279,13 @@ public class BFS {
         List<Double> result = BFS.findLevelAverage(bst);
         System.out.println(result);
 
+        //Compute minimum level
+        System.out.println("\n Minimum layer");
+        bst = new BST(new int[]{12, 7, 1, 9, 2, 10, 5});
+        System.out.println(BFS.findMinimumLevel(bst));
+        bst = new BST(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+        System.out.println(BFS.findMinimumLevel(bst));
 
-        bst = new BST(new int[] {1, 0, 1, 1, 6, 5});
-        System.out.println("Level order traversal: " + traverse(bst));
-        
     }
     
 }//
