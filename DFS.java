@@ -161,6 +161,50 @@ public class DFS {
     }
 
 
+    public static List<Boolean> findPathWithGivenSequence(BST bst, int[] path)
+    {
+        //Check Validity
+        if(bst == null || path == null)
+        {
+            return null;
+        }
+
+        //Initilialization
+        List<Boolean> result = new ArrayList<>();
+        TreeNode root = bst.getRoot();
+        int level = 0;
+
+        //
+        dFSFindGivenSequence(root, path, level, result);
+ 
+        //return
+        return result;
+
+    }//
+
+    private static void dFSFindGivenSequence(TreeNode root, int[] path, int level, List<Boolean> result)
+    {
+        //Chcek Validity
+        if(root == null || level < 0 || root.value != path[level])
+        {
+            return;
+        }
+
+        //
+        if(root.left == null && root.right == null)
+        {
+            result.add(true);
+        }
+        
+
+        //traverse
+        level++;
+        dFSFindGivenSequence(root.left, path, level, result);
+        dFSFindGivenSequence(root.right, path, level, result);
+
+    }//
+
+
     public static void main(String[] argv)
     {
         System.out.println("Find a path of sum S");
@@ -224,10 +268,21 @@ public class DFS {
         System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 0}));
         System.out.println("Tree has path sequence: " + DFS.findSpecificPath(bst, new int[] { 1, 6, 5 }));
         
-        //Find a specific path
+        //Find the sums of all paths
         System.out.println("\nMatch the specific path!");
         bst = new BST(new int[] { 6, 4, 2, 1, 3, 5, 8, 7, 9});
         System.out.println("Path sums " + DFS.findPathSums(bst));
+
+        //Find a given path
+        System.out.println("\nFind the specific path!");
+        bst = new BST(new int[] { 6, 4, 2, 1, 3, 5, 8, 7, 9});
+        System.out.println("Path sums " + DFS.findPathWithGivenSequence(bst, new int[] { 6, 4, 2, 1}));
+        System.out.println("Path sums " + DFS.findPathWithGivenSequence(bst, new int[] { 6, 4, 2, 3}));
+        System.out.println("Path sums " + DFS.findPathWithGivenSequence(bst, new int[] { 6, 4, 5}));
+        System.out.println("Path sums " + DFS.findPathWithGivenSequence(bst, new int[] { 6, 8, 7}));
+        System.out.println("Path sums " + DFS.findPathWithGivenSequence(bst, new int[] { 6, 8, 9}));
+        System.out.println("Path sums " + DFS.findPathWithGivenSequence(bst, new int[] { 6, 8, 0}));
+
 
     }//
        
