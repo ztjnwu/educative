@@ -110,7 +110,7 @@ public class ModifiedBinarySearch {
 
     public static void main(String[] args)
     {
-        //
+        //Search a number
         System.out.println("find the index of a given number");
         System.out.println(ModifiedBinarySearch.searchNumber(new int[] { 4, 6, 10 }, 10));
         System.out.println(ModifiedBinarySearch.searchNumber(new int[] { 1, 2, 3, 4, 5, 6, 7 }, 5));

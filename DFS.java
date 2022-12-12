@@ -265,6 +265,63 @@ public class DFS {
     }//
 
 
+    public static int findAllOfSubPathsSumEqualtoSumUsingPrefixArray(BST bst, int sum)
+    {
+        //Check Validity
+        if(bst == null)
+        {
+            return -1;
+        }//
+
+        //
+        Map<Integer, Integer> prefixMap = new HashMap<>();
+        List<Integer> result = new LinkedList<>();
+        result.add(0, 0);
+        int currentSum = 0;
+
+        //invoke the function dFSFindAllOfSubPathsSumEqualtoSumUsingPrefixArray to get result;
+        dFSFindAllOfSubPathsSumEqualtoSumUsingPrefixArray(bst.getRoot(), prefixMap, currentSum, sum, result);
+
+        //return
+        return result.get(0);
+    }
+
+
+    private static void dFSFindAllOfSubPathsSumEqualtoSumUsingPrefixArray(TreeNode root, Map<Integer, Integer> currentPathPrefix, int currentSum, int target, List<Integer> result)
+    {
+        //Check validity
+        if(root == null)
+        {
+            return;
+        }
+
+        //
+        currentSum += root.value;
+        Map<Integer, Integer> copy = new HashMap<>(currentPathPrefix);
+        copy.put(currentSum, 1);
+
+        //Compute the nubmer of the paths with the specific target
+        if(currentSum == target)
+        {
+            int number = result.get(0);
+            number++;
+            result.add(0, number);
+        }//
+
+        //Compute the number of the paths with the specific target
+        if(copy.get(currentSum - target) != null)
+        {
+            int number = result.get(0);
+            number++;
+            result.add(0, number);
+        }//
+
+        //Traverse BST 
+        dFSFindAllOfSubPathsSumEqualtoSumUsingPrefixArray(root.left,  copy, currentSum, target, result);
+        dFSFindAllOfSubPathsSumEqualtoSumUsingPrefixArray(root.right, copy, currentSum, target, result);
+
+    }
+
     
     public static void main(String[] argv)
     {
@@ -349,8 +406,10 @@ public class DFS {
         bst = new BST(new int[] {12, 7, 1, 4, 10, 5});
         System.out.println("result: " + findAllOfSubPathsSumEqualtoSum(bst, 12));
 
-
-
+        //Find the path with a given sum USING prefix array
+        System.out.println("\n Find the path with a given sum USING pre=1fix array!");
+        bst = new BST(new int[] {12, 7, 1, 4, 10, 5});
+        System.out.println("result: " + findAllOfSubPathsSumEqualtoSumUsingPrefixArray(bst, 12));
 
     }//
        
@@ -383,7 +442,7 @@ class BST {
     }
 
     // Create a BST tree
-    private TreeNode create(int[] arr) {
+    private TreeNode create(int[] arr) {19=1
         if (arr == null) {
             return null;
         }
