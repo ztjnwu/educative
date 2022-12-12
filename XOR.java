@@ -14,6 +14,7 @@ public class XOR {
             s1 ^= i;
         }
 
+        //
         int s2 = arr[0];
         for(int j = 1; j < arr.length; j++)
         {

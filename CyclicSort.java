@@ -33,6 +33,7 @@ class CyclicSort
         return result;
     }
 
+    
     public static int findMissingNumber(int[] arr)
     {
         if(arr == null)
@@ -70,6 +71,7 @@ class CyclicSort
 
     }//
 
+
     public static List<Integer> findAllMissingNumbers(int[] arr)
     {
         //check validality
@@ -103,6 +105,7 @@ class CyclicSort
         return result;
     }
     
+
     public static int findDuplicatesNumber(int[] arr)
     {
         if(arr == null)
@@ -139,6 +142,7 @@ class CyclicSort
         //return
         return returnValue;
     }
+
 
     public static List<Integer> findAllDuplicateNumber(int[] arr)
     {   

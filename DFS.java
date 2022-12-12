@@ -24,6 +24,7 @@ public class DFS {
 
     }// findPathSum
 
+
     public static void findAllPaths(TreeNode root, int preNodeSum, int sum, List<Integer> currentPath, List<List<Integer>> allPaths) 
     {
 
@@ -52,6 +53,7 @@ public class DFS {
 
     }//findAllPaths
 
+
     public static void findAllRootToLeafPaths(TreeNode root, List<Integer> currentPath, List<List<Integer>> allPaths)
     {
         if(root == null)
@@ -77,6 +79,7 @@ public class DFS {
         
     }//
 
+
     public static boolean findSpecificPath(BST bst, int[] path)
     {
         if(bst == null)
@@ -95,6 +98,7 @@ public class DFS {
         return result[0].booleanValue();
 
     }//findSpecificPath
+
 
     private static void dFS(TreeNode root, int[] path, int level, Boolean[] result)
     {
@@ -116,6 +120,7 @@ public class DFS {
         
     }
 
+
     public static List<Double> findPathSums(BST bst)
     {
         if(bst == null)
@@ -135,6 +140,7 @@ public class DFS {
         //return
         return result;
     }
+
 
     public static void dFSfindPathSums(TreeNode root, int level, double currentSum, List<Double> result)
     {
@@ -182,6 +188,7 @@ public class DFS {
 
     }//
 
+
     private static void dFSFindGivenSequence(TreeNode root, int[] path, int level, List<Boolean> result)
     {
         //Chcek Validity
@@ -205,6 +212,60 @@ public class DFS {
     }//
 
 
+    public static int findAllOfSubPathsSumEqualtoSum(BST bst, int sum)
+    {
+        if(bst == null)
+        {
+            return -1;
+        }
+
+        //
+        List<Integer> result = new ArrayList<>();
+        result.add(0, 0);
+        List<Integer> currentPath = new ArrayList<>();
+        dFSFindAllOfSubPathsSumEqualtoSum(bst.getRoot(), currentPath, sum, result);
+        
+        //return
+        return result.get(0).intValue();
+    }//
+
+
+    private static void dFSFindAllOfSubPathsSumEqualtoSum(TreeNode root, List<Integer> currentPath, int sum, List<Integer> result)
+    {
+        //Check validity
+        if(root == null || sum < 0)
+        {
+            return;
+        }
+
+        //Initialization
+        List<Integer> currentPath_copy = new ArrayList(currentPath);
+        currentPath_copy.add(root.value);
+        
+        //Only Compute all of subsets ending at root
+        int size = currentPath_copy.size();
+        int subsum = 0;
+        int number = 0;
+        for(int i = size - 1; i >= 0; i--)
+        {
+            subsum += currentPath_copy.get(i);
+            if(subsum == sum)
+            {
+                number++;
+            }// if
+        }// for
+
+        number += result.get(0);
+        result.add(0, number);
+
+        //Traverse left subtree and right subtree
+        dFSFindAllOfSubPathsSumEqualtoSum(root.left,  currentPath_copy, sum, result);
+        dFSFindAllOfSubPathsSumEqualtoSum(root.right, currentPath_copy, sum, result);
+
+    }//
+
+
+    
     public static void main(String[] argv)
     {
         System.out.println("Find a path of sum S");
@@ -282,6 +343,13 @@ public class DFS {
         System.out.println("Path sums " + DFS.findPathWithGivenSequence(bst, new int[] { 6, 8, 7}));
         System.out.println("Path sums " + DFS.findPathWithGivenSequence(bst, new int[] { 6, 8, 9}));
         System.out.println("Path sums " + DFS.findPathWithGivenSequence(bst, new int[] { 6, 8, 0}));
+
+        //Find the path with a given sum
+        System.out.println("\n Find the path with a given sum!");
+        bst = new BST(new int[] {12, 7, 1, 4, 10, 5});
+        System.out.println("result: " + findAllOfSubPathsSumEqualtoSum(bst, 12));
+
+
 
 
     }//
