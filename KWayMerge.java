@@ -3,11 +3,11 @@ import java.util.*;
 public class KWayMerge {
     public static ListNode mergeKWayList(List<List<ListNode>> lists)
     {
-        //
+        //Check validity
         if(lists == null)
         {
             return null;
-        }
+        }//
 
         //merge
         PriorityQueue<ListNode> minHeap = new PriorityQueue<ListNode>((a, b) -> a.value - b.value);
@@ -16,7 +16,7 @@ public class KWayMerge {
         for(int i = 0; i < lists.size(); i++)
         {
             minHeap.add(lists.get(i).get(0));
-        }
+        }//
         
         //Merge
         ListNode head = null, tail = null;
@@ -30,20 +30,16 @@ public class KWayMerge {
             }
             temp.next = null;
 
+            //NULL list
             if(head == null)
             {
                 head = temp;
-            }
-            
-            if(tail == null)
-            {
                 tail = head;
-            }
-            else 
-            {
-                tail.next = temp;
-                tail = temp;
-            }
+            }// if
+            
+            //non-null lilst
+            tail.next = temp;
+            tail = temp;
         
         }//while
 
@@ -52,9 +48,10 @@ public class KWayMerge {
 
     }//public
 
+
     public static int findKthsmallestInManyList(List<List<Integer>> lists, int K)
     {
-        //
+        //Check validity
         if(lists == null)
         {
             return -1;
@@ -78,7 +75,7 @@ public class KWayMerge {
             {
                 int row = temp.row;
                 int colum = temp.colum + 1;
-                int value = lists.get(temp.row).get(temp.colum + 1);
+                int value = lists.get(temp.row).get(temp.colum);
                 minHeap.add(new Node(row, colum, value));
             }
             
@@ -89,6 +86,50 @@ public class KWayMerge {
         return result;
 
     }
+
+    public static int findKthSmallestInMatrix(int[][] matrix, int K)
+    {
+        //Check validity
+        if(matrix == null)
+        {
+            return -1;
+        }
+
+        //Initialization
+        PriorityQueue<Node> minHeap = new PriorityQueue<Node>((a, b) -> a.value - b.value);
+        for(int i = 0; i < matrix.length; i++)
+        {
+            minHeap.add(new Node(i, 0, matrix[i][0]));
+        }// for
+        
+        //Find kth item
+        int sum = 0;
+        Node temp = null;
+        while(!minHeap.isEmpty() && sum != K)
+        {
+            temp = minHeap.poll();
+            sum++;
+            if(temp.colum + 1 <= matrix[temp.row].length - 1)
+            {
+                minHeap.add(new Node(temp.row, temp.colum + 1, matrix[temp.row][temp.colum + 1]));
+            }//
+    
+        }//
+
+        //
+        if(sum == K)
+        {
+            return temp.value;
+        }//
+        else //minHeap.isEmpty() == null
+        {
+            return -1;
+        }//
+
+        
+    }//
+
+
 
     public static void main(String[] argv)
     {
@@ -122,8 +163,8 @@ public class KWayMerge {
 
         System.out.println("\n");
 
-        //
-        System.out.println("Find Kth smallest item" );
+        //Find the kth elements in sorted lists
+        System.out.println("Find Kth smallest item in lists" );
         List<Integer> l4 = Arrays.asList(1, 2, 3, 4, 5);
         List<Integer> l5 = Arrays.asList(6, 7, 8, 9, 10);
         List<Integer> l6 = Arrays.asList(11, 12, 13, 14, 15);
@@ -132,11 +173,15 @@ public class KWayMerge {
 
         int result_int = KWayMerge.findKthsmallestInManyList(lists_integer, 15);
         System.out.print("Kth smallest number is: " + result_int);
-        
         System.out.println();
 
-        //
-
+        //Find the kth elements in matrix
+        System.out.println("\nFind Kth smallest item in a matrix");
+        int[][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        result_int = KWayMerge.findKthSmallestInMatrix(matrix, 5);
+        System.out.print("Kth smallest number is: " + result_int);
+        System.out.println();
+        
     }//public
     
 }

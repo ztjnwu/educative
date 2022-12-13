@@ -3,6 +3,7 @@ import java.util.*;
 public class TopKNumbers {
     public static List<Integer> findKLargestNumbers(int[] arr, int K)
     {
+        //
         if(arr == null || arr.length <= 0)
         {
             return null;
@@ -29,6 +30,7 @@ public class TopKNumbers {
         List<Integer> result = new ArrayList<>(minHeap); 
         return result;
     }
+
 
     public static int findKthSmallestNumber(int[] arr, int K)
     {
@@ -96,16 +98,50 @@ public class TopKNumbers {
         return result;
 
     }
-    //Find K largest numbers
+    
+
+    public static int findConnectRopes(int[] ropes)
+    {
+        //Chcek validity
+        if(ropes == null)
+        {
+            return -1;
+        }//
+
+        //Initialization
+        PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>((a, b) -> a - b);
+        for(int i = 0; i < ropes.length; i++)
+        {
+            minHeap.add(ropes[i]);
+        }//
+
+        //Connect ropes
+        int cost = 0;
+        while(minHeap.size() != 1)
+        {
+            int r1 = minHeap.poll();
+            int r2 = minHeap.poll();
+            cost += (r1 + r2);
+            minHeap.add(r1 + r2);
+        }//
+
+        //update
+        return cost;
+    }//
+
+
     public static void main(String[] argv)
     {
         //Find the largest numbers
+        System.out.println("Find the largest numbers");
         List<Integer> result = TopKNumbers.findKLargestNumbers(new int[] { 3, 1, 5, 12, 2, 11 }, 3);
         System.out.println("Here are the top K numbers: " + result);
         result = TopKNumbers.findKLargestNumbers(new int[] { 5, 12, 11, -1, 12 }, 3);
         System.out.println("Here are the top K numbers: " + result);
+        System.out.println();
 
-        //Find the Kth smallest element
+        //Find K smallest element
+        System.out.println("Find K smallest element");
         int result_int = TopKNumbers.findKthSmallestNumber(new int[] { 1, 5, 12, 2, 11, 5 }, 3);
         System.out.println("Kth smallest number is: " + result_int);
     
@@ -114,14 +150,28 @@ public class TopKNumbers {
     
         result_int = TopKNumbers.findKthSmallestNumber(new int[] { 5, 12, 11, -1, 12 }, 3);
         System.out.println("Kth smallest number is: " + result_int);
+        System.out.println();
 
-        //Find the Kth smallest points
+        //Find K smallest points
+        System.out.println("FFind K smallest points");
         Point[] points = new Point[] { new Point(1, 3), new Point(3, 4), new Point(2, -1) };
         List<Point> result_point = TopKNumbers.findKClosestPoints(points, 2);
         for(int i = 0; i < result_point.size(); i++)
         {
             System.out.println("[" + result_point.get(i).x + ", " + result_point.get(i).y + "]");
         }//
+        System.out.println();
+
+        //Connect several ropes with minimum cost
+        System.out.println("Connect several ropes with minimum cost");
+        result_int = TopKNumbers.findConnectRopes(new int[] { 1, 3, 11, 5 });
+        System.out.println("Minimum cost to connect ropes: " + result_int);
+        result_int = TopKNumbers.findConnectRopes(new int[] { 3, 4, 5, 6 });
+        System.out.println("Minimum cost to connect ropes: " + result_int);
+        result_int = TopKNumbers.findConnectRopes(new int[] { 1, 3, 11, 5, 2 });
+        System.out.println("Minimum cost to connect ropes: " + result_int);
+        System.out.println();
+
 
     }//
 
