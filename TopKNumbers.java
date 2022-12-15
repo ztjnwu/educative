@@ -220,6 +220,7 @@ public class TopKNumbers {
 
     public static List<Integer> findKClosestNumbers(int[] arr, int K, int Y)
     {
+
         //Check validity
         if(arr == null)
         {
@@ -255,6 +256,100 @@ public class TopKNumbers {
         return result;
     }
 
+
+    public static List<Integer> findMaximumDistinctItems(int[] arr, int K)
+    {
+        //Check Validity
+        if(arr == null)
+        {
+            return null;
+        }//if
+
+        //Initiallization
+        Map<Integer, Integer> freMap = new HashMap<>();
+        for(int i = 0; i < arr.length; i++)
+        {
+            freMap.put(arr[i], freMap.getOrDefault(arr[i], 0) + 1);
+        }//for
+
+        PriorityQueue<Map.Entry<Integer, Integer>> minHeapbigger  = new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+        for(Map.Entry<Integer, Integer> entry : freMap.entrySet())
+        {
+            if(entry.getValue() >= 2)
+            {
+                minHeapbigger.offer(entry);
+            }
+        }// for
+
+
+        //Delete duplicate items
+        Map.Entry<Integer, Integer> temp_entry;
+        while(minHeapbigger.size() != 0 && K != 0)
+        {
+            temp_entry = minHeapbigger.poll();
+            int value = temp_entry.getValue();
+            if(value - 1 <= K)
+            {
+                freMap.put(temp_entry.getKey(), 1);
+                K -= value - 1;
+            }// if
+            else
+            {
+                K = 0;
+            }// else
+
+        }// while
+        
+        //return
+        List<Integer> result = new ArrayList<>();
+        if(K == 0)
+        {
+            for(Map.Entry<Integer, Integer> entry : freMap.entrySet())
+            {
+                if(entry.getValue() == 1)
+                {
+                    result.add(entry.getKey());
+                }//
+
+            }// for
+
+        }//if
+        else //K != 0 && size() == 0 this propatation definitely exists
+        {
+            for(Map.Entry<Integer, Integer> entry : freMap.entrySet())
+            {
+                if(entry.getValue() == 1)
+                {
+                    freMap.put(entry.getKey(), 0);
+                    K--;
+                    if(K == 0)
+                    {
+                        break;
+                    }
+                }
+                
+            }// if
+            
+            if( K == 0)
+            {
+                for(Map.Entry<Integer, Integer> entry : freMap.entrySet())
+                {
+                    if(entry.getValue() == 1)
+                    {
+                        result.add(entry.getKey());
+                    }// if
+                }// for
+            }//
+            else 
+            {
+                result = null;
+            }// else
+        }//
+
+        return result;
+    }
+
+
     public static void main(String[] argv)
     {
         //Find the largest numbers
@@ -280,7 +375,7 @@ public class TopKNumbers {
         System.out.println();
 
         //Find K smallest points
-        System.out.println("FFind K smallest points");
+        System.out.println("Find K smallest points");
         Point[] points = new Point[] { new Point(1, 3), new Point(3, 4), new Point(2, -1) };
         List<Point> result_point = TopKNumbers.findKClosestPoints(points, 2);
         for(int i = 0; i < result_point.size(); i++)
@@ -323,7 +418,17 @@ public class TopKNumbers {
         System.out.println("Find the closest numbers: " + TopKNumbers.findKClosestNumbers(new int[] { 5, 6, 7, 8, 9}, 3, 7));
         System.out.println("Find the closest numbers: " + TopKNumbers.findKClosestNumbers(new int[] { 4, 5, 6, 9 }, 3, 6));
         System.out.println("Find the closest numbers: " + TopKNumbers.findKClosestNumbers(new int[] { 4, 5, 6, 9 }, 3, 10));
+        System.out.println();
 
+        //Find the maximum distinct items
+        result_list = TopKNumbers.findMaximumDistinctItems(new int[] { 7, 3, 5, 8, 5, 3, 3 }, 2);
+        System.out.println("Maximum distinct numbers after removing K numbers: " + result_list);
+        result_list = TopKNumbers.findMaximumDistinctItems(new int[] { 3, 5, 12, 11, 12 }, 3);
+        System.out.println("Maximum distinct numbers after removing K numbers: " + result_list);
+        result_list = TopKNumbers.findMaximumDistinctItems(new int[] { 1, 2, 3, 3, 3, 3, 4, 4, 5, 5, 5 }, 2);
+        System.out.println("Maximum distinct numbers after removing K numbers: " + result_list);
+        System.out.println();
+    
     }//
 
 }//
