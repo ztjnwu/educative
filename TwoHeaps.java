@@ -117,6 +117,7 @@ public class TwoHeaps
 
     }//
 
+
     public static void insertHeaps(Integer num, PriorityQueue<Integer> maxHeap, PriorityQueue<Integer> minHeap)
     {
         //Insert num into targeted heaps
@@ -144,6 +145,47 @@ public class TwoHeaps
     }
 
 
+    public static int findMaximumProfits(int[] capitals, int[] profits, int K, int initCapital)
+    {
+        //Check validity
+        if(capitals == null || profits == null || K < 0 || initCapital < 0)
+        {
+            return -1;
+        }//
+
+
+        //Initialization
+        Map<Integer, Integer> capitalProfit = new HashMap<Integer, Integer>();
+        for(int i = 0; i < capitals.length; i++)
+        {
+            capitalProfit.put(capitals[i], profits[i]);
+        }//
+
+        //Initialization
+        PriorityQueue<Map.Entry<Integer, Integer>> minHeapCap    = new PriorityQueue<>((a, b) -> a.getKey() - b.getKey());
+        for(Map.Entry<Integer, Integer> entry : capitalProfit.entrySet())
+        {
+            minHeapCap.offer(entry);
+        }//
+
+        PriorityQueue<Map.Entry<Integer, Integer>> maxHeapProfit = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
+
+        //Find the projects whose capitals are less than currentCapital, 
+        //and then among which to find the projects whose profits are the biggest.
+        int currCapital = initCapital;
+        for(int j = 0; j < K; j++)
+        {
+            while(minHeapCap.size() != 0 && minHeapCap.peek().getKey() <= currCapital)
+            {
+                maxHeapProfit.offer(minHeapCap.poll());
+            }// while
+
+            currCapital += maxHeapProfit.peek().getValue();
+        }// for
+
+        //return
+        return currCapital;
+    }
 
     public static void main(String[] argv)
     {
@@ -174,6 +216,12 @@ public class TwoHeaps
         for (double num : result_double)
             System.out.print(num + " ");
         System.out.println();
+
+        //Find the maximum capitals
+        int result = TwoHeaps.findMaximumProfits(new int[] { 0, 1, 2 }, new int[] { 1, 2, 3 }, 2, 1);
+        System.out.println("Maximum capital: " + result);
+        result = TwoHeaps.findMaximumProfits(new int[] { 0, 1, 2, 3 }, new int[] { 1, 2, 3, 5 }, 3, 0);
+        System.out.println("Maximum capital: " + result);
         
     }
     
