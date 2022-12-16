@@ -116,13 +116,16 @@ public class SlideWindow {
 
     }
 
-    public static int basicOPT(int K, int[] arr) {
+    public static int basicOPT(int K, int[] arr) 
+    {
         // initialization
         int winS = 0, winE = 0;
 
         // loop
-        while (winE < arr.length) {
-            if (winE - winS + 1 == K) {
+        while (winE < arr.length) 
+        {
+            if (winE - winS + 1 == K) 
+            {
                 // to do
                 for (int i = winS; i <= winE; i++) {
                     System.out.print(" " + arr[i]);
@@ -130,14 +133,13 @@ public class SlideWindow {
                 System.out.println();
                 winE++; // slide the window forward
                 winS++;
-            } else {
-                // adjust slide window
-                if (winE - winS + 1 < K) {
+            } 
+            else if (winE - winS + 1 < K)  // adjust slide window
+                {
                     winE++;
                 }
                 // PLUS: winE - winS + 1 > does not exist!
-            }
-
+      
         } // while
 
         // return
@@ -181,17 +183,19 @@ public class SlideWindow {
         double max = Double.MIN_VALUE;
 
         // loop
-        while (winE < arr.length) {
-            if (winE - winS + 1 == K) {
+        while (winE < arr.length) 
+        {
+            if (winE - winS + 1 == K) 
+            {
                 winSum = Math.max(winSum, max);
                 winS++;
                 winE++;
-            } else {
-                if (winE - winS + 1 < K) {
-                    winE++;
-                    winSum += arr[winE];
-                }
-            }
+            }//
+            else if (winE - winS + 1 < K) 
+            {
+                winE++;
+                winSum += arr[winE];
+            }//
 
         } // while
 
