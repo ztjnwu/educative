@@ -32,9 +32,7 @@ public class XOR {
         //find missing number
         System.out.println("Finding Missing number");
         int[] arr = new int[] { 1, 5, 2, 6, 4 };
-        System.out.println("Missing number is: " + XOR.findMissingNumber(arr));
-
-
+        System.out.println("Missing number is: " + XOR.findMissingNumber(arr)); 
         //
     }
 

@@ -350,6 +350,87 @@ public class TopKNumbers {
     }
 
 
+    public static List<Integer> findAllNumbersK1AndK2(int[] arr, int K1, int K2)
+    {
+        //Check Validity
+        if(arr == null)
+        {
+            return null;
+        }//
+
+        //Initialization
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+        for(int i = 0; i < arr.length; i++)
+        {
+            maxHeap.offer(arr[i]);
+            if(maxHeap.size() > K2 - 1)
+            {
+                maxHeap.poll();
+            }//
+        }//
+
+        //Compute the sum
+        List<Integer> result = new ArrayList<>();
+        for(int k = 0; k < K2 - K1 -1; k++)
+        {
+            result.add(maxHeap.poll());
+        }//
+
+        //return
+        return result;
+    }
+
+
+    public static String rearrangeString(String str)
+    {
+        //Check Validity
+        if(str == null)
+        {
+            return null;
+        }//
+
+        //Initialization
+        Map<Character, Integer> freMap = new HashMap<>();
+        char[] arr = str.toCharArray();
+        for(int i = 0; i < arr.length; i++)
+        {
+            freMap.put(arr[i], freMap.getOrDefault(arr[i], 0) + 1);
+        }
+
+        //Initialization
+        PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
+        for(Map.Entry<Character, Integer> entry : freMap.entrySet())
+        {
+            maxHeap.offer(entry);
+        }//
+
+        //Build an arrangement of the targeted string
+        StringBuilder result = new StringBuilder();
+        Map.Entry<Character, Integer> previous = null;
+        Map.Entry<Character, Integer> current = null;
+        while(maxHeap.size() != 0)
+        {
+            current = maxHeap.poll();
+            if(previous != null)
+            {
+                if(previous.getValue() != 0)
+                {
+                    maxHeap.offer(previous);
+                }//
+            }//
+
+            result.append(current.getKey());
+
+            //update
+            current.setValue(current.getValue() - 1);
+            previous = current;
+        }//
+
+        //return
+        return result.length() == str.length() ? result.toString() : null;
+
+    }
+
     public static void main(String[] argv)
     {
         //Find the largest numbers
@@ -364,11 +445,9 @@ public class TopKNumbers {
         System.out.println("Find K smallest element");
         int result_int = TopKNumbers.findKthSmallestNumber(new int[] { 1, 5, 12, 2, 11, 5 }, 3);
         System.out.println("Kth smallest number is: " + result_int);
-        System.out.println();
     
         result_int = TopKNumbers.findKthSmallestNumber(new int[] { 1, 5, 12, 2, 11, 5 }, 4);
         System.out.println("Kth smallest number is: " + result_int);
-        System.out.println();
 
         result_int = TopKNumbers.findKthSmallestNumber(new int[] { 5, 12, 11, -1, 12 }, 3);
         System.out.println("Kth smallest number is: " + result_int);
@@ -421,6 +500,7 @@ public class TopKNumbers {
         System.out.println();
 
         //Find the maximum distinct items
+        System.out.println("FFind the maximum distinct items");
         result_list = TopKNumbers.findMaximumDistinctItems(new int[] { 7, 3, 5, 8, 5, 3, 3 }, 2);
         System.out.println("Maximum distinct numbers after removing K numbers: " + result_list);
         result_list = TopKNumbers.findMaximumDistinctItems(new int[] { 3, 5, 12, 11, 12 }, 3);
@@ -428,7 +508,20 @@ public class TopKNumbers {
         result_list = TopKNumbers.findMaximumDistinctItems(new int[] { 1, 2, 3, 3, 3, 3, 4, 4, 5, 5, 5 }, 2);
         System.out.println("Maximum distinct numbers after removing K numbers: " + result_list);
         System.out.println();
-    
+
+        //Find the number between K1 and K2;
+        System.out.println("Find the number between K1 and K2");
+        result_list = TopKNumbers.findAllNumbersK1AndK2(new int[] { 1, 3, 12, 5, 15, 11 }, 3, 6);
+        System.out.println("Sum of all numbers between k1 and k2 smallest numbers: " + result_list);
+        result_list = TopKNumbers.findAllNumbersK1AndK2(new int[] { 3, 5, 8, 7 }, 1, 4);
+        System.out.println("Sum of all numbers between k1 and k2 smallest numbers: " + result_list);
+        System.out.println();
+
+        //Rearrange a string;
+        System.out.println("Rearrange a string");
+        System.out.println("Rearranged string: " + TopKNumbers.rearrangeString("aappp"));
+        System.out.println("Rearranged string: " + TopKNumbers.rearrangeString("Programming"));
+        System.out.println("Rearranged string: " + TopKNumbers.rearrangeString("aapa"));
     }//
 
 }//
