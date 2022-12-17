@@ -10,12 +10,13 @@ public class Subsets {
             return null;
         }
 
-        //build subsets
+        //Initialization
         List<List<Integer>> subsets = new ArrayList<>();
         List<Integer> temp = new ArrayList<>();
-        subsets.add(temp);
+        subsets.add(temp); //int [] into subsets
         int startIndex = 0, endIndex = subsets.size() - 1;
 
+        //Build subsets
         for(int i = 0; i < arr.length; i++)
         {
             for(int j = startIndex; j <= endIndex; j++)
@@ -24,6 +25,7 @@ public class Subsets {
                 temp.add(arr[i]);
                 subsets.add(temp);
             }
+
             //update startIndex and endIndex
             startIndex = 0;
             endIndex = subsets.size() - 1;
@@ -36,7 +38,7 @@ public class Subsets {
 
     public static List<List<Integer>> createSubsetsWithoutDuplicateSubsets(int[] arr)
     {
-        //check validity
+        //Check Validity
         if(arr == null)
         {
             return null;
@@ -45,12 +47,13 @@ public class Subsets {
         //Sort arr out
         Arrays.sort(arr);
     
-        //Find the distinct subsets
+        //Initialization
         List<List<Integer>> results = new ArrayList<>();
         List<Integer> temp = new ArrayList<>();
-        results.add(temp);
+        results.add(temp); //Insert [] into results
         int startIndex = 0, endIndex = results.size() - 1;
-
+        
+        //Find the distinct subsets
         for(int i = 0; i < arr.length; i++)
         {
             for(int j = startIndex; j <= endIndex; j++)
@@ -60,12 +63,12 @@ public class Subsets {
                 results.add(temp);
             }//for
             
-            if(i + 1 < arr.length && arr[i + 1] == arr[i]) //not duplicate element
+            if(i + 1 < arr.length && arr[i + 1] == arr[i]) //Duplicate element
             {
                 startIndex = endIndex + 1; 
                 endIndex = results.size() - 1;
             }
-            else if(i + 1 < arr.length && arr[i + 1] != arr[i]) //
+            else if(i + 1 < arr.length && arr[i + 1] != arr[i]) //NOT Duplicate element
             {
                 startIndex = 0;
                 endIndex = results.size() - 1;
@@ -124,7 +127,6 @@ public class Subsets {
         return results;
 
     }//permutation
-
     
     public static List<String> findStringPermutation(String s)
     {
@@ -134,35 +136,30 @@ public class Subsets {
             return new ArrayList<>();
         }
 
-        //Find permuataion
+        //Initialization
         List<String> result = new ArrayList<>();
-        String temp = s;
-        result.add(temp);
+        result.add(s);
+    
+        //Find permuataion
         int startIndex = 0, endIndex = result.size() - 1;
-        System.out.println("length: " + s.length());
         for(int i = 0; i < s.length(); i++)
         {
-
             char chartemp = s.charAt(i);
             for(int j = startIndex; j <= endIndex; j++)
             {
-                temp = result.get(j);
-                if(chartemp >= '0' && chartemp <= '9')
+                StringBuilder temp = new StringBuilder(result.get(j));
+                if(chartemp >= 'a' && chartemp <= 'z')
                 {
-                    result.add(temp + chartemp);
+                    temp.setCharAt(i, Character.toUpperCase(chartemp));
+                    result.add(temp.toString());
                 }
-                else if(chartemp >= 'a' && chartemp <= 'z')
+                else if(chartemp >= 'A' && chartemp <= 'Z')
                 {
-                    result.add(temp + chartemp);
-                    result.add(temp.substring(temp.length()) + Character.toUpperCase(chartemp)); 
+                    temp.setCharAt(i, Character.toLowerCase(chartemp));
+                    result.add(temp.toString());
                 }
+                
             }//for
-
-            //update startIndex and endIndex
-            for(int k = startIndex; k < endIndex; k++)
-            {
-                result.remove(0);
-            }
 
             startIndex = 0;
             endIndex = result.size() - 1;
@@ -174,26 +171,100 @@ public class Subsets {
 
     }//
 
+
+    public static List<String> findParenthesisBalanced(int N)
+    {
+        //Check Validity
+        if(N < 0)
+        {
+            return null;
+        }//
+
+        //Initialization
+        Queue<String> queue = new LinkedList<>();
+        queue.add("(");
+        List<String> result = new ArrayList<>();
+
+        //Build balanced parenthesis
+        while(!queue.isEmpty())
+        {
+            int length = queue.size();
+            for(int k = 0; k < length; k++)
+            {
+                String temp  = queue.poll();
+                int openCount = 0, closeCount = 0;
+                for(int i = 0; i < temp.length(); i++)
+                {
+                    if(temp.charAt(i) == '(')
+                    {
+                        openCount++;
+                    }//
+
+                    if(temp.charAt(i) == ')')
+                    {
+                        closeCount++;
+                    }
+                }// for
+
+                //whether ( can be inserted into temp
+                if(openCount < N)
+                {
+                    StringBuilder templeft = new StringBuilder(temp);
+                    templeft.append('(');
+                    queue.add(templeft.toString());
+                }// if
+
+                //whether ) can be inserted into temp
+                if(openCount > closeCount)
+                {
+                    StringBuilder tempright = new StringBuilder(temp);
+                    tempright.append(')');
+                    queue.add(tempright.toString());
+                }// if
+
+                //Update the set of result
+                if(openCount == closeCount && openCount == N)
+                {
+                    result.add(temp.toString());
+                } 
+
+            }// for
+
+        }// while
+
+        //return
+        return result;
+    }// 
+
     public static void main(String[] args)
     {
         //Create subsets
         System.out.println("Create Subsets:");
         System.out.println("Here is the list of subsets: " + Subsets.createSubsets(new int[] { 1, 3 }));
         System.out.println("Here is the list of subsets: " + Subsets.createSubsets(new int[] { 1, 5, 3 }) + "\n");
+        System.out.println();
         
         //Find distinct subsets
         System.out.println("Create Subsets without duplicate subsets:");
         System.out.println("Here is the list of subsets: " + Subsets.createSubsetsWithoutDuplicateSubsets(new int[] { 1, 3, 3 }));
         System.out.println("Here is the list of subsets: " + Subsets.createSubsetsWithoutDuplicateSubsets(new int[] { 1, 5, 3, 3 }) + "\n");
+        System.out.println();
 
         //Find the permutation
         System.out.print("Here are all the permutations: " + Subsets.findPermutation(new int[] { 1, 3, 5 })+ "\n");
+        System.out.println();
 
         //Find string permutation
         System.out.println(" String permutations are: " + Subsets.findStringPermutation("ad52"));
         System.out.println(" String permutations are: " + Subsets.findStringPermutation("ab7c"));    
+        System.out.println();
 
-    }//main
-
+        //Balance parenthesis
+        List<String> result_string = Subsets.findParenthesisBalanced(2);
+        System.out.println("All combinations of balanced parentheses are: " + result_string);
+    
+        result_string = Subsets.findParenthesisBalanced(3);
+        System.out.println("All combinations of balanced parentheses are: " + result_string);
+    }// main
     
 }//Class
