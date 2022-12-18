@@ -239,24 +239,8 @@ public class ModifiedBinarySearch {
                 start = mid + 1;
             }
             else if(reader.get(mid) > key)
-            {hile(start <= end)
-        {
-            int mid = start + (end - start) / 2;
-            if(reader.get(mid) < key)
-            {
-                start = mid + 1;
-            }
-            else if(reader.get(mid) > key)
             {
                 end = mid - 1;
-            }
-            else // 
-            {
-                result = mid;
-                break;
-            }
-        }//
-
             }
             else // 
             {
