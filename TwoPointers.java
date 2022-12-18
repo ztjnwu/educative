@@ -28,6 +28,7 @@ public class TwoPointers {
         return result;
     }
     
+    
     public static int[] basicDoubleSubsetTargetOPT(int targetSum, int[] arr){
         int pl = 0, pr = arr.length - 1;
         int[] result = new int[2];
