@@ -139,6 +139,7 @@ public class ModifiedBinarySearch {
         }//
 
         //return
+        //start points to the smallest number greater than the key, while end points to the biggest number smaller than the key.
         return arr[start % arr.length];
     }
 
@@ -164,11 +165,12 @@ public class ModifiedBinarySearch {
 
     }//
 
+
     private static int findRangeOfSomeNumber(int[] arr, int key, int searchCount)
     {
         //Check Validity
         if(arr == null)
-        {
+        { 
             return -1;
         }//
 
@@ -190,6 +192,7 @@ public class ModifiedBinarySearch {
             }
             else 
             {
+                result = mid;
                 if(searchCount == 1)
                 {
                     end = mid - 1;
@@ -203,35 +206,74 @@ public class ModifiedBinarySearch {
         }//
 
         //Update result
-        //if found, start is the first position, and end is the last position
-        if(searchCount == 1)
-        {
-            if(arr[start] == key)
-            {
-                result = start;
-            }
-            else 
-            {
-                result = -1;
-            }//
-        }//
-        
-        if(searchCount == 2)
-        {
-            if(arr[end] == key)
-            {
-                result = end;
-            }
-            else 
-            {
-                result = -1;
-            }
-        }//
-
         return result;
+
     }//
 
     
+    public static int findNumberInInfiniteArray(ArrayReader reader, int key)
+    {
+        //Check Validity
+        if(reader == null)
+        {
+            return -1;
+        }//
+
+        //Find the proper bounds of the array
+        int start = 0, end = 0; //assume that there is the only one element in the infinite array
+        while(reader.get(end) < key)
+        {
+            int length = (end - start + 1) * 2;
+            start = end + 1;
+            end = start + length - 1;
+            //System.out.println(start + " " + end );
+        }//
+
+        //
+        int result = -1;
+        while(start <= end)
+        {
+            int mid = start + (end - start) / 2;
+            if(reader.get(mid) < key)
+            {
+                start = mid + 1;
+            }
+            else if(reader.get(mid) > key)
+            {hile(start <= end)
+        {
+            int mid = start + (end - start) / 2;
+            if(reader.get(mid) < key)
+            {
+                start = mid + 1;
+            }
+            else if(reader.get(mid) > key)
+            {
+                end = mid - 1;
+            }
+            else // 
+            {
+                result = mid;
+                break;
+            }
+        }//
+
+            }
+            else // 
+            {
+                result = mid;
+                break;
+            }
+        }//
+
+        //return
+        if(start > end)
+        {
+            result = -1;
+        }
+
+        return result;
+    }
+
     public static void main(String[] args)
     {
         //Search for a number
@@ -272,11 +314,41 @@ public class ModifiedBinarySearch {
         System.out.println("result_list " + result_list);
         result_list = ModifiedBinarySearch.findRangeOfSomeNumber(new int[] { 25, 25, 25, 25, 25 }, 25);
         System.out.println("result_list " + result_list);
+        System.out.println();
 
+        //Find the targeted number in a infinitie array
+        System.out.println("Find the range of targeted number!");
+        ArrayReader reader = new ArrayReader(new int[] { 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 });
+        System.out.println(ModifiedBinarySearch.findNumberInInfiniteArray(reader, 16));
+        System.out.println(ModifiedBinarySearch.findNumberInInfiniteArray(reader, 11));
+        reader = new ArrayReader(new int[] { 1, 3, 8, 10, 15 });
+        System.out.println(ModifiedBinarySearch.findNumberInInfiniteArray(reader, 15));
+        System.out.println(ModifiedBinarySearch.findNumberInInfiniteArray(reader, 200));
 
-
-        
     }//main
 
     
-}
+}// class
+
+
+class ArrayReader 
+{
+    int[] arr;
+  
+    ArrayReader(int[] arr) 
+    {
+        this.arr = arr;
+    }//
+  
+    public int get(int index) 
+    {
+        if (index >= arr.length)
+        {
+            return Integer.MAX_VALUE;
+        }
+
+        return arr[index];
+    }//
+
+}//
+  

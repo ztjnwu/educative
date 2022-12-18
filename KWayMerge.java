@@ -1,6 +1,7 @@
 import java.util.*;
 
-public class KWayMerge {
+public class KWayMerge 
+{
     public static ListNode mergeKWayList(List<List<ListNode>> lists)
     {
         //Check validity
@@ -86,6 +87,7 @@ public class KWayMerge {
         return result;
 
     }
+
 
     public static int findKthSmallestInMatrix(int[][] matrix, int K)
     {
@@ -181,6 +183,9 @@ public class KWayMerge {
         result_int = KWayMerge.findKthSmallestInMatrix(matrix, 5);
         System.out.print("Kth smallest number is: " + result_int);
         System.out.println();
+
+
+        
         
     }//public
     
