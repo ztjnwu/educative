@@ -243,7 +243,7 @@ public class ModifiedBinarySearch {
         System.out.println(ModifiedBinarySearch.searchNumber(new int[] { 10, 6, 4 , 1}, 1));
         System.out.println();
 
-        
+
         //Find Ceiling
         System.out.println("find the ceiling of a given number");
         System.out.println(ModifiedBinarySearch.searchCeiling(new int[] { 4, 6, 10 }, 6));
@@ -272,7 +272,11 @@ public class ModifiedBinarySearch {
         System.out.println("result_list " + result_list);
         result_list = ModifiedBinarySearch.findRangeOfSomeNumber(new int[] { 25, 25, 25, 25, 25 }, 25);
         System.out.println("result_list " + result_list);
-    }
+
+
+
+        
+    }//main
 
     
 }
