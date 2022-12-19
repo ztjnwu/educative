@@ -1,50 +1,45 @@
 import java.util.*;
 
 public class TwoPointers {
-    
-    //itereate through all the subsets of 2 elements that are subject to given factors.
-    public static int[] basicDoubleSubsetTarget(int targetSum, int[] arr){
-        int pL = 0, pR = arr.length - 1;
-        int[] result = new int[2];
-        while(pL < pR){
-            int curSum = arr[pL] + arr[pR];
 
-            if(curSum < targetSum){
-                pL++;
-            }
-            else if(curSum > targetSum){
-                pR--;
-            }
-            else {// curSum == targetSum
-                result[0] = arr[pL];
-                result[1] = arr[pR];
-                pL++;
-                pR--;
-                System.out.print("["+ result[0] + ", " + result[1] + "]");
-            }
-        }
+    public static List<Integer> basicDoubleSubsetTargetOPT(int[] arr, int targetSum)
+    {
+        //Check Validity
+        if(arr == null)
+        {
+            return null;
+        }//
 
-        //return 
-        return result;
-    }
-    
-    
-    public static int[] basicDoubleSubsetTargetOPT(int targetSum, int[] arr){
-        int pl = 0, pr = arr.length - 1;
-        int[] result = new int[2];
-        while(pl < pr){
-            if(arr[pr] + arr[pl] == targetSum){
-                System.out.println("[" + arr[pl] + "," + arr[pr] + "]");
-                result[0] = arr[pl];
-                result[1] = arr[pr];
-                pl++;
-                pr--;
+        //Initialization
+        int l = 0, r = arr.length - 1;
+        List<Integer> result = new ArrayList<>();
+
+        //find a pair with a smaller sum
+        while(l < r)
+        {
+            if(arr[l] + arr[r] == targetSum)
+            {
+                result.add(arr[l]);
+                result.add(arr[r]);
+                while((l + 1 < r) && (arr[l] == arr[l + 1]))
+                {
+                    l++;
+                }//
+                l++;
+
+                while((r - 1 > l) && arr[r] == arr[r - 1])
+                {
+                    r--;
+                }//
+                r--;
             }
-            else if(arr[pl] + arr[pr] < targetSum){
-                pl++;
+            else if(arr[l] + arr[r] < targetSum)
+            {
+                l++;
             }
-            else {
-                pr--;
+            else 
+            {
+                r--;
             }
             
         }//while
@@ -53,53 +48,44 @@ public class TwoPointers {
         return result;
     }
 
-    public static int basicRemoveDuplicate(int[] arr){
-        int pL = 0, pR = 1;
-        while(pR < arr.length){
-            if(arr[pR] == arr[pL]){
-                pR++;
-            }
-            else {
-                pL++;
-                arr[pL] = arr[pR];
-                pR++;
-            }
-        }
+
+    public static List<Integer> basicRemoveDuplicate(int[] arr)
+    {
+        //Chcek Validity
+        if(arr == null)
+        {
+            return null;
+        }// if
+
+        //Initilaization
+        int l = 0, r = 1;
+
+        //Remove duplicate numbers
+        while(r < arr.length)
+        {
+            while((r < arr.length) && (arr[r] == arr[l]))
+            {
+                r++;
+            }//
+            
+            if((r < arr.length) && arr[r] != arr[l])
+            {
+                l++;
+                arr[l] = arr[r];
+                r++;
+            }//
+
+        }// while
     
         //return
-        for(int i = 0; i <= pL; i++){
-            System.out.print(" "+ arr[i]);
+        List<Integer> result = new ArrayList<>();
+        for(int i = 0; i <= l; i++)
+        {
+            result.add(arr[i]);
         }
-        
-        return pL;
+        return result;
     }
      
-    public static int basicRemoveDuplicateCharacter(int K, int[] arr){
-        //base check
-        if(arr.length < 0 || arr == null){
-            return -1;
-        }
-
-        //initialization
-        int pL = -1, pR = 0;
-        while(pR < arr.length){
-            if(arr[pR] == K){
-                pR++;
-            }
-            else {
-                pL++;
-                arr[pL] = arr[pR];
-                pR++;
-            }
-        }
-
-        //return
-        for(int i = 0; i <= pL; i++){
-            System.out.print(" " + arr[i]);
-        }
-        System.out.println();
-        return pL;
-    }
 
     public static int basicSquareArray(int[] arr){
         int pL = 0, pR = 1;
@@ -128,6 +114,7 @@ public class TwoPointers {
         }
         return 1;
     }
+
 
     public static int[] basicSquareOptimization(int[] arr){
         //base check
@@ -160,6 +147,7 @@ public class TwoPointers {
         return result;
     }
     
+
     public static List<List<Integer>> basicTripleSubsetZero(int[] arr){
         //base check
         if(arr.length == 0 || arr == null){
@@ -181,6 +169,7 @@ public class TwoPointers {
         //return
         return result;
     }
+
 
     public static boolean searchSum(int[] arr, int sum, int start, List<List<Integer>> result){
         //base check
@@ -219,6 +208,7 @@ public class TwoPointers {
         //return
         return true;
     }
+
 
     public static boolean basicTripleSubsetTarget(int arr[], int target){
         //base check
@@ -263,15 +253,15 @@ public class TwoPointers {
         return true;
     }
 
+
     public static boolean basicTripleSubsetLessThanTarget(int arr[], int target){
         //base check
         if(arr == null || arr.length < 0){
-            return false;
-        }
+            return false;3,
 
         //Sort
         Arrays.sort(arr);
-
+        
         //Loop
         int pL = 1, pR = arr.length - 1;
         int num = 0;
@@ -294,6 +284,7 @@ public class TwoPointers {
         System.out.println("num: " + num);
         return true;
     }
+
 
     public static boolean basicSubarrayProductLessThanTarget(int arr[], int target){
         //base check
@@ -335,6 +326,7 @@ public class TwoPointers {
         return true;
     }
 
+
     public static boolean basicSortThreeElements(int arr[]){
         //base check
         if(arr == null || arr.length <= 0){
@@ -370,29 +362,22 @@ public class TwoPointers {
 
 
     public static void main(String[] args){
-        System.out.println("Get Sum");
-        int[] result = TwoPointers.basicDoubleSubsetTarget(6, new int[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6});
-        System.out.println("Pair with target sum: [" + result[0] + ", " + result[1] + "]");
-        result = TwoPointers.basicDoubleSubsetTarget(11, new int[] { 2, 5, 9, 11 });
-        System.out.println("Pair with target sum: [" + result[0] + ", " + result[1] + "]");
-        System.out.println();
-
-
+    
         System.out.println("Get Sum OPT");
-        int[] result1 = TwoPointers.basicDoubleSubsetTargetOPT(6, new int[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6});
-        System.out.println("Pair with target sum: [" + result1[0] + ", " + result1[1] + "]");
-        result = TwoPointers.basicDoubleSubsetTargetOPT(11, new int[] { 2, 5, 9, 11 });
-        System.out.println("Pair with target sum: [" + result1[0] + ", " + result1[1] + "]");
+        List<Integer> result = TwoPointers.basicDoubleSubsetTargetOPT(new int[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6}, 6);
+        System.out.println("Pair with target sum: " + result);
+        result = TwoPointers.basicDoubleSubsetTargetOPT(new int[] { 2, 5, 9, 11 }, 11);
+        System.out.println("Pair with target sum:" + result);
         System.out.println();
 
         System.out.println("Remove duplicate elements");
-        System.out.println(" Last index:" + TwoPointers.basicRemoveDuplicate(new int[] {2, 3, 3, 3, 6, 9, 9}));
-        System.out.println(" Last index:" + TwoPointers.basicRemoveDuplicate(new int[] {2, 2, 2, 11}));
+        System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {2, 3, 3, 3, 6, 9, 9}));
+        System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {2, 2, 2, 11}));
         System.out.println();
         
         System.out.println("Remove duplicate number K ");
-        System.out.println(" Last index:" + TwoPointers.basicRemoveDuplicateCharacter(3, new int[] { 3, 2, 3, 6, 3, 10, 9, 3 }));
-        System.out.println(" Last index:" + TwoPointers.basicRemoveDuplicateCharacter(2, new int[] { 2, 11, 2, 2, 1 }));
+        //System.out.println(" Last index:" + TwoPointers.basicRemoveDuplicateCharacter(3, new int[] { 3, 2, 3, 6, 3, 10, 9, 3 }));
+        //System.out.println(" Last index:" + TwoPointers.basicRemoveDuplicateCharacter(2, new int[] { 2, 11, 2, 2, 1 }));
         System.out.println();
 
         System.out.println("Square elements");

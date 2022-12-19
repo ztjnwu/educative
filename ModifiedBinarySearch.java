@@ -258,6 +258,90 @@ public class ModifiedBinarySearch {
         return result;
     }
 
+    public static int findMinDiffElement(int[] arr, int key)
+    {
+        //Check validity
+        if(arr == null)
+        {
+            return -1;
+        }
+
+        //Initialization
+        int start = 0, end = arr.length - 1;
+        int mid = Integer.MAX_VALUE;
+        while(start <= end)
+        {
+            mid = start + (end - start) / 2;
+            if(arr[mid] < key)
+            {
+                start = mid + 1;
+            }
+            else if(arr[mid] > key)
+            {
+                end = mid - 1;
+            }
+            else 
+            {
+                break;
+            }//
+        }//
+
+        //return
+        int result = Integer.MIN_VALUE;
+        if(start <= end)
+        {
+            result = arr[mid];
+        }//
+        else 
+        {
+            if(start == arr.length)
+            {
+                result = arr[arr.length - 1];
+            }
+
+            if(end == -1)
+            {
+                result = arr[0];
+            }
+            
+            if(start <= arr.length -1 && end >= 0)
+            {
+                result = Math.abs(arr[start] - key) > Math.abs(arr[end] - key) ? arr[end] : arr[start];  
+            }
+            
+        }//
+
+        return result;
+    }
+
+    public static int findMaximumInBotinicArray(int[] arr)
+    {
+        //Check Validity
+        if(arr == null)
+        {
+            return -1;    
+        }
+
+        //Initialization
+        int start = 0, end = arr.length - 1;
+        while(start < end)
+        {
+            int mid = start + (end - start) / 2;
+            if(arr[mid] < arr[mid + 1])
+            {
+                start = mid + 1;
+            }
+            else
+            {
+                end = mid;
+            }
+        }//
+
+        //return 
+        return arr[start];
+
+    }
+
     public static void main(String[] args)
     {
         //Search for a number
@@ -308,6 +392,26 @@ public class ModifiedBinarySearch {
         reader = new ArrayReader(new int[] { 1, 3, 8, 10, 15 });
         System.out.println(ModifiedBinarySearch.findNumberInInfiniteArray(reader, 15));
         System.out.println(ModifiedBinarySearch.findNumberInInfiniteArray(reader, 200));
+        System.out.println();
+
+        //Find the minimum difference 
+        System.out.println("Find the minimum difference !");
+        System.out.println(ModifiedBinarySearch.findMinDiffElement(new int[] { 4, 6, 10 }, 7));
+        System.out.println(ModifiedBinarySearch.findMinDiffElement(new int[] { 4, 6, 10 }, 4));
+        System.out.println(ModifiedBinarySearch.findMinDiffElement(new int[] { 1, 3, 8, 10, 15 }, 12));
+        System.out.println(ModifiedBinarySearch.findMinDiffElement(new int[] { 4, 6, 10 }, 17));
+        System.out.println();
+
+        //Find the maximum in a botinic array
+        System.out.println("Find the maximum in a botinic array!");
+        System.out.println(ModifiedBinarySearch.findMaximumInBotinicArray(new int[] { 1, 3, 8, 8, 12, 4, 2 }));
+        System.out.println(ModifiedBinarySearch.findMaximumInBotinicArray(new int[] { 3, 8, 3, 1 }));
+        System.out.println(ModifiedBinarySearch.findMaximumInBotinicArray(new int[] { 1, 3, 8, 12 }));
+        System.out.println(ModifiedBinarySearch.findMaximumInBotinicArray(new int[] { 10, 9, 8 }));
+        System.out.println();
+
+
+
 
     }//main
 
