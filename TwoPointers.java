@@ -14,25 +14,27 @@ public class TwoPointers {
         int l = 0, r = arr.length - 1;
         List<Integer> result = new ArrayList<>();
 
-        //find a pair with a smaller sum
+        //Find a pair with a smaller sum
         while(l < r)
         {
             if(arr[l] + arr[r] == targetSum)
             {
                 result.add(arr[l]);
                 result.add(arr[r]);
-                while((l + 1 < r) && (arr[l] == arr[l + 1]))
+
+                l++;
+                while(l < r && arr[l] == arr[l - 1])
                 {
                     l++;
                 }//
-                l++;
-
-                while((r - 1 > l) && arr[r] == arr[r - 1])
+               
+                r--;
+                while(r > l && arr[r] == arr[r - 1])
                 {
                     r--;
                 }//
-                r--;
-            }
+
+            }//
             else if(arr[l] + arr[r] < targetSum)
             {
                 l++;
@@ -57,21 +59,23 @@ public class TwoPointers {
             return null;
         }// if
 
-        //Initilaization
+        //Initialization
         int l = 0, r = 1;
 
         //Remove duplicate numbers
         while(r < arr.length)
         {
-            while((r < arr.length) && (arr[r] == arr[l]))
+            if(arr[r] == arr[l])
             {
                 r++;
             }//
-            
-            if((r < arr.length) && arr[r] != arr[l])
+            else 
             {
+                //add one element to the taile of the left part with distinct elements
                 l++;
                 arr[l] = arr[r];
+
+                //update r
                 r++;
             }//
 
@@ -83,9 +87,46 @@ public class TwoPointers {
         {
             result.add(arr[i]);
         }
+
         return result;
-    }
+
+    }//
      
+
+    public static List<Integer> basicRemoveDuplicateCharacter(int[] arr, int key)
+    {
+        //Check Validity
+        if(arr == null)
+        {
+            return null;
+        }
+
+        //Initialization
+        int l = -1, r = 0;
+        
+        //Remove
+        while(r < arr.length)
+        {
+            if(arr[r] != key)
+            {
+                l++;
+                arr[l] = arr[r];
+            }//
+            
+            r++;
+        }//
+
+        //return
+        List<Integer> result = new ArrayList<>();
+        for(int i = 0; i <= l; i++)
+        {
+            result.add(arr[i]);
+        }//
+
+        return result;
+
+    }//
+
 
     public static int basicSquareArray(int[] arr){
         int pL = 0, pR = 1;
@@ -370,30 +411,40 @@ public class TwoPointers {
         System.out.println("Pair with target sum:" + result);
         System.out.println();
 
+
         System.out.println("Remove duplicate elements");
         System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {2, 3, 3, 3, 6, 9, 9}));
         System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {2, 2, 2, 11}));
+        System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {1, 5, 5, 6, 6, 9, 9}));
+        System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {2, 2, 2, 11, 11, 3}));
         System.out.println();
         
-        System.out.println("Remove duplicate number K ");
-        //System.out.println(" Last index:" + TwoPointers.basicRemoveDuplicateCharacter(3, new int[] { 3, 2, 3, 6, 3, 10, 9, 3 }));
-        //System.out.println(" Last index:" + TwoPointers.basicRemoveDuplicateCharacter(2, new int[] { 2, 11, 2, 2, 1 }));
+
+        System.out.println("Remove duplicate number key ");
+        System.out.println(TwoPointers.basicRemoveDuplicateCharacter(new int[] { 3, 3, 3, 6, 3, 10, 9, 3 }, 3));
+        System.out.println(TwoPointers.basicRemoveDuplicateCharacter(new int[] { 2, 11, 2, 2, 1 }, 2));
+        System.out.println(TwoPointers.basicRemoveDuplicateCharacter(new int[] {1, 5, 5, 6, 6, 9, 9}, 6));
+        System.out.println(TwoPointers.basicRemoveDuplicateCharacter(new int[] {2, 2, 2, 11, 11, 3}, 11));
         System.out.println();
+
 
         System.out.println("Square elements");
         System.out.println(" Last index:" + TwoPointers.basicSquareArray(new int[] {-2, -1, 1, 2, 3}));
         System.out.println(" Last index:" + TwoPointers.basicSquareArray(new int[] {-3, -1, 1, 1, 2}));
         System.out.println();
 
+
         System.out.println("Square elements OPTIMIZATION");
         System.out.println(" Last index:" + TwoPointers.basicSquareOptimization(new int[] {-2, -1, 1, 2, 3}));
         System.out.println(" Last index:" + TwoPointers.basicSquareOptimization(new int[] {-3, -1, 1, 1, 2}));
         System.out.println();
         
+
         System.out.println("Triple Subsets");
         System.out.println(TwoPointers.basicTripleSubsetZero(new int[] { -3, 0, 1, 2, -1, 1, -2 }));
         System.out.println(TwoPointers.basicTripleSubsetZero(new int[] { -5, 2, -1, -2, 3 }));
         System.out.println();
+
 
         System.out.println("Closet Distance ");
         System.out.println(TwoPointers.basicTripleSubsetTarget(new int[] { -2, 0, 1, 2 }, 2));
@@ -401,18 +452,22 @@ public class TwoPointers {
         System.out.println(TwoPointers.basicTripleSubsetTarget(new int[] { 1, 0, 1, 1 }, 100));
         System.out.println();
 
+
         System.out.println("Sum < Target ");
         System.out.println(TwoPointers.basicTripleSubsetLessThanTarget(new int[] { -1, 0, 2, 3 }, 3));
         System.out.println(TwoPointers.basicTripleSubsetLessThanTarget(new int[] { -1, 4, 2, 1, 3 }, 5));
         System.out.println();
         
+
         System.out.println("Product < Target ");
         System.out.println(TwoPointers.basicSubarrayProductLessThanTarget(new int[] { 2, 5, 3, 10 }, 30));
         System.out.println(TwoPointers.basicSubarrayProductLessThanTarget(new int[] { 8, 2, 6, 5 }, 50));
         System.out.println();
 
+
         System.out.println("Sort 3 types of elements ");
         System.out.println(TwoPointers.basicSortThreeElements(new int[] { 1, 0, 2, 1, 0 }));
         System.out.println(TwoPointers.basicSortThreeElements(new int[] { 2, 2, 0, 1, 2, 0 }));
+
     }
 }//Class
