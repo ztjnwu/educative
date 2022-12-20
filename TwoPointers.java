@@ -29,7 +29,7 @@ public class TwoPointers {
                 }//
                
                 r--;
-                while(r > l && arr[r] == arr[r - 1])
+                while(r > l && arr[r] == arr[r + 1])
                 {
                     r--;
                 }//
@@ -128,126 +128,112 @@ public class TwoPointers {
     }//
 
 
-    public static int basicSquareArray(int[] arr){
-        int pL = 0, pR = 1;
-        arr[0] = arr[0] * arr[0];
-
-        while(pR < arr.length){
-            int curSquare = arr[pR] * arr[pR];
-            if(curSquare >= arr[pL]){
-                arr[pR] = curSquare;
-            }
-            else {
-                int i = pR - 1;
-                while(i >= 0 &&  arr[i] > curSquare){
-                    arr[i + 1] = arr[i];
-                    i--;
-                }
-                arr[i + 1] = curSquare;
-            }
-            pL++;
-            pR++;
-        } 
-
-        //return
-        for(int i = 0; i < arr.length;i++){
-            System.out.print(" " + arr[i] + " ");
-        }
-        return 1;
-    }
-
-
-    public static int[] basicSquareOptimization(int[] arr){
-        //base check
-        if(arr.length < 0){
+    public static List<Integer> basicSquareOptimization(int[] arr)
+    {
+        //Base check
+        if(arr == null)
+        {
             return null;
-        }
+        }//
 
-        //initialization
-        int[] result = new int[arr.length];
-        int index = arr.length;
-        int pL = 0, pR = arr.length - 1;
-        while(pL < pR){
-            index--;
-            if(arr[pR] * arr[pR] > arr[pL] * arr[pL]){
-                result[index] = arr[pR] * arr[pR];
-                pR--;
-            }
-            else {
-                result[index] = arr[pL] * arr[pL];
-                pL++;
-            }
-        }
-        index--; 
-        result[index] = arr[pL];
+        //Initialization
+        List<Integer> result = new ArrayList<>();
+        int l = 0, r = arr.length - 1;
+
+        //Square the elements
+        while(l <= r)
+        {
+            if(arr[l] * arr[l] > arr[r] * arr[r])
+            {
+                result.add(0, arr[l] * arr[l]);
+                l++;
+            }// if
+            else 
+            {
+                result.add(0, arr[r] * arr[r]);
+                r--;
+            }// else
+        }//
 
         //return
-        for(int i = 0; i < arr.length;i++){
-            System.out.print(" " + result[i] + " ");
-        }
         return result;
     }
-    
 
-    public static List<List<Integer>> basicTripleSubsetZero(int[] arr){
-        //base check
-        if(arr.length == 0 || arr == null){
+
+    public static List<List<Integer>> basicTripleSubsetZero(int[] arr)
+    {
+        //Base check
+        if(arr == null)
+        {
             return null;
         }
 
-        //sort arr
+        //Initialization
         Arrays.sort(arr);
-        
-        //detect the triple subset
         List<List<Integer>> result = new ArrayList<>();
-        searchSum(arr, arr[0], 1, result);
-        for(int i = 1; i < arr.length; i++){
-            if(arr[i] != arr[i - 1]){
-                searchSum(arr, arr[i], i + 1, result);
-            }
-        }
+
+        //detect the triple subset
+        for(int i = 0; i < arr.length; i++)
+        {
+            if(i == 0)
+            {    
+                searchSum(arr, -arr[0], 1, result);
+            }//
+            else 
+            {
+                searchSum(arr, -arr[i], i + 1, result);
+            }//
+        }//
         
         //return
         return result;
     }
 
 
-    public static boolean searchSum(int[] arr, int sum, int start, List<List<Integer>> result){
-        //base check
-        if(arr.length <= 0){
-            return false;
-        }
+    public static void searchSum(int[] arr, int sum, int start, List<List<Integer>> result)
+    {
+        //Base check
+        if(arr == null)
+        {
+            return;
+        }//
 
-        //loop
-        int pL, pR;
-        pL = start;
-        pR = arr.length - 1;
-        while(pL < pR){
-            if(sum + arr[pL] + arr[pR] == 0){
-                result.add(Arrays.asList(arr[pL], arr[pR], sum));
-                while(pL < pR && arr[pL] == arr[pL + 1]){
-                    pL++;
-                }
-                if(pL < pR){
-                    pL++;
-                }
-                while(pL < pR && arr[pR] == arr[pR - 1]){
-                    pR--;
-                }
-                if(pL < pR){
-                    pR--;
-                }
+        //Initialization
+        int l = start, r = arr.length - 1;
+        
+        //Find sum
+        while(l < r)
+        {
+            if(arr[l] + arr[r] == sum)
+            {
+                result.add(Arrays.asList(arr[l], arr[r], -sum));
+
+                l++;
+                while(l < r && arr[l] == arr[l - 1])
+                {
+                    l++;
+                }//
+
+                r--;
+                while(l < r && arr[r] == arr[r + 1])
+                {
+                    r--;
+                }//
+
+            }//
+            else if(arr[l] + arr[r] < sum )
+            {
+                l++;
             }
-            else if(sum + arr[pL] + arr[pR] < 0){
-                pL++;
-            }
-            else {//sum + arr[pL] + arr[pR] > 0
-                pR--;
-            }
-        }
+            else 
+            {// arr[l] + arr[r] > sum
+                r--;
+            }//
+
+        }//
         
         //return
-        return true;
+        return;
     }
 
 
@@ -297,8 +283,10 @@ public class TwoPointers {
 
     public static boolean basicTripleSubsetLessThanTarget(int arr[], int target){
         //base check
-        if(arr == null || arr.length < 0){
-            return false;3,
+        if(arr == null || arr.length < 0)
+        {
+            return false;
+        }
 
         //Sort
         Arrays.sort(arr);
@@ -381,10 +369,7 @@ public class TwoPointers {
         while(i < pR){// make sure the index of i is less than the right bound of the array
             System.out.println(" " + arr[i]);
             if(arr[i] == 0){
-                arr[i] = 1;
-                arr[pL + 1] = 0;
-                pL++;
-                i++;
+                arr[i] = 1;{2, 2, 2
             }
             else if(arr[i] == 2){
                 arr[i] = arr[pR - 1];
@@ -427,22 +412,15 @@ public class TwoPointers {
         System.out.println(TwoPointers.basicRemoveDuplicateCharacter(new int[] {2, 2, 2, 11, 11, 3}, 11));
         System.out.println();
 
-
         System.out.println("Square elements");
-        System.out.println(" Last index:" + TwoPointers.basicSquareArray(new int[] {-2, -1, 1, 2, 3}));
-        System.out.println(" Last index:" + TwoPointers.basicSquareArray(new int[] {-3, -1, 1, 1, 2}));
-        System.out.println();
-
-
-        System.out.println("Square elements OPTIMIZATION");
-        System.out.println(" Last index:" + TwoPointers.basicSquareOptimization(new int[] {-2, -1, 1, 2, 3}));
-        System.out.println(" Last index:" + TwoPointers.basicSquareOptimization(new int[] {-3, -1, 1, 1, 2}));
+        System.out.println(TwoPointers.basicSquareOptimization(new int[] {-2, -1, 1, 2, 3}));
+        System.out.println(TwoPointers.basicSquareOptimization(new int[] {-5, -4, -3, -2, -1, 0, 1, 1, 2}));
         System.out.println();
         
 
         System.out.println("Triple Subsets");
-        System.out.println(TwoPointers.basicTripleSubsetZero(new int[] { -3, 0, 1, 2, -1, 1, -2 }));
-        System.out.println(TwoPointers.basicTripleSubsetZero(new int[] { -5, 2, -1, -2, 3 }));
+        System.out.println(TwoPointers.basicTripleSubsetZero(new int[] { -3, 0, 1, 2, -1, 1, -2, 3, 4, 5 }));
+        System.out.println(TwoPointers.basicTripleSubsetZero(new int[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6}));
         System.out.println();
 
 
