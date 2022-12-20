@@ -2,7 +2,7 @@ import java.util.*;
 
 public class TwoPointers {
 
-    public static List<Integer> basicDoubleSubsetTargetOPT(int[] arr, int targetSum)
+    public static List<List<Integer>> findPairs(int[] arr, int targetSum)
     {
         //Check Validity
         if(arr == null)
@@ -11,37 +11,42 @@ public class TwoPointers {
         }//
 
         //Initialization
+        //r in [l + 1, arr.length - 1]
         int l = 0, r = arr.length - 1;
-        List<Integer> result = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
 
         //Find a pair with a smaller sum
-        while(l < r)
+        while(r > l)
         {
-            if(arr[l] + arr[r] == targetSum)
+            if(arr[l] + arr[r] == targetSum) // arr[l] + arr[r - 1] < targetsum, arr[l] + arr[r - 2] < targetsum, .....arr[l + 1] + arr[r - 2] < targetsum 
             {
-                result.add(arr[l]);
-                result.add(arr[r]);
+                //Add the pair [arr[l], arr[r]] to the set of result
+                result.add(Arrays.asList(arr[l], arr[r]));
 
+                //Find the next pair
                 l++;
-                while(l < r && arr[l] == arr[l - 1])
+                //Skip duplicate elements
+                while(r > l && arr[l] == arr[l - 1])
                 {
                     l++;
                 }//
-               
+                
+                //Find the duplicate elements
                 r--;
+                //Skip duplicate elements
                 while(r > l && arr[r] == arr[r + 1])
                 {
                     r--;
                 }//
 
             }//
+            else if(arr[l] + arr[r] > targetSum)
+            {
+                r--; //l still keeps the same position
+            }
             else if(arr[l] + arr[r] < targetSum)
             {
-                l++;
-            }
-            else 
-            {
-                r--;
+                l++; //r still keeps the same position
             }
             
         }//while
@@ -51,7 +56,65 @@ public class TwoPointers {
     }
 
 
-    public static List<Integer> basicRemoveDuplicate(int[] arr)
+    public static List<List<Integer>> findTriplets(int[] arr, int targetSum)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            return null;
+        }//
+
+        //Initialization
+        List<List<Integer>> result = new ArrayList<>();
+
+        //Sort the array
+        Arrays.sort(arr);
+
+        //Find a triplet
+        for(int i = 0; i <= arr.length - 3; i++)
+        {
+            
+            if(i == 0 || (i > 0 && arr[i] != arr[i - 1]))
+            {
+                int l = i + 1, r = arr.length - 1;
+                while(r > l)
+                {
+                    if(arr[i] + arr[l] + arr[r] == targetSum)
+                    {
+                        result.add(Arrays.asList(arr[i], arr[l], arr[r]));
+                        l++;
+                        while(r > l && arr[l] == arr[l - 1])
+                        {
+                            l++;
+                        }//
+
+                        r--;
+                        while(r > l && arr[r] == arr[r + 1])
+                        {
+                            r--;
+                        }//
+                    }
+                    else if(arr[i] + arr[l] + arr[r] > targetSum)
+                    {
+                        r--;
+                    }
+                    else 
+                    {
+                        l++;
+                    }//
+
+                }// while
+
+            }//
+
+        }// for
+
+        //return
+        return result;
+    }//
+
+
+    public static List<Integer> removeDuplicate(int[] arr)
     {
         //Chcek Validity
         if(arr == null)
@@ -60,7 +123,12 @@ public class TwoPointers {
         }// if
 
         //Initialization
-        int l = 0, r = 1;
+        //arr must be sorted to prepare for removing duplicate elements
+        Arrays.sort(arr);
+
+        //l points to the last elements of the subarray of unique elements
+        //r points to the current element
+        int l = 0, r = 1; 
 
         //Remove duplicate numbers
         while(r < arr.length)
@@ -93,7 +161,7 @@ public class TwoPointers {
     }//
      
 
-    public static List<Integer> basicRemoveDuplicateCharacter(int[] arr, int key)
+    public static List<Integer> removeCharacter(int[] arr, int key)
     {
         //Check Validity
         if(arr == null)
@@ -102,6 +170,8 @@ public class TwoPointers {
         }
 
         //Initialization
+        //l points to the last element of the subarray without the keys
+        //r points to current element
         int l = -1, r = 0;
         
         //Remove
@@ -116,7 +186,7 @@ public class TwoPointers {
             r++;
         }//
 
-        //return
+        //Return
         List<Integer> result = new ArrayList<>();
         for(int i = 0; i <= l; i++)
         {
@@ -124,11 +194,10 @@ public class TwoPointers {
         }//
 
         return result;
-
     }//
 
 
-    public static List<Integer> basicSquareOptimization(int[] arr)
+    public static List<Integer> squareArray(int[] arr)
     {
         //Base check
         if(arr == null)
@@ -389,38 +458,36 @@ public class TwoPointers {
 
     public static void main(String[] args){
     
-        System.out.println("Get Sum OPT");
-        List<Integer> result = TwoPointers.basicDoubleSubsetTargetOPT(new int[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6}, 6);
-        System.out.println("Pair with target sum: " + result);
-        result = TwoPointers.basicDoubleSubsetTargetOPT(new int[] { 2, 5, 9, 11 }, 11);
-        System.out.println("Pair with target sum:" + result);
+        System.out.println("Find a pair with a targeted sum");
+        System.out.println(TwoPointers.findPairs(new int[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6}, 6));
+        System.out.println(TwoPointers.findPairs(new int[] { 2, 5, 9, 11 }, 11));
         System.out.println();
 
 
-        System.out.println("Remove duplicate elements");
-        System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {2, 3, 3, 3, 6, 9, 9}));
-        System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {2, 2, 2, 11}));
-        System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {1, 5, 5, 6, 6, 9, 9}));
-        System.out.println(TwoPointers.basicRemoveDuplicate(new int[] {2, 2, 2, 11, 11, 3}));
+        System.out.println("Remove all of duplicate elements");
+        System.out.println(TwoPointers.removeDuplicate(new int[] {2, 6, 3, 3, 6, 9, 9}));
+        System.out.println(TwoPointers.removeDuplicate(new int[] {2, 2, 2, 11}));
+        System.out.println(TwoPointers.removeDuplicate(new int[] {1, 6, 5, 6, 6, 9, 9}));
+        System.out.println(TwoPointers.removeDuplicate(new int[] {15, 2, 2, 11, 11, 3}));
         System.out.println();
         
 
-        System.out.println("Remove duplicate number key ");
-        System.out.println(TwoPointers.basicRemoveDuplicateCharacter(new int[] { 3, 3, 3, 6, 3, 10, 9, 3 }, 3));
-        System.out.println(TwoPointers.basicRemoveDuplicateCharacter(new int[] { 2, 11, 2, 2, 1 }, 2));
-        System.out.println(TwoPointers.basicRemoveDuplicateCharacter(new int[] {1, 5, 5, 6, 6, 9, 9}, 6));
-        System.out.println(TwoPointers.basicRemoveDuplicateCharacter(new int[] {2, 2, 2, 11, 11, 3}, 11));
+        System.out.println("Remove targeted number key ");
+        System.out.println(TwoPointers.removeCharacter(new int[] { 3, 3, 3, 6, 3, 10, 9, 3 }, 3));
+        System.out.println(TwoPointers.removeCharacter(new int[] { 2, 11, 2, 2, 1 }, 2));
+        System.out.println(TwoPointers.removeCharacter(new int[] {1, 5, 5, 6, 6, 9, 9}, 6));
+        System.out.println(TwoPointers.removeCharacter(new int[] {2, 2, 2, 11, 11, 3}, 11));
         System.out.println();
 
         System.out.println("Square elements");
-        System.out.println(TwoPointers.basicSquareOptimization(new int[] {-2, -1, 1, 2, 3}));
-        System.out.println(TwoPointers.basicSquareOptimization(new int[] {-5, -4, -3, -2, -1, 0, 1, 1, 2}));
+        System.out.println(TwoPointers.squareArray(new int[] {-2, -1, 1, 2, 3}));
+        System.out.println(TwoPointers.squareArray(new int[] {-5, -4, -3, -2, -1, 0, 1, 1, 2}));
         System.out.println();
         
 
-        System.out.println("Triple Subsets");
-        System.out.println(TwoPointers.basicTripleSubsetZero(new int[] { -3, 0, 1, 2, -1, 1, -2, 3, 4, 5 }));
-        System.out.println(TwoPointers.basicTripleSubsetZero(new int[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6}));
+        System.out.println("Find a triplet");
+        System.out.println(TwoPointers.findTriplets(new int[] { -3, -2, -1, 0, 1, 1, 2}, 0));
+        System.out.println(TwoPointers.findTriplets(new int[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6}, 0));
         System.out.println();
 
 
