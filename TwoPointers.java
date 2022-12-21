@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.lang.model.util.ElementScanner6;
+
 public class TwoPointers {
 
     public static List<List<Integer>> findPairs(int[] arr, int targetSum)
@@ -18,11 +20,17 @@ public class TwoPointers {
         //Find a pair with a smaller sum
         while(r > l)
         {
-            if(arr[l] + arr[r] == targetSum) // arr[l] + arr[r - 1] < targetsum, arr[l] + arr[r - 2] < targetsum, .....arr[l + 1] + arr[r - 2] < targetsum 
+            //Form a new pair
+            if(arr[l] + arr[r] == targetSum)
             {
                 //Add the pair [arr[l], arr[r]] to the set of result
                 result.add(Arrays.asList(arr[l], arr[r]));
+            }
 
+            
+            //Update the index
+            if(arr[l] + arr[r] == targetSum) // arr[l] + arr[r - 1] < targetsum, arr[l] + arr[r - 2] < targetsum, .....arr[l + 1] + arr[r - 2] < targetsum 
+            {
                 //Find the next pair
                 l++;
                 //Skip duplicate elements
@@ -43,10 +51,22 @@ public class TwoPointers {
             else if(arr[l] + arr[r] > targetSum)
             {
                 r--; //l still keeps the same position
+                //Skip duplicate elements
+                while(r > l && arr[r] == arr[r + 1])
+                {
+                    r--;
+                }//
+
             }
             else if(arr[l] + arr[r] < targetSum)
             {
                 l++; //r still keeps the same position
+                //Skip duplicate elements
+                while(r > l && arr[l] == arr[l - 1])
+                {
+                    l++;
+                }//
+
             }
             
         }//while
@@ -79,9 +99,16 @@ public class TwoPointers {
                 int l = i + 1, r = arr.length - 1;
                 while(r > l)
                 {
+                    //Form a new triplet with the requirement
                     if(arr[i] + arr[l] + arr[r] == targetSum)
                     {
                         result.add(Arrays.asList(arr[i], arr[l], arr[r]));
+                    }
+                    
+                    //update index
+                    if(arr[i] + arr[l] + arr[r] == targetSum)
+                    {
+                        
                         l++;
                         while(r > l && arr[l] == arr[l - 1])
                         {
@@ -97,10 +124,22 @@ public class TwoPointers {
                     else if(arr[i] + arr[l] + arr[r] > targetSum)
                     {
                         r--;
+                        //Skip duplicate elements
+                        while(r > l && arr[r] == arr[r + 1])
+                        {
+                             r--;
+                        }//
+                        
                     }
                     else 
                     {
                         l++;
+                        //Skip duplicate elements
+                        while(r > l && arr[l] == arr[l - 1])
+                        {
+                            l++;
+                        }//
+
                     }//
 
                 }// while
@@ -229,7 +268,82 @@ public class TwoPointers {
     }
 
 
-    public static List<List<Integer>> basicTripleSubsetZero(int[] arr)
+    public static List<List<Integer>> findTripletMinimumDifference(int[] arr, int targetSum)
+    {
+        //Base check
+        if(arr == null)
+        {
+            return null;
+        }//
+
+        //Initailization
+        List<List<Integer>> result = new ArrayList<>();
+
+        //Sort the array
+        Arrays.sort(arr);
+
+        //Find the minimum differnce
+        int minimum = Integer.MAX_VALUE;
+        for(int i = 0; i <= arr.length - 3; i++)
+        {
+            if(i == 0 || i > 0 && arr[i] != arr[i - 1])
+            {
+                int l = i + 1, r = arr.length -1;
+                while(r > l)
+                {
+                    //Form a new triplet
+                    if(Math.abs(arr[i] + arr[l] + arr[r] - targetSum) < minimum)
+                    {
+                        minimum = Math.abs(arr[i] + arr[l] + arr[r] - targetSum);
+                        if(result.size() != 0)
+                        {
+                            result.remove(0);
+                        }
+                        result.add(0, Arrays.asList(arr[i], arr[l], arr[r]));
+                    }
+
+                    //Update index
+                    if(arr[i] + arr[l] + arr[r] - targetSum == 0)
+                    {
+                        l++;
+                        while(r > l && arr[l] != arr[l - 1])
+                        {
+                            l++;
+                        }
+
+                        r--;
+                        while(r > l && arr[r] != arr[r + 1])
+                        {
+                            r--;
+                        }
+                    }//
+                    else if(arr[i] + arr[l] + arr[r] - targetSum > 0)
+                    {
+                        r--;
+                        while(r > l && arr[r] != arr[r + 1])
+                        {
+                            r--;
+                        }
+                    }
+                    else 
+                    {
+                        l++;
+                        while(r > l && arr[l] != arr[l - 1])
+                        {
+                            l++;
+                        }
+                    }//
+                }//while
+            }// if
+        }//for
+
+        //return
+        return result;
+        
+    }
+
+
+    public static List<List<Integer>> findTripletLessThanTarget(int[] arr, int targetSum)
     {
         //Base check
         if(arr == null)
@@ -238,117 +352,57 @@ public class TwoPointers {
         }
 
         //Initialization
-        Arrays.sort(arr);
         List<List<Integer>> result = new ArrayList<>();
 
-        //detect the triple subset
-        for(int i = 0; i < arr.length; i++)
-        {
-            if(i == 0)
-            {    
-                searchSum(arr, -arr[0], 1, result);
-            }//
-            else 
-            {
-                searchSum(arr, -arr[i], i + 1, result);
-            }//
-        }//
-        
-        //return
-        return result;
-    }
-
-
-    public static void searchSum(int[] arr, int sum, int start, List<List<Integer>> result)
-    {
-        //Base check
-        if(arr == null)
-        {
-            return;
-        }//
-
-        //Initialization
-        int l = start, r = arr.length - 1;
-        
-        //Find sum
-        while(l < r)
-        {
-            if(arr[l] + arr[r] == sum)
-            {
-                result.add(Arrays.asList(arr[l], arr[r], -sum));
-
-                l++;
-                while(l < r && arr[l] == arr[l - 1])
-                {
-                    l++;
-                }//
-
-                r--;
-                while(l < r && arr[r] == arr[r + 1])
-                {
-                    r--;
-                }//
-
-            }//
-            else if(arr[l] + arr[r] < sum )
-            {
-                l++;
-            }
-            else 
-            {// arr[l] + arr[r] > sum
-                r--;
-            }//
-
-        }//
-        
-        //return
-        return;
-    }
-
-
-    public static boolean basicTripleSubsetTarget(int arr[], int target){
-        //base check
-        if(arr == null){
-            return false;
-        }
-         
-        //Sort
+        //Sort the Array
         Arrays.sort(arr);
 
-        //loop
-        int pL = 1, pR = arr.length - 1;
-        int minDistance = Integer.MAX_VALUE;
-        int minTripleSum = Integer.MAX_VALUE;
-        for(int i = 0; i <= arr.length - 3; i++){
-            pL = i + 1;
-            pR = arr.length - 1;
-            while(pL < pR){
-                int curDiff = arr[i] + arr[pL] + arr[pR] - target;
-                if(minDistance > Math.abs(curDiff)){
-                    minDistance = Math.abs(curDiff);
-                    minTripleSum = arr[i] + arr[pL] + arr[pR];
-                }
+        //Find a triplet whose sum is less thant targetSum
+        for(int i = 0; i <= arr.length - 3; i++)
+        {
+            if(i == 0 || i > 0 && arr[i] != arr[i - 1])
+            {
+                int l = i + 1, r = arr.length - 1;
+                while(r > l)
+                {
+                    //For new triplets
+                    if(arr[i] + arr[l] + arr[r] < targetSum)
+                    {
+                        for(int k = r; k > l; k--)
+                        {
+                            result.add(Arrays.asList(arr[i], arr[l], arr[k]));
+                        }
+                    }//
 
-                //update
-                if(curDiff > 0){
-                    pR--;
-                }
-                else if(curDiff < 0){
-                    pL++;
-                }
-                else {//curDiff == 0
-                    pR--;
-                    pL++;
-                }
-            }
-            
-        }
+                    //Update indices
+                    if(arr[i] + arr[l] + arr[r] < targetSum)
+                    {
+                        l++;
+                        while(r > l && arr[l] == arr[l - 1])
+                        {
+                            l++;
+                        }
+                    }
+                    else 
+                    {
+                        r--;
+                        while(r > l && arr[r] == arr[r + 1])
+                        {
+                            r--;
+                        }
+                    }
+                    
+
+                }// while
+
+            }// if
+
+        }//for
 
         //return
-        System.out.println("minDiff: " + minDistance + " element: "+ minTripleSum);
-        return true;
-    }
+        return result;
 
+    }
 
     public static boolean basicTripleSubsetLessThanTarget(int arr[], int target){
         //base check
@@ -366,8 +420,10 @@ public class TwoPointers {
         for(int i = 0; i <= arr.length - 3; i++){
             pL = i + 1;
             pR = arr.length - 1;
-            while(pL < pR){
-                if(arr[i] + arr[pL] + arr[pR] < target){
+            while(pL < pR)
+            {
+                if(arr[i] + arr[pL] + arr[pR] < target)
+                {
                     num += pR - pL;
                     pL++;
                 }
@@ -490,13 +546,17 @@ public class TwoPointers {
         System.out.println(TwoPointers.findTriplets(new int[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6}, 0));
         System.out.println();
 
-
-        System.out.println("Closet Distance ");
-        System.out.println(TwoPointers.basicTripleSubsetTarget(new int[] { -2, 0, 1, 2 }, 2));
-        System.out.println(TwoPointers.basicTripleSubsetTarget(new int[] { -3, -1, 1, 2 }, 1));
-        System.out.println(TwoPointers.basicTripleSubsetTarget(new int[] { 1, 0, 1, 1 }, 100));
+        System.out.println("the smallest differnce ");
+        System.out.println(TwoPointers.findTripletMinimumDifference(new int[] { -2, 0, 1, 2 }, 2));
+        System.out.println(TwoPointers.findTripletMinimumDifference(new int[] { -3, -1, 1, 2 }, 1));
+        System.out.println(TwoPointers.findTripletMinimumDifference(new int[] { 1, 0, 1, 1 }, 100));
+        System.out.println();
         System.out.println();
 
+        System.out.println("Sum < Target ");
+        System.out.println(TwoPointers.findTripletLessThanTarget(new int[] { -1, 0, 2, 3 }, 3));
+        System.out.println(TwoPointers.findTripletLessThanTarget(new int[] { -1, 4, 2, 1, 3 }, 5));
+        System.out.println();
 
         System.out.println("Sum < Target ");
         System.out.println(TwoPointers.basicTripleSubsetLessThanTarget(new int[] { -1, 0, 2, 3 }, 3));
