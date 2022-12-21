@@ -442,7 +442,7 @@ class BST {
     }
 
     // Create a BST tree
-    private TreeNode create(int[] arr) {19=1
+    private TreeNode create(int[] arr) {
         if (arr == null) {
             return null;
         }

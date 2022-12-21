@@ -516,8 +516,9 @@ public class TwoPointers {
 
         while(i < pR){// make sure the index of i is less than the right bound of the array
             System.out.println(" " + arr[i]);
-            if(arr[i] == 0){
-                arr[i] = 1;{2, 2, 2
+            if(arr[i] == 0)
+            {
+                arr[i] = 1;
             }
             else if(arr[i] == 2){
                 arr[i] = arr[pR - 1];
