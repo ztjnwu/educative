@@ -127,7 +127,8 @@ public class SlideWindow {
             if (winE - winS + 1 == K) 
             {
                 // to do
-                for (int i = winS; i <= winE; i++) {
+                for (int i = winS; i <= winE; i++) 
+                {
                     System.out.print(" " + arr[i]);
                 }
                 System.out.println();
@@ -135,10 +136,10 @@ public class SlideWindow {
                 winS++;
             } 
             else if (winE - winS + 1 < K)  // adjust slide window
-                {
-                    winE++;
-                }
-                // PLUS: winE - winS + 1 > does not exist!
+            {
+                winE++;
+            }
+            // PLUS: winE - winS + 1 > does not exist!
       
         } // while
 
@@ -201,7 +202,6 @@ public class SlideWindow {
 
         // return
         return (int) max;
-
     }
 
     public static int basicSumBeyondS(int S, int[] arr) {

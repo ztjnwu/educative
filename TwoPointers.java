@@ -343,7 +343,7 @@ public class TwoPointers {
     }
 
 
-    public static List<List<Integer>> findTripletLessThanTarget(int[] arr, int targetSum)
+    public static List<List<Integer>> findTripletSumLessThanTarget(int[] arr, int targetSum)
     {
         //Base check
         if(arr == null)
@@ -404,43 +404,66 @@ public class TwoPointers {
 
     }
 
-    public static boolean basicTripleSubsetLessThanTarget(int arr[], int target){
-        //base check
-        if(arr == null || arr.length < 0)
-        {
-            return false;
-        }
 
-        //Sort
-        Arrays.sort(arr);
+    public static List<List<Integer>> findTripletProductLessThanTarget(int[] arr, int targetProduct)
+    {
+        //Base check
+        if(arr == null)
+        {
+            return null;
+        }//
         
-        //Loop
-        int pL = 1, pR = arr.length - 1;
-        int num = 0;
-        for(int i = 0; i <= arr.length - 3; i++){
-            pL = i + 1;
-            pR = arr.length - 1;
-            while(pL < pR)
+        //Initialization
+        List<List<Integer>> result = new ArrayList<>();
+
+        //Find all of the subarrays whose products are less than target
+        int winS = 0, winE = 0;
+        int product = arr[0];
+        while(winE < arr.length)
+        {
+            //For a new subarray
+            
+            if(product < targetProduct)
             {
-                if(arr[i] + arr[pL] + arr[pR] < target)
+                
+                for(int i = winS; i <= winE; i++)
                 {
-                    num += pR - pL;
-                    pL++;
-                }
-                else if(arr[i] + arr[pL] + arr[pR] >= target)
+                    List<Integer> temp = new ArrayList<>();
+                    for(int j = i; j <= winE; j++)
+                    {
+                        temp.add(arr[j]);           
+                    }
+                    result.add(temp);
+                }// for
+                
+            }//
+
+            //Update indices
+            
+            if(product < targetProduct)
+            {
+                winE++;
+                if(winE <= arr.length - 1)
                 {
-                    pR--;
-                }
-            }
-        }
+                    product *= arr[winE];
+                }//
+            
+            }//
+            else 
+            {
+                winS++;
+                product /= arr[winS - 1];
+            }//
+
+        }// while
 
         //return
-        System.out.println("num: " + num);
-        return true;
-    }
+        return result; 
+    }// 
 
 
-    public static boolean basicSubarrayProductLessThanTarget(int arr[], int target){
+    public static boolean basicSubarrayProductLessThanTarget(int arr[], int target)
+    {
         //base check
         if(arr == null || arr.length == 0){
             return false;
@@ -554,15 +577,14 @@ public class TwoPointers {
         System.out.println();
 
         System.out.println("Sum < Target ");
-        System.out.println(TwoPointers.findTripletLessThanTarget(new int[] { -1, 0, 2, 3 }, 3));
-        System.out.println(TwoPointers.findTripletLessThanTarget(new int[] { -1, 4, 2, 1, 3 }, 5));
+        System.out.println(TwoPointers.findTripletSumLessThanTarget(new int[] { -1, 0, 2, 3 }, 3));
+        System.out.println(TwoPointers.findTripletSumLessThanTarget(new int[] { -1, 4, 2, 1, 3 }, 5));
         System.out.println();
 
-        System.out.println("Sum < Target ");
-        System.out.println(TwoPointers.basicTripleSubsetLessThanTarget(new int[] { -1, 0, 2, 3 }, 3));
-        System.out.println(TwoPointers.basicTripleSubsetLessThanTarget(new int[] { -1, 4, 2, 1, 3 }, 5));
+        System.out.println("Product < Target ");
+        System.out.println(TwoPointers.findTripletProductLessThanTarget(new int[] { 2, 5, 3, 10 }, 30));
+        System.out.println(TwoPointers.findTripletProductLessThanTarget(new int[] { 8, 2, 6, 5 }, 50));
         System.out.println();
-        
 
         System.out.println("Product < Target ");
         System.out.println(TwoPointers.basicSubarrayProductLessThanTarget(new int[] { 2, 5, 3, 10 }, 30));
