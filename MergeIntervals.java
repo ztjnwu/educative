@@ -176,61 +176,49 @@ public class MergeIntervals
         Collections.sort(input, (a, b) -> a.start - b.start);
 
         //Merge
-        Interval merged = null;
-        for(int i = 0; i < input.size(); i++)
+        Interval merged = new Interval(input.get(0).start, input.get(0).end);
+        merged_intervals.clear(); // not real merged interval, therefore merged_intervals must be set to []
+        for(int i = 1; i < input.size(); i++)
         {
             Interval current = input.get(i);
-            if(merged == null)
+            if(current.start > merged.end)
             {
+                result_merged.add(merged);
                 merged = new Interval(current.start, current.end);
-                merged_intervals.clear(); //not real merged intervals
+
+                //Update conflicts
+                conflicts.add(new ArrayList<>(merged_intervals));
+                merged_intervals.clear(); //
             }
             else 
             {
-                if(current.start > merged.end)
+                //Build the one of conflicts 
+                if(merged_intervals.size() == 0) //first merge
                 {
-                    result_merged.add(merged);
-                    merged = null;
-
-                    //Update conflicts
-                    conflicts.add(new ArrayList<>(merged_intervals));
-                    merged_intervals.clear(); 
-                }
-                else 
-                {
-                    //Build the one of conflicts 
-                    if(merged_intervals.size() == 0) //first merge
-                    {
-                        merged_intervals.add(new Interval(merged.start, merged.end));
-                        merged_intervals.add(new Interval(current.start, current.end));
-                    }//
-                    else // not first merge
-                    {
-                        merged_intervals.add(new Interval(current.start, current.end));
-                    }//
-
-                    //update merged
-                    merged.start = Math.min(current.start, merged.start);
-                    merged.end = Math.max(current.end, merged.end); 
-
+                    merged_intervals.add(new Interval(merged.start, merged.end));
+                    merged_intervals.add(new Interval(current.start, current.end));
                 }//
+                else // not first merge
+                {
+                    merged_intervals.add(new Interval(current.start, current.end));
+                }//
+
+                //update merged
+                merged.start = Math.min(current.start, merged.start);
+                merged.end = Math.max(current.end, merged.end); 
 
             }// else
 
         }// for
 
-        //Update merged
-        if(merged != null)
-        {
-            result_merged.add(merged);
-        }
-        else
-        {
-            result_merged.add(input.get(input.size() - 1));
-        }
-
-        //Update conflicts
+        //Update merged and conflicts
+        result_merged.add(merged);
         conflicts.add(new ArrayList<>(merged_intervals));
+
+        for (Interval item : result_merged)
+                System.out.print("[" + item.start + "," + item.end + "] ");
+        
+        System.out.println();
 
         //return
         return conflicts;
