@@ -124,6 +124,10 @@ public class MergeIntervals
         //Initialization
         List<Interval> result = new ArrayList<>();
 
+        //Sort the two lists
+        Collections.sort(input1, (a, b) -> a.start - b.start);
+        Collections.sort(input2, (a, b) -> a.start - b.start);
+
         //Find out the intersection between the two input sets
         int i = 0, j = 0;
         while(i < input1.size() && j < input2.size())
@@ -213,11 +217,6 @@ public class MergeIntervals
         result_merged.add(merged);
         conflicts.add(new ArrayList<>(merged_intervals));
 
-        for (Interval item : result_merged)
-                System.out.print("[" + item.start + "," + item.end + "] ");
-        
-        System.out.println();
-
         //return
         return conflicts;
 
@@ -304,39 +303,72 @@ public class MergeIntervals
         System.out.println("Conflicts");
         List<Interval> intervals = new ArrayList<>(Arrays.asList(new Interval(1, 4), new Interval(2, 5), new Interval(7, 9)));
         List<List<Interval>> conflicts = MergeIntervals.conflicts(intervals);
-        for(List<Interval> list : conflicts)
+        if(conflicts.get(0).isEmpty())
         {
-            for (Interval item : list)
-                System.out.print("[" + item.start + "," + item.end + "] ");
+            System.out.print("[]");
         }
-        System.out.println("\n");
+        else 
+        {
+            for(List<Interval> list : conflicts)
+            {
+                for (Interval item : list)
+                System.out.print("[" + item.start + "," + item.end + "] ");
+    
+            }// for
+        }//
+     
+        System.out.println();
     
         intervals = new ArrayList<>(Arrays.asList(new Interval(6, 7), new Interval(2, 4), new Interval(8, 12)));
         conflicts = MergeIntervals.conflicts(intervals);
-        for(List<Interval> list : conflicts)
+        if(conflicts.get(0).isEmpty())
         {
-            for (Interval item : list)
-                System.out.print("[" + item.start + "," + item.end + "] ");
+            System.out.print("[]");
         }
-        System.out.println("\n");
+        else 
+        {
+            for(List<Interval> list : conflicts)
+            {
+                for (Interval item : list)
+                System.out.print("[" + item.start + "," + item.end + "] ");
+    
+            }// for
+        }//
+        System.out.println();
     
         intervals = new ArrayList<>(Arrays.asList(new Interval(4, 5), new Interval(2, 3), new Interval(3, 6)));
         conflicts = MergeIntervals.conflicts(intervals);
-        for(List<Interval> list : conflicts)
+        if(conflicts.get(0).isEmpty())
         {
-            for (Interval item : list)
-                System.out.print("[" + item.start + "," + item.end + "] ");
+            System.out.print("[]");
         }
-        System.out.println("\n");
+        else 
+        {
+            for(List<Interval> list : conflicts)
+            {
+                for (Interval item : list)
+                System.out.print("[" + item.start + "," + item.end + "] ");
+    
+            }// for
+        }//
+        System.out.println();
 
         intervals = new ArrayList<>(Arrays.asList(new Interval(4, 5), new Interval(2, 3), new Interval(3, 6), new Interval(5, 7), new Interval(7, 8)));
         conflicts = MergeIntervals.conflicts(intervals);
-        for(List<Interval> list : conflicts)
+        if(conflicts.get(0).isEmpty())
         {
-            for (Interval item : list)
-                System.out.print("[" + item.start + "," + item.end + "] ");
+            System.out.print("[]");
         }
-        System.out.println("\n");
+        else 
+        {
+            for(List<Interval> list : conflicts)
+            {
+                for (Interval item : list)
+                System.out.print("[" + item.start + "," + item.end + "] ");
+    
+            }// for
+        }//
+        System.out.println();
 
     }  
     
