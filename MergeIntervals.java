@@ -33,39 +33,24 @@ public class MergeIntervals
         Collections.sort(input, (a, b) -> a.start - b.start);
 
         //Merge the intervals
-        Interval merged = null;
-        for(int i = 0; i < input.size(); i++)
+        Interval merged = new Interval(input.get(0).start, input.get(0).end);
+        for(int i = 1; i < input.size(); i++)
         {
             Interval current = input.get(i);     
-            if(merged == null)
+            if(current.start > merged.end)
             {
+                result.add(new Interval(merged.start, merged.end));
                 merged = new Interval(current.start, current.end);
             }
-            else 
+            else
             {
-                if(current.start > merged.end)
-                {
-                    result.add(new Interval(merged.start, merged.end));
-                    merged = new Interval(current.start, current.end);
-                }
-                else
-                {
-                    merged.start = Math.min(merged.start, current.start);
-                    merged.end = Math.max(merged.end, current.end);
-                }// else
-
+                merged.start = Math.min(merged.start, current.start);
+                merged.end = Math.max(merged.end, current.end);
             }// else
-           
+
         }// for
 
-        if(merged != null)
-        {
-            result.add(merged); // add the last interval to the set of result
-        }
-        else 
-        {
-            result.add(input.get(input.size() - 1));
-        }
+        result.add(merged); // add the last interval to the set of result
 
         //return
         return result;
@@ -84,21 +69,34 @@ public class MergeIntervals
         //Initialization
         List<Interval> result = new ArrayList<>();
 
-        //Find the correct position
+        //Sort input
+        Collections.sort(input, (a,b) -> a.start - b.start);
+
+        //Find correct position
+        int i = 0;
+        while(i < input.size() && newInterval.start > input.get(i).start)
+        {
+            i++;
+        }// while
+
+        if(i == input.size())
+        {
+            input.add(newInterval);
+        }
+        else
+        {
+            input.add(i, newInterval);
+        }
         
         //Merge the remaining intervals
-        Interval merged = new Interval(newInterval.start, newInterval.end);
-        for(int i = 0; i < input.size(); i++)
+        Interval merged = new Interval(input.get(0).start, input.get(0).end);
+        for(int k = 0; k < input.size(); k++)
         {
-            Interval current = input.get(i);
-            if(current.end < merged.start)
+            Interval current = input.get(k);
+            if(current.start > merged.end)
             {
-                result.add(current);
-            }
-            else if(current.start > merged.end)
-            {
-                result.add(merged);
-                merged = current;
+                result.add(new Interval(merged.start, merged.end));
+                merged = new Interval(current.start, current.end);
             }
             else 
             {
