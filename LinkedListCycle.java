@@ -267,32 +267,34 @@ class LinkedListCycle
 
     public static ListNode findMiddleItem(ListNode head)
     {
+        //Base Check
         if(head == null)
         {
             return null;
-        }
+        }//
 
-        //find the position
-        ListNode sp = head, fp = null;
-        if(head.next != null)
-            fp = sp.next.next;
+        //Initialization
         ListNode result = null;
-        while(fp != null)
+
+        //Find the position
+        ListNode s = head;
+        ListNode f = head.next == null ? null: head.next.next;
+        while(f != null && f != s)
         {
-            sp = sp.next;
-            if(fp.next == null)
+            s = s.next;
+            if(f.next != null)
             {
-                fp = null;
+                f = f.next.next;
             }
             else 
             {
-                fp = fp.next.next;
-            }
-        }
+                f = null; 
+            }//
 
-        result = sp;
+        }//
 
-        //return 
+        //Return 
+        result = s;
         return result;
     }
     
@@ -362,8 +364,9 @@ class LinkedListCycle
 
 
         //Find the middle item
+        System.out.println("Find the middle item");
         ListNode head1 = null;
-        for(int i = 8; i >= 1; i--)
+        for(int i = 9; i >= 1; i--)
         {
             ListNode temp = new ListNode(i);
             if(head1 == null)
@@ -377,7 +380,7 @@ class LinkedListCycle
             }
         }
 
-        System.out.println("\nMiddle Node: " + LinkedListCycle.findMiddleItem(head1).value);
+        System.out.println("Middle Node: " + LinkedListCycle.findMiddleItem(head1).value);
 
     } 
     
