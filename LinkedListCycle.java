@@ -1,3 +1,4 @@
+import java.nio.file.FileStore;
 import java.util.*;
 
 class ListNode
@@ -140,60 +141,63 @@ class LinkedListCycle
             return null;
         }
         
-        //check if there is a cycle in the linkedlist
-        ListNode sp = head, fp = head.next.next;
-        while(fp != null && (sp != fp))
+        //Initialization
+        ListNode result = null;
+        
+        //Check a cycle
+        ListNode s = head;
+        ListNode f = head.next == null ? null : head.next.next;
+        while(f != null && (f != s))
         {
-            sp = sp.next;
-            if(fp.next != null)
+            s = s.next;
+            if(f.next != null)
             {
-                fp = fp.next.next;
+                f = f.next.next;
             }
             else 
             {
-                fp = null;
+                f = null;
             }
-        }
+        }//
 
         //judgement
-        ListNode result = null;
-        if(sp == fp)
-        {
-            //calculate the length of the cycle
-            ListNode p1 = sp, p2 = fp.next;
-            int length = 0;
-            while(p1 != p2)
-            {
-                length++;
-                p2 = p2.next;
-            }
-            length++;
-
-            //locate the start of the cycle
-            p1 = head;
-            p2 = head;
-            while(length != 0)
-            {
-                p2 = p2.next;
-                length--;
-            }
-
-            //both p1 and p2 move forward by 1
-            while(p1 != p2)
-            {
-                p1 = p1.next;
-                p2 = p2.next;
-            }
-            
-            //set result to p1
-            result = p1;
-
-        }
-        else // sp == null
+        if(f == null)
         {
             result = null;
         }
+        else // f == s
+        {
+            //Calculate the length of the cycle
+            ListNode temp = f.next;
+            int length = 0;
+            while(temp != f)
+            {
+                length++;
+                temp = temp.next;
+            }
+            length++;
 
+            //p2 is length - 1 nodes ahead of p1 
+            ListNode start = head, end = head;
+            int k = 0;
+            while(k != length - 1)
+            {
+                end = end.next;
+                k++;
+            }
+
+            //both p1 and p2 move forward by 1
+            while(end.next != start)
+            {
+                end = end.next;
+                start = start.next;
+            }
+            
+            //set result to p1
+            result = start;
+    
+        }
+    
         //return result
         return result;
     }//
@@ -201,24 +205,27 @@ class LinkedListCycle
 
     public static boolean findHappyNumber(int number)
     {
+        //Base Chcek
         if(number <= 0)
         {
             return false;
         }
 
+        //Initialization
+        boolean result = false;
+
         //Find happy number
         int s, f;
-        s = correspondingNumber(number);
-        f = correspondingNumber(correspondingNumber(number));
-        boolean result = false;
-        while(s != 1 && s != f)
+        s = number;
+        f = squareNumber(squareNumber(number));
+        while(f != 1 && f != s)
         {
-            s = correspondingNumber(s);
-            f = correspondingNumber(correspondingNumber(f));
+            s = squareNumber(s);
+            f = squareNumber(squareNumber(f));
 
         }//while
         
-        //judgement
+        //Update
         if(f == 1)
         {
             result = true;
@@ -233,17 +240,28 @@ class LinkedListCycle
     }
 
 
-    private static int correspondingNumber(int num)
+    private static int squareNumber(int num)
     {
+        //Base Check
+        if(num <= 0)
+        {
+            return 0; 
+        }
+
+        //Initialization
+        int result = -1;
+
+        //Square number
         int sum = 0;
         while(num != 0)
         {
             sum += (num % 10) * (num % 10);
-            num = num / 10;
+            num /= 10;
         }
         
-        //return
-        return sum;
+        //Return
+        result = sum;
+        return result;
     }
 
 
@@ -309,36 +327,39 @@ class LinkedListCycle
         
         //check cycle
         System.out.println("Detect cycle");
-        System.out.println("LinkedList has cycle: " + LinkedListCycle.hasCycle(head));
-
+        System.out.println(LinkedListCycle.hasCycle(head));
         head.next.next.next.next.next.next = head.next.next;
-        System.out.println("LinkedList has cycle: " + LinkedListCycle.hasCycle(head));
-
+        System.out.println(LinkedListCycle.hasCycle(head));
         head.next.next.next.next.next.next = head.next.next.next;
-        System.out.println("LinkedList has cycle: " + LinkedListCycle.hasCycle(head));
-        System.out.println("\n");
+        System.out.println(LinkedListCycle.hasCycle(head));
+        System.out.println();
 
         //calculate length
         System.out.println("Calculate length");
         head.next.next.next.next.next.next = null; //head.next.next;
-        System.out.println("LinkedList cycle length: " + LinkedListCycle.calculateLength(head));
-
+        System.out.println(LinkedListCycle.calculateLength(head));
         head.next.next.next.next.next.next = head.next.next.next;
-        System.out.println("LinkedList cycle length: " + LinkedListCycle.calculateLength(head));
+        System.out.println(LinkedListCycle.calculateLength(head));
+        System.out.println();
 
         //find the start of the cycle
+        System.out.println("Find the start of the cycle");
         head.next.next.next.next.next.next = head.next.next;
-        System.out.println("\n LinkedList cycle start: " + LinkedListCycle.findCycleStart(head).value);
-    
+        System.out.println(LinkedListCycle.findCycleStart(head).value);
         head.next.next.next.next.next.next = head.next.next.next;
-        System.out.println("LinkedList cycle start: " + LinkedListCycle.findCycleStart(head).value);
-    
+        System.out.println(LinkedListCycle.findCycleStart(head).value);
         head.next.next.next.next.next.next = head;
-        System.out.println("LinkedList cycle start: " + LinkedListCycle.findCycleStart(head).value);
+        System.out.println(LinkedListCycle.findCycleStart(head).value);
+        System.out.println();
 
         //Find happy number
-        System.out.println("\n result: " + LinkedListCycle.findHappyNumber(23));
-        System.out.println("result: " + LinkedListCycle.findHappyNumber(12));
+        System.out.println("Find the start of the cycle");
+        System.out.println(LinkedListCycle.findHappyNumber(23));
+        System.out.println(LinkedListCycle.findHappyNumber(12));
+        System.out.println(LinkedListCycle.findHappyNumber(1));
+        System.out.println(LinkedListCycle.findHappyNumber(2));
+        System.out.println();
+
 
         //Find the middle item
         ListNode head1 = null;
