@@ -53,7 +53,7 @@ class LinkedListCycle
         //return
         return result;  
     } 
-    
+
 
     public static int calculateLength(ListNode head)
     {   
