@@ -1,3 +1,5 @@
+import java.util.*;
+
 class ListNode
 {
     int value = 0;
@@ -10,37 +12,41 @@ class ListNode
     }
 }
 
+
 class LinkedListCycle
 {
     public static boolean hasCycle(ListNode head)
     {   
-        //initialization
+        //Base Check
         if(head == null)
         {
             return false;
         }
         
-        //judgement
-        ListNode sp = head, fp = head.next.next; 
-        while(fp !=null && sp != fp)
+        //Initialization
+        boolean result = false;
+        
+        //Find a cycle
+        ListNode s = head, f = head.next == null ? null: head.next.next; 
+        while(f != null && f != s)
         {
-            sp = sp.next;
-            if(fp.next == null)
+            s = s.next; // move forward one step
+            if(f.next != null)
             {
-                fp = null;
+                f = f.next.next; // move forward two steps
             }
             else 
             {
-                fp = fp.next.next;
+                f = null;
             }
         }
         
-        boolean result = false;
-        if(fp == null)
+        if(f == null)
         {
             result = false;
-        }
-        else {
+        }//
+        else
+        {
             result = true;
         }
 
@@ -48,36 +54,65 @@ class LinkedListCycle
         return result;  
     } 
     
+
     public static int calculateLength(ListNode head)
     {   
-        //initialization
+        //Base Chcek
         if(head == null)
         {
             return 0;
         }
         
-        //judgement
-        ListNode sp = head, fp = head.next.next; 
-        boolean flag = false;
-        while(fp !=null && sp != fp)
-        {   
-            sp = sp.next;
-            if(fp.next == null)
+        //Initialization
+        int result = 0;
+
+
+        //Computer the length of the targeted list
+        ListNode s = head;
+        ListNode f = head.next == null ? null : head.next.next; 
+        int length = 1;
+        if(head.next != null)
+        {
+            if(head.next.next != null)
             {
-                fp = null;
+                length = 3;
             }
             else 
             {
-                fp = fp.next.next;
+                length = 2;
+            }
+        }//
+        
+        while(f != null && f != s)
+        {   
+            s = s.next;
+            if(f.next != null)
+            {
+                f = f.next.next;
+                if(f == null)
+                {
+                    length++;
+                }
+                else
+                {
+                    length += 2;
+                }  
+            }
+            else 
+            {
+                f = null;
             }
                 
         }
         
-        int length = 0;
-        if(sp == fp)
+        if(f == null)
         {
-            ListNode temp = sp.next; //we consider that sp.next is the first element of the linkedlist.
-            while(temp != sp)
+            result = length;
+        }
+        else
+        {
+            ListNode temp = s.next; //we consider that sp.next is the first element of the linkedlist.
+            while(temp != s)
             {
                 length++;
                 temp = temp.next;
@@ -89,6 +124,7 @@ class LinkedListCycle
         return length;  
     } 
     
+
     public static ListNode findCycleStart(ListNode head)
     {
         if(head == null)
@@ -154,6 +190,7 @@ class LinkedListCycle
         return result;
     }//
 
+
     public static boolean findHappyNumber(int number)
     {
         if(number <= 0)
@@ -187,6 +224,7 @@ class LinkedListCycle
         return result;
     }
 
+
     private static int correspondingNumber(int num)
     {
         int sum = 0;
@@ -199,6 +237,7 @@ class LinkedListCycle
         //return
         return sum;
     }
+
 
     public static ListNode findMiddleItem(ListNode head)
     {
@@ -231,6 +270,7 @@ class LinkedListCycle
         return result;
     }
     
+
     public static void main(String[] args)
     {   
         //initialize List
@@ -249,28 +289,31 @@ class LinkedListCycle
             }
         }
         
-        //show all of the elements 
+        //Show all of the elements 
         ListNode p = head; 
         System.out.print("All of elements:");
         while(p != null)
         {
             System.out.print(" " + p.value);
             p = p.next;
-        }
+        }//
+        System.out.println("\n");
         
-        //To do list
         //check cycle
-        System.out.println("\nLinkedList has cycle: " + LinkedListCycle.hasCycle(head));
+        System.out.println("Detect cycle");
+        System.out.println("LinkedList has cycle: " + LinkedListCycle.hasCycle(head));
 
         head.next.next.next.next.next.next = head.next.next;
         System.out.println("LinkedList has cycle: " + LinkedListCycle.hasCycle(head));
 
         head.next.next.next.next.next.next = head.next.next.next;
         System.out.println("LinkedList has cycle: " + LinkedListCycle.hasCycle(head));
+        System.out.println("\n");
 
         //calculate length
-        head.next.next.next.next.next.next = head.next.next;
-        System.out.println("\n LinkedList cycle length: " + LinkedListCycle.calculateLength(head));
+        System.out.println("Calculate length");
+        head.next.next.next.next.next.next = null; //head.next.next;
+        System.out.println("LinkedList cycle length: " + LinkedListCycle.calculateLength(head));
 
         head.next.next.next.next.next.next = head.next.next.next;
         System.out.println("LinkedList cycle length: " + LinkedListCycle.calculateLength(head));
