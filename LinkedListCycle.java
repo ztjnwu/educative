@@ -111,22 +111,30 @@ class LinkedListCycle
         }
         else
         {
-            ListNode temp = s.next; //we consider that sp.next is the first element of the linkedlist.
-            while(temp != s)
+            //Initialization
+            ListNode temp = f.next; //we consider that sp.next is the first element of the linkedlist.
+            length = 0;
+
+            //Calculate the length of the cycle
+            while(temp != f)
             {
                 length++;
                 temp = temp.next;
             }
             length++;
+
+            //update result
+            result = length;
         }
 
         //return
-        return length;  
+        return result;  
     } 
     
 
     public static ListNode findCycleStart(ListNode head)
     {
+        //Base Check
         if(head == null)
         {
             return null;
