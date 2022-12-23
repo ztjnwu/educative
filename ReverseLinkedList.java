@@ -1,100 +1,149 @@
 import java.util.*;
 
-public class ReverseLinkedList {
-    public static ListNode reverseList(ListNode head) {
-        // check validity
-        if (head == null) {
+class ListNode {
+    int value = 0;
+    ListNode next;
+
+    ListNode(int value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+
+public class ReverseLinkedList 
+{
+    public static ListNode reverseList(ListNode head) 
+    {
+        //Base check
+        if (head == null) 
+        {
             return null;
         }
 
-        //
+        //Initialization
+        ListNode result = null;
+        
+        //Reverse the list
         ListNode p = head.next;
         head.next = null;
-        ListNode temp = null;
-        while (p != null) {
-            temp = p.next;
+        while (p != null) 
+        {
+            ListNode temp = p.next;
             p.next = head;
             head = p;
             p = temp;
         } //
 
         // return
-        return head;
+        result = head;
+        return result;
     }
+
 
     public static ListNode reverseSubList(ListNode head, int p, int q)
     {
-        //check validity
+        //Base Check
         if(head == null)
         {
             return null;
         }
 
-        //Find the position of the node of value p
-        ListNode pre = null, current = head, rear = null;
-        while(current.value != p)
+        //Initiaization
+        ListNode current = head, start = null, rear = null, pre = null;
+        while(current != null && current.value != p)
         {
             pre = current;
             current = current.next;
         }
-    
-
-        //Reverse the nodes of values ranging from p to q
-        ListNode temp = null;
-        while(current != null && current.value != q)
+        
+        if(current == null)
         {
-            temp = current.next;
-            current.next = pre.next;
-            pre.next = current;
-            if(rear == null)
+            start = null;
+        }
+        else 
+        {
+            start = current;
+            while(current != null && current.value != q)
+            {
+                current = current.next;
+            }//
+
+            if(current == null)
+            {
+                rear = null;
+            }//
+            else 
             {
                 rear = current;
-                rear.next = null;
-            }
-            current = temp;
-            temp = null; 
-        }
+            }//
 
-        //connect with the remaining part of the original list
+        }//
+
+    
+        //Reverse the nodes of values ranging from p to q
         ListNode result = null;
-        if(current == null)
+        if(start == null && rear == null)
         {
             result = null;
         }
         else 
         {
-            temp = current.next;
-            current.next = pre.next;
-            pre.next = current;
-            rear.next = temp;
-            rear = null;
+            //combine the first part with the last part
+            pre.next = rear.next;
+            rear.next = null;
+
+            //reverse the sublist
+            ListNode pp = start;
+            while(pp != null)
+            {
+                ListNode temp = pp.next;
+                pp.next = pre.next;
+                pre.next = pp;
+                pp = temp;
+            }//
+
+            //update result
             result = head;
         }
-        
+      
+
         //return
-        return head;
+        return result;
+    }//
 
-    }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
 
         // Reverse a linkedlist
-        System.out.print("Nodes of the reversed LinkedList are: ");
+        System.out.println("Nodes of the reversed LinkedList are: ");
         ListNode head = new ListNode(2);
         head.next = new ListNode(4);
         head.next.next = new ListNode(6);
         head.next.next.next = new ListNode(8);
         head.next.next.next.next = new ListNode(10);
-        head = reverseList(head);
+        System.out.print("Original list : ");
         ListNode p = head;
-        while (p != null) {
+        while (p != null) 
+        {
+            System.out.print(p.value + " ");
+            p = p.next;
+        }
+        System.out.println();
+
+        System.out.print("Reversed list : ");
+        head = reverseList(head);
+        p = head;
+        while (p != null) 
+        {
             System.out.print(p.value + " ");
             p = p.next;
         }
         System.out.println();
 
 
-        //reverse sub-list
+        //Reverse sub-list
         System.out.print("Nodes of the reversed subList are: ");
         head = new ListNode(1);
         head.next = new ListNode(2);
@@ -115,12 +164,3 @@ public class ReverseLinkedList {
 
 }
 
-class ListNode {
-    int value = 0;
-    ListNode next;
-
-    ListNode(int value) {
-        this.value = value;
-        this.next = null;
-    }
-}
