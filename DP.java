@@ -304,7 +304,7 @@ public class DP {
     
     public static boolean sumEqualSDP(int[] arr, int S)
     {
-        //Check validity
+        //Base Check
         if(arr == null || S <= 0)
         {
             return false;
