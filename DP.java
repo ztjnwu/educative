@@ -149,7 +149,7 @@ public class DP {
         {
             if(dp[i][j] != dp[i - 1][j]) // do not select the item at the index 'i'
             {
-                path.add(i);
+                path.add(weights[i]);
             }
             
             //Update i and j
@@ -165,7 +165,6 @@ public class DP {
         //return
         result = new ArrayList<>(path);
         return result;
-
     }//
 
 
@@ -208,6 +207,7 @@ public class DP {
         if(number < 0 || sum < 0){
             return false;
         }
+
         //empty subset
         if(sum == 0){
             return true;
@@ -234,13 +234,14 @@ public class DP {
     
     public static boolean sumPartitionDP(int[] arr, int sum)
     {
+        //Base check
         if(arr == null || sum % 2 != 0)
         {
             return false;
         }
 
         //Initialization
-        boolean[][] dp = new boolean[arr.length + 1][(sum/2) + 1];
+        boolean[][] dp = new boolean[arr.length + 1][(sum / 2) + 1];
         for(int i = 0; i <= arr.length; i++)
         {
             for(int j = 0; j <= (sum / 2); j++)
@@ -271,12 +272,13 @@ public class DP {
             for(int j = 1; j <= (sum / 2); j++)
             {
                 boolean result1 = dp[i - 1][j];
-                boolean result2 = false;;
+
+                boolean result2;
                 if(arr_copy[i] > j)
                 {
                     result2 = dp[i - 1][j];
                 }//
-                else //arr_copy[i] < j
+                else //arr_copy[i] <= j
                 {
                     if(dp[i - 1][j - arr_copy[i]] == true)
                     {
@@ -473,54 +475,52 @@ public class DP {
 
     public static void main(String[] args)
     {
-
         //
         System.out.println("Recursive");
         int[] profits = {1, 6, 10, 16};
         int[] weights = {1, 2, 3, 5};
         int result = DP.knapsack(profits, weights, 4, 7);
-        System.out.println("result: " + result);
+        System.out.println(result);
         result = DP.knapsack(profits, weights, 4, 6);
-        System.out.println("result: " + result);
-        System.out.println("");
+        System.out.println(result);
+        System.out.println();
 
         //
-        System.out.println("\n DP");
+        System.out.println("DP");
         profits = new int[]{1, 6, 10, 16};
         weights = new int[]{1, 2, 3, 5};
-        result = DP.knapsackDP(profits, weights, 4, 7);
-        System.out.println("result: " + result);
-        result = DP.knapsackDP(profits, weights, 4, 6);
-        System.out.println("result: " + result);
-        System.out.println(""); 
+        System.out.println(DP.knapsackDP(profits, weights, 4, 7));
+        System.out.println(DP.knapsackDP(profits, weights, 4, 6));
+        System.out.println(); 
 
         //
-        System.out.println("\n Route Dispaly");
+        System.out.println("Route Dispaly");
         profits = new int[]{1, 6, 10, 16};
         weights = new int[]{1, 2, 3, 5};
-        List<Integer> resultt = DP.knapsackDPRouteShow(profits, weights, 4, 7);
-        System.out.println("result: " + resultt);
-        resultt = DP.knapsackDPRouteShow(profits, weights, 4, 6);
-        System.out.println("result(index start from 1 to length): " + resultt);
-        System.out.println("");
+        System.out.println(DP.knapsackDPRouteShow(profits, weights, 4, 7));
+        System.out.println(DP.knapsackDPRouteShow(profits, weights, 4, 6));
+        System.out.println();
 
         //
-        System.out.println("\n Partition sum");
+        System.out.println("Partition sum");
         System.out.println(DP.sumPartitionDP(new int[] {1, 2, 3, 4}, 10));
         System.out.println(DP.sumPartitionDP(new int[] {1, 1, 3, 4, 7}, 16));
         System.out.println(DP.sumPartitionDP(new int[] {2, 3, 4, 6}, 15));
+        System.out.println();
 
         //
         System.out.println("\n Same sum");
         System.out.println(DP.sumEqualSDP(new int[] {1, 2, 3, 7 }, 5));
         System.out.println(DP.sumEqualSDP(new int[] {1, 2, 7, 1, 5 }, 15));
         System.out.println(DP.sumEqualSDP(new int[] {1, 3, 4, 8}, 13));
+        System.out.println();
 
         //
         System.out.println("\n MInimum difference");
         System.out.println(DP.minimumDiffrence(new int[] {1, 2, 3, 9}));
         System.out.println(DP.minimumDiffrence(new int[] {1, 2, 7, 1, 5}));
         System.out.println(DP.minimumDiffrence(new int[]{1, 3, 100, 4}));
+        
 
     }// main
 
