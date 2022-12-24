@@ -2,7 +2,8 @@ import java.util.*;
 
 public class DP {
     
-    public static int knapsack(int[] profits, int[] weights, int number, int capacity){
+    public static int knapsack(int[] profits, int[] weights, int number, int capacity)
+    {
         //base checkes
         if(number <= 0 || capacity <= 0){
             return 0;
@@ -27,14 +28,16 @@ public class DP {
         return result;
     }
 
-    public static int knapsackDP(int[] profits, int[] weights, int length, int capacity)
+
+    public static int knapsackDP(int[] p, int[] w, int length, int capacity)
     {
-        if(profits == null || weights == null || length < 0 || capacity < 0)
+        //Base Check
+        if(p == null || w == null || length < 0 || capacity < 0)
         {
             return -1;
         }//
 
-        //initialization
+        //Initialization
         int[][] dp = new int[length + 1][capacity + 1];
         for(int i = 0; i <= length; i++)
         {
@@ -42,18 +45,29 @@ public class DP {
             {
                 dp[i][j] = 0;
             }
-        }//initialization
+        }//
+
+        int[] profits = new int[length + 1];
+        int[] weights = new int[length + 1];
+        for(int i = 1; i <= length; i++)
+        {
+            profits[i] = p[i - 1];
+            weights[i] = w[i - 1];
+        }//
+
+        int result; //hold dp[length][capacity]
 
         //DP
         for(int i = 1; i <= length; i++)
         {
             for(int j = 1; j <= capacity; j++)
             {
-                int profit1 = dp[i - 1][j];
-                int profit2;    
-                if(weights[i - 1] <= j)
+                int profit1 = dp[i - 1][j]; // do not select the item at the index 'i'
+
+                int profit2;                // select the item at the index 'i'
+                if(weights[i] <= j)
                 {
-                    profit2 = profits[i - 1] + dp[i - 1][j - weights[i - 1]]; 
+                    profit2 = profits[i] + dp[i - 1][j - weights[i]]; 
                 }//
                 else 
                 {
@@ -66,20 +80,24 @@ public class DP {
         }//for
 
         //return
-        int result;
         result = dp[length][capacity];
         return result;
 
     }//knapsackDP
 
-    public static List<Integer> knapsackDPRouteShow(int[] profits, int[] weights, int length, int capacity)
+
+    public static List<Integer> knapsackDPRouteShow(int[] p, int[] w, int length, int capacity)
     {
-        if(profits == null || weights == null || length < 0 || capacity < 0)
+        
+        //Base Check
+        if(p == null || w == null || length < 0 || capacity < 0)
         {
             return null;
         }//
 
         //initialization
+        List<Integer> result = null;
+
         int[][] dp = new int[length + 1][capacity + 1];
         for(int i = 0; i <= length; i++)
         {
@@ -87,18 +105,31 @@ public class DP {
             {
                 dp[i][j] = 0;
             }
-        }
+        }//
+        
+        int[] profits = new int[length + 1];
+        for(int i = 1; i < profits.length; i++)
+        {
+            profits[i] = p[i - 1];
+        }//
 
+        int[] weights = new int[length + 1];
+        for(int i = 1; i < weights.length; i++)
+        {
+            weights[i] = w[i - 1];
+        }//
+
+        
         //DP
         for(int i = 1; i <= length; i++)
         {
             for(int j = 1; j <= capacity; j++)
             {
-                int profit1 = dp[i - 1][j];
-                int profit2;    
-                if(weights[i - 1] <= j)
+                int profit1 = dp[i - 1][j]; //do not select the item at index 'i'
+                int profit2;    // select the item at the index 'i'
+                if(weights[i] <= j)
                 {
-                    profit2 = profits[i - 1] + dp[i - 1][j - weights[i - 1]]; 
+                    profit2 = profits[i] + dp[i - 1][j - weights[i]]; 
                 }//
                 else 
                 {
@@ -116,24 +147,27 @@ public class DP {
         List<Integer> path = new ArrayList<>();
         while(i != 0)
         {
-            if(dp[i][j] != dp[i - 1][j])
+            if(dp[i][j] != dp[i - 1][j]) // do not select the item at the index 'i'
             {
                 path.add(i);
             }
             
-            
             //Update i and j
             if(dp[i][j] != dp[i - 1][j])
             {
-                j -= weights[i - 1];
+                j -= weights[i];
             }
+
             i--;
+    
         }//
 
         //return
-        List<Integer> result = new ArrayList<>(path);
+        result = new ArrayList<>(path);
         return result;
+
     }//
+
 
     public static int knapsnackTabulationOptimization(int[] profits, int[] weights, int number, int capacity){
         //base check
@@ -168,6 +202,7 @@ public class DP {
         return dp[(number % 2) + 1][capacity];
     }
 
+
     public static boolean sumPartipationRE(int[] arr, int number, int sum){
         //base check
         if(number < 0 || sum < 0){
@@ -196,6 +231,7 @@ public class DP {
         return result;
     }
 
+    
     public static boolean sumPartitionDP(int[] arr, int sum)
     {
         if(arr == null || sum % 2 != 0)
@@ -263,6 +299,7 @@ public class DP {
         return dp[arr.length][sum / 2];
     }
 
+    
     public static boolean sumEqualSDP(int[] arr, int S)
     {
         //Check validity
@@ -333,6 +370,7 @@ public class DP {
         return dp[arr.length][S];
 
     }//
+
 
     public static int minimumDiffrence(int[] arr)
     {
@@ -431,6 +469,7 @@ public class DP {
         return result;
         
     }//
+
 
     public static void main(String[] args)
     {
