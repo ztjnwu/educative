@@ -126,57 +126,66 @@ public class ReverseLinkedList
 
         //Reverse every K elements
         ListNode start = null, rear = null;
-        ListNode preRear = rear;
+        ListNode reversedStart = null, reversedRear = null;
         ListNode p = head;
         int index = 0;
+        head = null;
         while(p != null)
         {
+            //
             ListNode temp = p.next;
-            if(index % K == 0)
+
+            //update {start, rear}
+            if(start == null && rear == null)
             {
                 start = p;
                 rear = p;
                 rear.next = null;
-            }// 
+            }
             else 
             {
                 p.next = start;
                 start = p;
             }// 
 
-            //update 
-            if(index % K == K - 1)
+            //update {reversedStart, reversedRear}
+            if(index == K - 1)
             {
-                if(preRear != null)
+                if(reversedRear != null)
                 {
-                    preRear.next = start;
-                    preRear = rear;
-                }
+                    reversedRear.next = start;
+                    reversedRear = rear;
+
+                }// if
                 else 
                 {
-                    preRear = rear;
-                    head = start;
-                }//
+                    reversedRear = rear;
+                    if(head == null)
+                    {
+                        reversedStart = start;
+                    }//
+                }
+
+                start = null;
+                rear = null; 
 
             }//
-            
+
             //Update
             p = temp;
-            index++;
+            index = (index + 1) % K;
 
         }// while
 
-        if(start != null)
-        {
-            preRear.next = start;
-            preRear = rear;
-            preRear.next = null;
-        }//
+        reversedRear.next = start;
+        head = reversedStart;
 
         //return
         result = head;
         return result;
+
     }
+
     public static void main(String[] args) 
     {
 
