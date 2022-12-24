@@ -113,6 +113,70 @@ public class ReverseLinkedList
     }//
 
 
+    public static ListNode reverseEveryKElement(ListNode head, int K)
+    {
+        //Base Check
+        if(head == null || K <= 0)
+        {
+            return null;
+        }
+
+        //Intitializaiont
+        ListNode result = null;
+
+        //Reverse every K elements
+        ListNode start = null, rear = null;
+        ListNode preRear = rear;
+        ListNode p = head;
+        int index = 0;
+        while(p != null)
+        {
+            ListNode temp = p.next;
+            if(index % K == 0)
+            {
+                start = p;
+                rear = p;
+                rear.next = null;
+            }// 
+            else 
+            {
+                p.next = start;
+                start = p;
+            }// 
+
+            //update 
+            if(index % K == K - 1)
+            {
+                if(preRear != null)
+                {
+                    preRear.next = start;
+                    preRear = rear;
+                }
+                else 
+                {
+                    preRear = rear;
+                    head = start;
+                }//
+
+            }//
+            
+            //Update
+            p = temp;
+            index++;
+
+        }// while
+
+        if(start != null)
+        {
+            preRear.next = start;
+            preRear = rear;
+            preRear.next = null;
+        }//
+
+        //return
+        result = head;
+        return result;
+    }
     public static void main(String[] args) 
     {
 
@@ -140,11 +204,11 @@ public class ReverseLinkedList
             System.out.print(p.value + " ");
             p = p.next;
         }
-        System.out.println();
+        System.out.println("\n");
 
 
         //Reverse sub-list
-        System.out.print("Nodes of the reversed subList are: ");
+        System.out.println("Nodes of the reversed subList are: ");
         head = new ListNode(1);
         head.next = new ListNode(2);
         head.next.next = new ListNode(3);
@@ -158,9 +222,28 @@ public class ReverseLinkedList
             System.out.print(p.value + " ");
             p = p.next;
         }
-        System.out.println();
-        
+        System.out.println("\n");
+
+
+        //Reverse every k-element sublist
+        System.out.println("Reverse every k-element sublist");
+        head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+        head.next.next.next.next.next = new ListNode(6);
+        head.next.next.next.next.next.next = new ListNode(7);
+        head.next.next.next.next.next.next.next = new ListNode(8);
+        head = ReverseLinkedList.reverseEveryKElement(head, 3);
+        p = head;
+        while (p != null) 
+        {
+            System.out.print(p.value + " ");
+            p = p.next;
+        }//
+
+        System.out.println("\n");
     }
 
 }
-
