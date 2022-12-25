@@ -248,7 +248,7 @@ public class DP {
             {
                 if(j == 0)
                 {
-                    dp[i][j] = true;
+                    dp[i][j] = true; //[] is one type of subset, therefore the sum of [] is 0. 
                 }//
                 else 
                 {
@@ -334,41 +334,30 @@ public class DP {
         }//
 
 
-        //find the specific subset
+        //DP
         for(int i = 1; i <= arr.length; i++)
         {
             for(int j = 1; j <= S; j++)
             {
-                boolean result1 = dp[i - 1][j];
-                boolean result2 = false;
+                boolean result1 = dp[i - 1][j]; // Do not select the item at the index 'i'
+
+                boolean result2;        // 
                 if(arr_copy[i] > j)
                 {
                     result2 = dp[i - 1][j];
                 }//
                 else 
                 {
-                    result2 = true;
+                    result2 = dp[i - 1][j - arr_copy[i]];
 
                 }// else
                 
                 dp[i][j] = result1 || result2;
-
             }// for
-
 
         }// for
 
         //return
-        for(int i = 0; i < arr.length; i++)
-        {
-            for(int j = 0; j <= S; j++)
-            {
-                System.out.print(" " + dp[i][j]);
-            }
-
-            System.out.println();
-            
-        }
         return dp[arr.length][S];
 
     }//
@@ -376,7 +365,7 @@ public class DP {
 
     public static int minimumDiffrence(int[] arr)
     {
-        //Check validity
+        //Base Check
         if(arr == null)
         {
             return -1;
@@ -384,24 +373,26 @@ public class DP {
 
         //Initialization
         int sum = 0;
-        for(int i = 0;i < arr.length; i++)
+        for(int i = 0; i < arr.length; i++)
         {
             sum += arr[i];
         }
 
-        boolean[][] dp = new boolean[arr.length + 1][(sum/2) + 1];
-        for(int i = 0;i <= arr.length; i++)
+        boolean[][] dp = new boolean[arr.length + 1][(sum / 2) + 1];
+        for(int i = 0; i <= arr.length; i++)
         {
-            for(int j = 0; j <= (sum/2);j++)
+            for(int j = 0; j <= (sum / 2); j++)
             {
                 if(j == 0)
                 {
                     dp[i][j] = true;
-                }//
+                }
+                else 
                 {
                     dp[i][j] = false;
                 }//
             }//
+            
         }//
 
         int[] arr_copy = new int[arr.length + 1];
@@ -410,14 +401,16 @@ public class DP {
             arr_copy[k] = arr[k - 1];
         }
 
-
+        int result;
+        
         //Find a minimum difference.
         for(int i = 1; i <= arr.length; i++)
         {
-            for(int j = 1; j <= (sum/2); j++)
+            for(int j = 1; j <= (sum / 2); j++)
             {
                 boolean result1 = dp[i - 1][j];
-                boolean result2 = false;
+                
+                boolean result2;
                 if(arr_copy[i] > j)
                 {
                     result2 = dp[i - 1][j];
@@ -427,49 +420,22 @@ public class DP {
                     result2 = dp[i - 1][j - arr_copy[i]];
                 }//
 
-
                 dp[i][j] = result1 || result2;
-            }//
+            }// for
 
-        }//
-        
-        //update
-        int result = Integer.MIN_VALUE;
-        if(dp[arr.length][sum / 2] == false)
+        }// for
+    
+        int j = sum / 2;
+        while(j >= 1 && dp[arr.length][j] == false)
         {
-            result = -1;
+            j--;
         }
-        else 
-        {
-            int i = arr.length, j = (sum / 2);
-            int subsetSum = 0;
-            while(i != 0)
-            {
-                if(dp[i][j] != dp[i - 1][j])
-                {
-                    subsetSum += arr_copy[i];
-                }//
-
-                if(dp[i][j] == dp[i - 1][j])
-                {
-                    i--;
-                }
-                else 
-                {
-                    i--;
-                    j -= arr_copy[i];
-                }//
-            
-            }//
-            
-
-            result = Math.abs((sum - subsetSum) - subsetSum);
-        }//
         
+        int difference = (sum - j) - j;
 
         //return
+        result = difference;
         return result;
-        
     }//
 
 
@@ -509,14 +475,15 @@ public class DP {
         System.out.println();
 
         //
-        System.out.println("\n Same sum");
+        System.out.println("Same sum");
         System.out.println(DP.sumEqualSDP(new int[] {1, 2, 3, 7 }, 5));
-        System.out.println(DP.sumEqualSDP(new int[] {1, 2, 7, 1, 5 }, 15));
+        System.out.println(DP.sumEqualSDP(new int[] {1, 2, 7, 1, 0 }, 15));
         System.out.println(DP.sumEqualSDP(new int[] {1, 3, 4, 8}, 13));
+        System.out.println(DP.sumEqualSDP(new int[] {1, 2, 7, 1, 5}, 8));
         System.out.println();
 
         //
-        System.out.println("\n MInimum difference");
+        System.out.println("MInimum difference");
         System.out.println(DP.minimumDiffrence(new int[] {1, 2, 3, 9}));
         System.out.println(DP.minimumDiffrence(new int[] {1, 2, 7, 1, 5}));
         System.out.println(DP.minimumDiffrence(new int[]{1, 3, 100, 4}));
