@@ -1,7 +1,9 @@
 import java.util.*;
 
-public class SlideWindow {
-    public static int findMax(int K, int[] arr) {
+public class SlideWindow 
+{
+    public static int findMax(int K, int[] arr) 
+    {
         // initialization
         double[] result = new double[arr.length - K + 1];
         double max = Double.MIN_VALUE;
@@ -256,7 +258,8 @@ public class SlideWindow {
         return minLen;
     }
 
-    public static int basicSumBeyondSTest(int S, int[] arr) {
+    public static int basicSumBeyondSTest(int S, int[] arr) 
+    {
         // initialization
         int winS = 0, winE = 0;
         double winSum = arr[0];
