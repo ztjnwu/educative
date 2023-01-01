@@ -1,6 +1,7 @@
 import java.util.*;
 
-public class DP {
+public class DP 
+{
     
     public static int knapsack(int[] profits, int[] weights, int number, int capacity)
     {
@@ -71,7 +72,7 @@ public class DP {
                 }//
                 else 
                 {
-                    profit2 = dp[i - 1][j];
+                    profit2 = 0;
                 }//
                 
                 dp[i][j] = Math.max(profit1, profit2);
@@ -276,7 +277,7 @@ public class DP {
                 boolean result2;
                 if(arr_copy[i] > j)
                 {
-                    result2 = dp[i - 1][j];
+                    result2 = false;
                 }//
                 else //arr_copy[i] <= j
                 {
@@ -344,7 +345,7 @@ public class DP {
                 boolean result2;        // 
                 if(arr_copy[i] > j)
                 {
-                    result2 = dp[i - 1][j];
+                    result2 = false;
                 }//
                 else 
                 {
@@ -413,7 +414,7 @@ public class DP {
                 boolean result2;
                 if(arr_copy[i] > j)
                 {
-                    result2 = dp[i - 1][j];
+                    result2 = false;
                 }
                 else
                 {
@@ -447,7 +448,7 @@ public class DP {
             return -1;
         }
 
-        //Intitlization
+        //Initiatlization
         int result = -1;
 
         int[][] dp = new int [arr.length + 1][S + 1];
@@ -456,7 +457,7 @@ public class DP {
         {
             arr_copy[i] = arr[i - 1];
         }//
-        
+             
         for(int i = 0; i <= arr.length; i++)
         {
             for(int j = 0; j <= S; j++)
@@ -477,22 +478,104 @@ public class DP {
         {
             for(int j = 1; j <= S; j++)
             {
-                if(arr_copy[i] > j)
+                int r1 = dp[i - 1][j];
+
+                int r2;
+                if(arr_copy[i] <= j)
                 {
-                    dp[i][j] = dp[i - 1][j];
+                    r2 = dp[i - 1][j - arr_copy[i]];
                 }//
-                else
+                else 
                 {
-                    dp[i][j] = dp[i - 1][j - arr_copy[i]];
-                }//
+                    r2 = 0;
+                }
+                
+                dp[i][j] = r1 + r2;
+
+                //System.out.print(" " + dp[i][j]);
             }//
-        }// 
+
+            //System.out.println();
+        }//
 
         //return
         result = dp[arr.length][S];
         return result;
-    }
+    }//
 
+
+    public static int numberOfEqualToSOPT(int[] arr, int S)
+    {
+        //Base check
+        if(arr == null)
+        {
+            return -1; 
+        }
+
+        int totalSum = 0;
+        for(int i = 0; i < arr.length; i++)
+        {
+            totalSum += arr[i];
+        }
+
+        int upperCeiling = (totalSum + S) / 2;
+        if((totalSum + S) % 2 != 0)
+        {
+            return -1;
+        }
+
+        //Initialization
+        int result = -1;
+        int[][] dp = new int[arr.length + 1][upperCeiling + 1];
+        for(int i = 0; i <= arr.length; i++)
+        {
+            for(int j = 0; j <= upperCeiling; j++)
+            {
+                if( j == 0 )
+                {
+                    dp[i][j] = 1;
+                }//
+                else 
+                {
+                    dp[i][j] = 0;
+                }//
+            }//        
+        }//
+        
+        int arr_copy[] = new int[arr.length + 1];
+        for(int i = 1; i <= arr.length; i++)
+        {
+            arr_copy[i] = arr[i - 1];
+        }//
+
+        //DP
+        for(int i = 1; i <= arr.length; i++)
+        {
+            for(int j = 1; j <= upperCeiling; j++)
+            {
+                int result1 = dp[i - 1][j];
+
+                int result2;
+                if(arr_copy[i] > j)
+                {
+                    result2 = 0;
+                }
+                else
+                {
+                    result2 = dp[i - 1][j - arr_copy[i]];
+                }
+
+                dp[i][j] = result1 + result2;
+                System.out.print(" " + dp[i][j]);
+
+            }//
+            System.out.println();
+        }//
+
+        //return
+        result = dp[arr.length][upperCeiling];
+        return result;
+    }
 
     public static void main(String[] args)
     {
@@ -543,11 +626,12 @@ public class DP {
         System.out.println(DP.minimumDiffrence(new int[] {1, 2, 7, 1, 5}));
         System.out.println(DP.minimumDiffrence(new int[]{1, 3, 100, 4}));
         System.out.println();
+        
 
         //
         System.out.println("The number of subsets equal to S");
-        System.out.println(DP.numberOfSubsets(new int[] {1, 1, 2, 3}, 4));
-        System.out.println(DP.numberOfSubsets(new int[] {1, 2, 7, 1, 5}, 9));
+        System.out.println(DP.numberOfEqualToSOPT(new int[] {1, 1, 2, 3}, 7));
+        System.out.println(DP.numberOfEqualToSOPT(new int[] {1, 2, 7, 1}, 9));
         System.out.println();
 
     }// main

@@ -143,6 +143,8 @@ public class XOR
         result = key ^ allOnes;
         return result;
     }
+
+
     public static void main(String[] args)
     {
         //Find missing number
