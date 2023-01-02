@@ -185,7 +185,7 @@ public class SlideWindow
         double winSum = arr[0];
         double max = Double.MIN_VALUE;
 
-        // loop
+        //loop
         while (winE < arr.length) 
         {
             if (winE - winS + 1 == K) 
@@ -260,12 +260,12 @@ public class SlideWindow
 
     public static int basicSumBeyondSTest(int S, int[] arr) 
     {
-        // initialization
+        //initialization
         int winS = 0, winE = 0;
         double winSum = arr[0];
         int minLen = Integer.MAX_VALUE;
 
-        // loop
+        //loop
         while (winE < arr.length) {
             boolean flag = false;
             while (winS <= winE && winSum >= S) {
@@ -330,28 +330,36 @@ public class SlideWindow
         return maxLen;
     }
 
-    public static int basicKCharLongestOPT(int K, String str) {
+    public static int basicKCharLongestOPT(int K, String str) 
+    {
         int winS = 0, winE = 0;
         int maxLen = Integer.MIN_VALUE;
         Map<Character, Integer> freqMap = new HashMap<>();
         freqMap.put(str.charAt(0), 1);
 
-        while (winS <= winE && winE < str.length()) {
-            if (freqMap.size() == K) {
+        while (winE < str.length()) 
+        {
+            if(freqMap.size() == K) 
+            {
                 maxLen = Math.max(maxLen, winE - winS + 1);
                 winE++;
-                if (winE < str.length()) {
+                if (winE < str.length()) 
+                {
                     Character tempLetter = str.charAt(winE);
                     freqMap.put(tempLetter, freqMap.getOrDefault(tempLetter, 0) + 1);
                 }
-            } else if (freqMap.size() < K) {
+            } 
+            else if(freqMap.size() < K) 
+            {
                 winE++;
                 if (winE < str.length()) {
                     Character tempLetter = str.charAt(winE);
                     freqMap.put(tempLetter, freqMap.getOrDefault(tempLetter, 0) + 1);
                 }
 
-            } else {// freqMap.size() > K
+            } 
+            else 
+            {// freqMap.size() > K
                 winS++;
                 Character tempLetter = str.charAt(winS - 1);
                 freqMap.put(tempLetter, freqMap.get(tempLetter) - 1);
