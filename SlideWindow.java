@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.lang.model.util.ElementScanner6;
+
 public class SlideWindow 
 {
     public static int findMax(int K, int[] arr) 
@@ -738,57 +740,96 @@ public class SlideWindow
 
     public static List<String> basicSmallestSubstring(String str, String pattern) 
     {
-        // base check
-        int winS = 0, winE = 0;
-        List<String> result = new ArrayList<>();
-        Map<Character, Integer> freqMapPattern = new HashMap<>();
-        for (char letter : pattern.toCharArray()) {
-            freqMapPattern.put(letter, freqMapPattern.getOrDefault(letter, 0) + 1);
+        // Base check
+        if(str == null || pattern == null)
+        {
+            return null;
         }
-        Character curLetter = str.charAt(winS);
-        int matchedSum = 0;
-        if (freqMapPattern.containsKey(curLetter)) {
-            freqMapPattern.put(curLetter, freqMapPattern.get(curLetter) - 1);
-            if (freqMapPattern.get(curLetter) == 0) {
+
+        // Initializaton
+        List<String> result = new ArrayList<>();
+        
+        Map<Character, Integer> freqMap = new HashMap<>();
+        for (char letter : pattern.toCharArray()) 
+        {
+            freqMap.put(letter, freqMap.getOrDefault(letter, 0) + 1);
+        }
+
+        Character curLetter = str.charAt(0);
+        int matchedSum;
+        if (freqMap.containsKey(curLetter)) 
+        {
+            freqMap.put(curLetter, freqMap.get(curLetter) - 1);
+            if (freqMap.get(curLetter) == 0) 
+            {
                 matchedSum = 1;
-            } else {
+            } 
+            else 
+            {
                 matchedSum = 0;
             }
         }
+        else
+        {
+            matchedSum = 0;
+        }//
+
         int minLen = Integer.MAX_VALUE;
+        
+        //Find the smallest substring
+        int winS = 0, winE = 0;
+        while (winE < str.length()) 
+        {
+            //Find out the targeted substring
+            if(winE - winS + 1 >= pattern.length())
+            {
+                if(matchedSum == freqMap.size())
+                {
+                    if(minLen > winE - winS + 1)
+                    {
+                        minLen = winE - winS + 1;
+                        result.clear();
+                        result.add(str.substring(winS, winE + 1));
+                    }//
+                }//
+                
+            }// if
 
-        while (winE < str.length()) {
-            // Filter out
-            while (winS <= winE && (matchedSum == freqMapPattern.size())) {
-                if (minLen > winE - winS + 1) {
-                    minLen = Math.min(minLen, winE - winS + 1);
-                    result.add(str.substring(winS, winE + 1));
-                }
-                winS++;
-                curLetter = str.charAt(winS - 1);
-                if (freqMapPattern.containsKey(curLetter)) {
-                    freqMapPattern.put(curLetter, freqMapPattern.get(curLetter) + 1);
-                    if (freqMapPattern.get(curLetter) == 1) {
+
+            //Update current variables
+            if(winE - winS + 1 > pattern.length())
+            {
+                if(freqMap.containsKey(str.charAt(winS)))
+                {
+                    freqMap.put(str.charAt(winS), freqMap.get(str.charAt(winS)) + 1);
+                    if(freqMap.get(str.charAt(winS)) == 1)
+                    {
                         matchedSum--;
-                    }
-                }
-            }
-
-            // Update
-            winE++;
-            if (winE < str.length()) {
-                curLetter = str.charAt(winE);
-                if (freqMapPattern.containsKey(curLetter)) {
-                    freqMapPattern.put(curLetter, freqMapPattern.getOrDefault(curLetter, 0) - 1);
-                    if (freqMapPattern.get(curLetter) == 0) {
-                        matchedSum++;
-                    }
+                    }//
+    
                 }
 
+                winS++;
             }
-        }
+            else if(winE - winS + 1 <= pattern.length())
+            {
+                winE++;
+                if(winE < str.length())
+                {
+                    if(freqMap.containsKey(str.charAt(winE)))
+                    {
+                        freqMap.put(str.charAt(winE), freqMap.get(str.charAt(winE)) - 1);
+                        if(freqMap.get(str.charAt(winE)) == 0)
+                        {
+                            matchedSum++;
+                        }//
+                    }//
+                }//
+                
+            }// else
 
-        // return
+        }// while
+        //return
         return result;
     }
 
@@ -911,22 +952,10 @@ public class SlideWindow
 
         //Check permution
         System.out.println("Smallest substring");
-        List<String> result_sbstring = null;
-        result_sbstring = SlideWindow.basicSmallestSubstring("aabdec", "abc");
-        if (result_sbstring.size() != 0)
-            System.out.println("substring: " + result_sbstring.get(result_sbstring.size() - 1).toString());
-        result_sbstring = SlideWindow.basicSmallestSubstring("aabdec", "abac");
-        if (result_sbstring.size() != 0)
-            System.out.println("substring: " + result_sbstring.get(result_sbstring.size() - 1).toString());
-        result_sbstring = SlideWindow.basicSmallestSubstring("abdbca", "abc");
-        if (result_sbstring.size() != 0)
-            System.out.println("substring: " + result_sbstring.get(result_sbstring.size() - 1).toString());
-        result_sbstring = SlideWindow.basicSmallestSubstring("adcad", "abc");
-        if (result_sbstring.size() != 0)
-            System.out.println("substring: " + result_sbstring.get(result_sbstring.size() - 1).toString());
-        else {
-            System.out.println("substring: " + result_sbstring.toString());
-        }
+        System.out.println(SlideWindow.basicSmallestSubstring("aabdec", "abc"));
+        System.out.println(SlideWindow.basicSmallestSubstring("aabdec", "abac"));
+        System.out.println(SlideWindow.basicSmallestSubstring("abdbca", "abc"));
+        System.out.println(SlideWindow.basicSmallestSubstring("adcad", "abc"));
         System.out.println();
     }
 
