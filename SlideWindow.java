@@ -515,73 +515,114 @@ public class SlideWindow
     }
 
 
-    public static int basicLongestRepSubstringRight(int K, String str) {
-        int winS = 0, winE = 0;
-        int maxLen = Integer.MIN_VALUE; // avoid the string with all same letters
+    public static int basicLongestRepSubstringRight(int K, String str) 
+    {
+        //Base Check
+        if(str == null || K == -1)
+        {
+            return -1;
+        }
+
+        //Initialization
+        int result = -1;
+
+        int maxLen = Integer.MIN_VALUE; //avoid the string with all same letters
         HashMap<Character, Integer> freqMap = new HashMap<>();
-        Character curLetter = str.charAt(winS);
-        freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
+        freqMap.put(str.charAt(0), freqMap.getOrDefault(str.charAt(0), 0) + 1);
 
-        while (winE < str.length()) {
-            while ((winS <= winE) && (winE - winS + 1 - Collections.max(freqMap.values()) > K)) {
-                winS++;
-                curLetter = str.charAt(winS - 1);
-                freqMap.put(curLetter, freqMap.get(curLetter) - 1);
-                if (freqMap.get(curLetter) == 0) {
-                    freqMap.remove(curLetter);
-                }
-            }
-
-            // wipe out the windows whose min_value are greater than K
-            if (winS <= winE) {
+        //The longes substring with the replaced letters
+        int winS = 0, winE = 0;
+        while(winE < str.length()) 
+        {
+            if((winE - winS + 1) - Collections.max(freqMap.values()) == K)
+            {
                 maxLen = Math.max(maxLen, winE - winS + 1);
-            }
+                winE++;
+                if(winE < str.length())
+                {
+                    freqMap.put(str.charAt(winE), freqMap.getOrDefault(str.charAt(winE), 0) + 1);
+                }//
 
-            winE++;
-            if (winE < str.length()) {
-                curLetter = str.charAt(winE);
-                freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
             }
+            else if((winE - winS + 1) - Collections.max(freqMap.values()) < K)
+            {
+                winE++;
+                if(winE < str.length())
+                {
+                    freqMap.put(str.charAt(winE), freqMap.getOrDefault(str.charAt(winE), 0) + 1);
+                }//
+
+            }
+            else 
+            {
+                freqMap.put(str.charAt(winS), freqMap.get(str.charAt(winS)) - 1);
+                if(freqMap.get(str.charAt(winS)) == 0)
+                {
+                    freqMap.remove(str.charAt(winS));
+                }//
+
+                winS++;
+            }//
 
         }
 
         // return
-        return maxLen;
-
+        result = maxLen;
+        return result;
     }
 
 
-    public static int basicLongest1sSubstring(int K, String str) {
-        int winS = 0, winE = 0;
+    public static int basicLongest1sSubstring(int K, String str) 
+    {
+        //Base Check
+        if(str == null || K == -1)
+        {
+            return -1;
+        }//
+
+        //Initialization
+        int result = -1;
         int maxLen = Integer.MIN_VALUE;
         HashMap<Character, Integer> freqMap = new HashMap<>();
-        Character curLetter = str.charAt(winS);
-        freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
+        freqMap.put(str.charAt(0), freqMap.getOrDefault(str.charAt(0), 0) + 1);
 
-        while (winE < str.length()) {
-            while ((winS <= winE) && (winE - winS + 1 - freqMap.getOrDefault('1', 0) > K)) {
-                winS++;
-                curLetter = str.charAt(winS - 1);
-                freqMap.put(curLetter, freqMap.get(curLetter) - 1);
-                if (freqMap.get(curLetter) == 0) {
-                    freqMap.remove(curLetter);
-                }
-            }
-
-            if (winS <= winE) {
+        //Find the numbe of subarray with the same letters
+        int winS = 0, winE = 0;
+        while (winE < str.length()) 
+        {
+            if((winE - winS + 1) - freqMap.getOrDefault('1', 0) == K) 
+            {
                 maxLen = Math.max(maxLen, winE - winS + 1);
-            }
+                winE++;
+                if(winE < str.length())
+                {
+                    freqMap.put(str.charAt(winE), freqMap.getOrDefault(str.charAt(winE), 0) + 1);
+                }//
+            }//
+            else if((winE - winS + 1) - freqMap.getOrDefault('1', 0) < K)
+            {
+                winE++;
+                if(winE < str.length())
+                {
+                    freqMap.put(str.charAt(winE), freqMap.getOrDefault(str.charAt(winE), 0) + 1);
+                }//
+            }//
+            else 
+            {
+                freqMap.put(str.charAt(winS), freqMap.get(str.charAt(winS)) - 1);
+                if(freqMap.get(str.charAt(winS)) == 0)
+                {
+                    freqMap.remove(str.charAt(winS));     
+                }//
 
-            winE++;
-            if (winE < str.length()) {
-                curLetter = str.charAt(winE);
-                freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
-            }
+                winS++;
+            }//
 
         }
 
         // return
-        return maxLen;
+        result = maxLen;
+        return result;
     }
 
 
@@ -742,7 +783,7 @@ public class SlideWindow
         return result;
     }
 
-    
+
     public static void main(String[] args) {
         System.out.println("find max");
         int result;
@@ -792,14 +833,14 @@ public class SlideWindow
         result = SlideWindow.basicSumBeyondSTest(8, new int[] { 2, 1, 5, 2, 8, 2 });
         System.out.println("Smallest subarray length: " + result + "\n");
 
-        // Longest testing
+        //Longest testing
         System.out.println("\nLongest_OPT");
         System.out.println("Length of the longest substring: " + SlideWindow.basicKCharLongestOPT(2, "araaci"));
         System.out.println("Length of the longest substring: " + SlideWindow.basicKCharLongestOPT(1, "araaci"));
         System.out.println("Length of the longest substring: " + SlideWindow.basicKCharLongestOPT(3, "cbbebi"));
         System.out.println();
 
-        // fruit bucket
+        //Fruit bucket
         System.out.println("\nFruit Bucket ");
         result = SlideWindow.basicFruitTreeBuckets(2, "ABCAC");
         System.out.println("Maximum number of fruits: " + result);
@@ -807,7 +848,7 @@ public class SlideWindow
         System.out.println("Maximum number of fruits: " + result);
         System.out.println();
 
-        // fruit bucket
+        //Fruit bucket
         System.out.println("\nFruit Bucket OPT");
         result = SlideWindow.basicFruitTreeBucketsOPT(2, "ABCAC");
         System.out.println("Maximum number of fruits: " + result);
@@ -815,7 +856,7 @@ public class SlideWindow
         System.out.println("Maximum number of fruits: " + result);
         System.out.println();
 
-        // Longest All Characters
+        //Longest All Characters
         System.out.println("Longest All Characters");
         result = SlideWindow.basicLongestDiffCharSubstring("aabccbb");
         System.out.println("Length of the longest substring: " + result);
@@ -827,13 +868,13 @@ public class SlideWindow
         System.out.println("Length of the longest substring: " + result);
         System.out.println();
 
-        // Longest All Characters RIGHT
+        //Longest All Characters RIGHT
         System.out.println("Longest Replacement substring RIGHT Algorithm!");
-        result = SlideWindow.basicLongestRepSubstringRight(5, "aabccbb");
+        result = SlideWindow.basicLongestRepSubstringRight(2, "aabccbb");
         System.out.println("Length of the longest substring: " + result);
-        result = SlideWindow.basicLongestRepSubstringRight(3, "abbbb");
+        result = SlideWindow.basicLongestRepSubstringRight(1, "abbcb");
         System.out.println("Length of the longest substring: " + result);
-        result = SlideWindow.basicLongestRepSubstringRight(3, "abccde");
+        result = SlideWindow.basicLongestRepSubstringRight(1, "abccde");
         System.out.println("Length of the longest substring: " + result);
         result = SlideWindow.basicLongestRepSubstringRight(1, "abcde");
         System.out.println("Length of the longest substring: " + result);
@@ -841,15 +882,15 @@ public class SlideWindow
         System.out.println("Length of the longest substring: " + result);
         System.out.println();
 
-        // Longest 1S
+        //Longest 1S
         System.out.println("Longest 1S substring!");
-        result = SlideWindow.basicLongest1sSubstring(2, " 01100011011");
+        result = SlideWindow.basicLongest1sSubstring(2, "01100011011");
         System.out.println("Length of the longest substring: " + result);
         result = SlideWindow.basicLongest1sSubstring(3, "0100110110011");
         System.out.println("Length of the longest substring: " + result);
         System.out.println();
 
-        // Check permution
+        //Check permution
         System.out.println("Check permution!");
         Boolean result_check = false;
         result_check = SlideWindow.basicPermutionCheck("oidbcaf", "abc");
