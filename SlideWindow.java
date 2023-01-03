@@ -626,109 +626,118 @@ public class SlideWindow
     }
 
 
-    public static Boolean basicPermutionCheck(String str, String pattern) {
-        int winS = 0, winE = 0;
-        Map<Character, Integer> freqMapPattern = new HashMap<>();
-        for (char letter : pattern.toCharArray()) {
-            freqMapPattern.put(letter, freqMapPattern.getOrDefault(letter, 0) + 1);
+    public static List<String> basicPermutionCheck(String str, String pattern) 
+    {
+        //Base Check
+        if(str == null || pattern == null)
+        {
+            return null;
         }
-        Character curLetter = str.charAt(winS);
+
+        //Initilaiaton
+        Map<Character, Integer> freqMap = new HashMap<>();
+        for (char letter : pattern.toCharArray()) 
+        {
+            freqMap.put(letter, freqMap.getOrDefault(letter, 0) + 1);
+        }
+
+        Character curLetter = str.charAt(0);
         int matchedSum = 0;
-        if (freqMapPattern.containsKey(curLetter)) {
-            freqMapPattern.put(curLetter, freqMapPattern.get(curLetter) - 1);
-            if (freqMapPattern.get(curLetter) == 0) {
+        if (freqMap.containsKey(curLetter)) 
+        {
+            freqMap.put(curLetter, freqMap.get(curLetter) - 1);
+            if (freqMap.get(curLetter) == 0) 
+            {
                 matchedSum = 1;
             }
         }
-        Boolean result = false;
 
-        while (winE < str.length()) {
-            // Filter out
-            while (winS <= winE && (matchedSum == freqMapPattern.size())) {
-                if (winE - winS + 1 == pattern.length()) {
-                    result = true;
-                }
-                winS++;
-                curLetter = str.charAt(winS - 1);
-                if (freqMapPattern.containsKey(curLetter)) {
-                    freqMapPattern.put(curLetter, freqMapPattern.get(curLetter) + 1);
-                    if (freqMapPattern.get(curLetter) == 1) {
-                        matchedSum--;
-                    }
-                }
-            }
+        List<String> result_list = new ArrayList<>();
 
-            // Update
-            winE++;
-            if (winE < str.length()) {
-                curLetter = str.charAt(winE);
-                if (freqMapPattern.containsKey(curLetter)) {
-                    freqMapPattern.put(curLetter, freqMapPattern.get(curLetter) - 1);
-                    if (freqMapPattern.get(curLetter) == 0) {
-                        matchedSum++;
-                    }
-                }
-            }
-
-        }
-
-        // return
-        return result;
-    }
-
-
-    public static List<Integer> basicPermution(String str, String pattern) {
+        //Find the longest substring 
         int winS = 0, winE = 0;
-        Map<Character, Integer> freqMapPattern = new HashMap<>();
-        for (char letter : pattern.toCharArray()) {
-            freqMapPattern.put(letter, freqMapPattern.getOrDefault(letter, 0) + 1);
-        }
-        Character curLetter = str.charAt(winS);
-        int matchedSum = 0;
-        if (freqMapPattern.containsKey(curLetter)) {
-            freqMapPattern.put(curLetter, freqMapPattern.get(curLetter) - 1);
-            if (freqMapPattern.get(curLetter) == 0) {
-                matchedSum = 1;
-            }
-        }
-        List<Integer> result = new ArrayList<Integer>();
-
-        while (winE < str.length()) {
-            while (winS <= winE && (matchedSum == freqMapPattern.size())) {
-                if (winE - winS + 1 == pattern.length()) {
-                    result.add(winS);
+        while (winE < str.length()) 
+        {
+            //Filter out
+            if (winE - winS + 1 == pattern.length()) 
+            {
+                if(matchedSum == freqMap.size())
+                {
+                    result_list.add(str.substring(winS, winE + 1));
                 }
+            
+                //Update winE
+                winE++;
+                if(winE < str.length())
+                {
+                    curLetter = str.charAt(winE);
+                }
+                
+                if(freqMap.containsKey(curLetter))
+                {
+                    freqMap.put(curLetter, freqMap.get(curLetter) - 1);
+                    if(freqMap.get(curLetter) == 0)
+                    {
+                        matchedSum++;
+                    }//
 
-                winS++;
-                curLetter = str.charAt(winS - 1);
-                if (freqMapPattern.containsKey(curLetter)) {
-                    freqMapPattern.put(curLetter, freqMapPattern.get(curLetter) + 1);
-                    if (freqMapPattern.get(curLetter) == 1) {
+                }//
+
+                //Update winS
+                curLetter = str.charAt(winS);
+                if(freqMap.containsKey(curLetter))
+                {
+                    freqMap.put(curLetter, freqMap.get(curLetter) + 1);
+                    if(freqMap.get(curLetter) == 1)
+                    {
                         matchedSum--;
                     }
                 }
-            }
+                
+                winS++;
 
-            winE++;
-            if (winE < str.length()) {
-                curLetter = str.charAt(winE);
-                if (freqMapPattern.containsKey(curLetter)) {
-                    freqMapPattern.put(curLetter, freqMapPattern.get(curLetter) - 1);
-                    if (freqMapPattern.get(curLetter) == 0) {
+            }
+            else if(winE - winS + 1 < pattern.length())
+            {
+                winE++;
+                if(winE < str.length())
+                {
+                    curLetter = str.charAt(winE);
+                }
+
+                if(freqMap.containsKey(curLetter))
+                {
+                    freqMap.put(curLetter, freqMap.get(curLetter) - 1);
+                    if(freqMap.get(curLetter) == 0)
+                    {
                         matchedSum++;
+                    }//
+                }//
+            }
+            else 
+            {
+                curLetter = str.charAt(winS);
+                if(freqMap.containsKey(curLetter))
+                {
+                    freqMap.put(curLetter, freqMap.get(curLetter) + 1);
+                    if(freqMap.get(curLetter) == 1)
+                    {
+                        matchedSum--;
                     }
                 }
-            }
+                winS++;
 
-        }
+            }//
 
-        // return
-        return result;
+        }//
 
+        //return
+        return result_list;
     }
 
 
-    public static List<String> basicSmallestSubstring(String str, String pattern) {
+    public static List<String> basicSmallestSubstring(String str, String pattern) 
+    {
         // base check
         int winS = 0, winE = 0;
         List<String> result = new ArrayList<>();
@@ -891,28 +900,16 @@ public class SlideWindow
         System.out.println();
 
         //Check permution
-        System.out.println("Check permution!");
-        Boolean result_check = false;
-        result_check = SlideWindow.basicPermutionCheck("oidbcaf", "abc");
-        System.out.println("Permutation exist: " + result_check);
-        result_check = SlideWindow.basicPermutionCheck("odicf", "dc");
-        System.out.println("Permutation exist: " + result_check);
-        result_check = SlideWindow.basicPermutionCheck("bcdxabcdy", "bcdyabcdx");
-        System.out.println("Permutation exist: " + result_check);
-        result_check = SlideWindow.basicPermutionCheck("aaacb", "abc");
-        System.out.println("Permutation exist: " + result_check);
+        System.out.println("Find out permutions!");
+        System.out.println(SlideWindow.basicPermutionCheck("oidbcaf", "abc"));
+        System.out.println(SlideWindow.basicPermutionCheck("odicf", "dc"));
+        System.out.println(SlideWindow.basicPermutionCheck("bcdxabcdy", "bcdyabcdx"));
+        System.out.println(SlideWindow.basicPermutionCheck("aaacb", "abc"));
+        System.out.println(SlideWindow.basicPermutionCheck("ppqp", "pq"));
+        System.out.println(SlideWindow.basicPermutionCheck("abbcabc", "abc"));
         System.out.println();
 
-        // Check permution
-        System.out.println("All of permutions");
-        List<Integer> result_permution = null;
-        result_permution = SlideWindow.basicPermution("ppqp", "pq");
-        System.out.println("Permution: " + result_permution.toString());
-        result_permution = SlideWindow.basicPermution("abbcabc", "abc");
-        System.out.println("Permution: " + result_permution.toString());
-        System.out.println();
-
-        // Check permution
+        //Check permution
         System.out.println("Smallest substring");
         List<String> result_sbstring = null;
         result_sbstring = SlideWindow.basicSmallestSubstring("aabdec", "abc");
