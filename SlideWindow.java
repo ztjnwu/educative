@@ -293,51 +293,23 @@ public class SlideWindow
         return minLen;
     }
 
-    public static int basicKCharLongest(int K, String str) {
-        int winS = 0, winE = 0;
-        int maxLen = Integer.MIN_VALUE;
-        Map<Character, Integer> freqMap = new HashMap<>();
-        Character curLetter = str.charAt(0);
-        freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
-
-        while (winE < str.length()) {
-            // filter out
-            while (winS <= winE && freqMap.size() > K) {
-                winS++;
-                curLetter = str.charAt(winS - 1);
-                freqMap.put(curLetter, freqMap.get(curLetter) - 1);
-                if (freqMap.get(curLetter) == 0) {
-                    freqMap.remove(curLetter);
-                }
-            }
-
-            // To do
-            if (winS <= winE && freqMap.size() <= K) {
-                // if (winS <= winE), then freqMap.size() <= K is definitely true
-                maxLen = Math.max(maxLen, winE - winS + 1);
-            }
-
-            // Update
-            winE++;
-            if (winE < str.length()) {
-                // Calculate the number of unique letters
-                curLetter = str.charAt(winE);
-                freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
-            }
-        }
-
-        // return
-        return maxLen;
-    }
-
     public static int basicKCharLongestOPT(int K, String str) 
     {
+        //Base Check
+        if(str == null)
+        {
+            return -1;
+        }
+
+        //Initialization
+        int result = -1;
         int winS = 0, winE = 0;
         int maxLen = Integer.MIN_VALUE;
         Map<Character, Integer> freqMap = new HashMap<>();
         freqMap.put(str.charAt(0), 1);
 
-        while (winE < str.length()) 
+        //Compute the number of 
+        while(winE < str.length()) 
         {
             if(freqMap.size() == K) 
             {
@@ -348,11 +320,13 @@ public class SlideWindow
                     Character tempLetter = str.charAt(winE);
                     freqMap.put(tempLetter, freqMap.getOrDefault(tempLetter, 0) + 1);
                 }
+
             } 
             else if(freqMap.size() < K) 
             {
                 winE++;
-                if (winE < str.length()) {
+                if (winE < str.length())
+                {
                     Character tempLetter = str.charAt(winE);
                     freqMap.put(tempLetter, freqMap.getOrDefault(tempLetter, 0) + 1);
                 }
@@ -363,9 +337,11 @@ public class SlideWindow
                 winS++;
                 Character tempLetter = str.charAt(winS - 1);
                 freqMap.put(tempLetter, freqMap.get(tempLetter) - 1);
-                if (freqMap.get(tempLetter) == 0) {
+                if (freqMap.get(tempLetter) == 0) 
+                {
                     freqMap.remove(tempLetter);
                 }
+
             } // else
 
         }
@@ -374,7 +350,19 @@ public class SlideWindow
         return maxLen;
     }
 
-    public static int basicFruitTreeBuckets(int FT, String str) {
+
+    public static int basicFruitTreeBuckets(int FT, String str) 
+    {
+        //Base Check
+        if(str == null)
+        {
+            return -1;
+        }
+
+        //Initialization
+        int result = -1;
+
+
         int winS = 0, winE = 0;
         int maxLen = Integer.MIN_VALUE;
         HashMap<Character, Integer> freqMap = new HashMap<>();
@@ -383,154 +371,149 @@ public class SlideWindow
         freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
         charSum = freqMap.size();
 
-        while (winE < str.length()) {
-            while (winS <= winE && charSum > FT) {
+        //Find the number of fruits
+        while(winE < str.length()) 
+        {
+            while(winS <= winE && charSum > FT) 
+            {
                 winS++;
                 curLetter = str.charAt(winS - 1);
                 freqMap.put(curLetter, freqMap.get(curLetter) - 1);
-                if (freqMap.get(curLetter) == 0) {
+                if (freqMap.get(curLetter) == 0) 
+                {
                     freqMap.remove(curLetter);
                 }
                 charSum = freqMap.size();
             }
 
-            if (winS <= winE && charSum == FT) {
+            if (winS <= winE && charSum == FT) 
+            {
                 maxLen = Math.max(maxLen, winE - winS + 1);
             }
 
-            // Shrink current window
+            //Shrink current window
             winE++;
-            if (winE < str.length()) {
+            if (winE < str.length()) 
+            {
                 curLetter = str.charAt(winE);
                 freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
                 charSum = freqMap.size();
-            }
+            }//
 
-        }
+        }//
 
-        // return
+        //return
         return maxLen;
     }
 
-    public static int basicFruitTreeBucketsOPT(int FT, String str) {
+
+    public static int basicFruitTreeBucketsOPT(int FT, String str) 
+    {
+        //Base Check
+        if(str == null)
+        {
+            return -1;
+        }
+
+        //Initialization
+        int result = -1;
         int winS = 0, winE = 0;
         int maxLen = Integer.MIN_VALUE;
         Map<Character, Integer> freqMap = new HashMap<>();
         Character curLetter = str.charAt(0);
         freqMap.put(curLetter, 1);
 
-        while (winS <= winE && winE < str.length()) {
-            if (freqMap.size() == FT) {
+        //Find the number of fruits
+        while (winE < str.length()) 
+        {
+            if (freqMap.size() == FT) 
+            {
                 maxLen = Math.max(maxLen, winE - winS + 1);
                 winE++;
-                if (winE < str.length()) {
+                if (winE < str.length())
+                {
                     Character temLetter = str.charAt(winE);
                     freqMap.put(temLetter, freqMap.getOrDefault(temLetter, 0) + 1);
                 }
-            } else if (freqMap.size() < FT) {
+
+            } else if (freqMap.size() < FT) 
+            {
                 winE++;
-                if (winE < str.length()) {
+                if (winE < str.length()) 
+                {
                     Character temLetter = str.charAt(winE);
                     freqMap.put(temLetter, freqMap.getOrDefault(temLetter, 0) + 1);
                 }
-            } else {
+
+            } 
+            else 
+            {
                 winS++;
-                Character temLetter = str.charAt(winE);
-                freqMap.put(temLetter, freqMap.getOrDefault(temLetter, 0) + 1);
+                Character temLetter = str.charAt(winS - 1);
+                freqMap.put(temLetter, freqMap.get(temLetter) - 1);
+                if(freqMap.get(temLetter) == 0)
+                {
+                    freqMap.remove(temLetter);
+                } 
+
             } // else
 
         } // while
 
-        // return
-        return maxLen;
+        //return
+        result = maxLen;
+        return result;
     }
 
-    public static int basicLongestDiffCharSubstring(String str) {
-        int winS = 0, winE = 0;
+
+    public static int basicLongestDiffCharSubstring(String str) 
+    {
+        //Base Check
+        if(str == null)
+        {
+            return -1;
+        }//
+
+        //Initialization
+        int result = -1;
         int maxLen = Integer.MIN_VALUE;
-        Character curLetter = str.charAt(winS);
         HashMap<Character, Integer> freqMap = new HashMap<>();
-        freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
-        int charSum = freqMap.size();
+        freqMap.put(str.charAt(0), freqMap.getOrDefault(str.charAt(0), 0) + 1);
 
-        while (winE < str.length()) {
-            while (winS <= winE && (winE - winS + 1) > charSum) {
-                winS++;
-                curLetter = str.charAt(winS - 1);
-                freqMap.put(curLetter, freqMap.get(curLetter) - 1);
-                if (freqMap.get(curLetter) == 0) {
-                    freqMap.remove(curLetter);
-                }
-                charSum = freqMap.size();
-            }
-
-            if (winS <= winE && charSum == (winE - winS + 1)) {
-                maxLen = Math.max(maxLen, winE - winS + 1);
-            }
-
-            winE++;
-            if (winE < str.length()) {
-                curLetter = str.charAt(winE);
-                freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
-                charSum = freqMap.size();
-            }
-
-        }
-
-        // return
-        return maxLen;
-
-    }
-
-    public static int basicLongestRepSubstringWrong(int K, String str) {
+        //Find the longest substring with all different letters
         int winS = 0, winE = 0;
-        int maxLen = Integer.MIN_VALUE; // avoid the string with all same letters
-        HashMap<Character, Integer> freqMap = new HashMap<>();
-        Character curLetter = str.charAt(winS);
-        freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
-        int charSum = freqMap.size();
-
-        while (winE < str.length()) {
-            // wipe out the windows whose charSum are greater than 2
-            while ((winS <= winE) && (charSum > 2)) {
-                winS++;
-                curLetter = str.charAt(winS - 1);
-                freqMap.put(curLetter, freqMap.get(curLetter) - 1);
-                if (freqMap.get(curLetter) == 0) {
-                    freqMap.remove(curLetter);
-                }
-                charSum = freqMap.size();
-            }
-
-            // wipe out the windows whose min_value are greater than K
-            while ((winS <= winE) && (charSum == 2) && (Collections.min(freqMap.values()) > K)) {
-                winS++;
-                curLetter = str.charAt(winS - 1);
-                freqMap.put(curLetter, freqMap.get(curLetter) - 1);
-                if (freqMap.get(curLetter) == 0) {
-                    freqMap.remove(curLetter);
-                }
-                charSum = freqMap.size();
-            }
-
-            // calculate the lontest substring
-            if (winS <= winE && charSum == 2 && Collections.min(freqMap.values()) <= K) {
+        while (winE < str.length()) 
+        {
+            if(winE - winS + 1 == freqMap.size()) 
+            {
                 maxLen = Math.max(maxLen, winE - winS + 1);
-            }
 
-            winE++;
-            if (winE < str.length()) {
-                curLetter = str.charAt(winE);
-                freqMap.put(curLetter, freqMap.getOrDefault(curLetter, 0) + 1);
-                charSum = freqMap.size();
-            }
+                winE++;
+                if(winE < str.length())
+                {
+                    freqMap.put(str.charAt(winE), freqMap.getOrDefault(str.charAt(winE), 0) + 1);
+                }// if
 
-        }
+            }//
+            else if(winE - winS + 1 > freqMap.size())
+            {
+                
+                freqMap.put(str.charAt(winS), freqMap.get(str.charAt(winS)) - 1);
+                if(freqMap.get(str.charAt(winS)) == 0)
+                {
+                    freqMap.remove(str.charAt(winS));
+                }// if
 
-        // return
-        return maxLen;
+                winS++;
+            }//
 
+        }//
+
+        //return
+        result = maxLen;
+        return result;
     }
+
 
     public static int basicLongestRepSubstringRight(int K, String str) {
         int winS = 0, winE = 0;
@@ -567,6 +550,7 @@ public class SlideWindow
 
     }
 
+
     public static int basicLongest1sSubstring(int K, String str) {
         int winS = 0, winE = 0;
         int maxLen = Integer.MIN_VALUE;
@@ -599,6 +583,7 @@ public class SlideWindow
         // return
         return maxLen;
     }
+
 
     public static Boolean basicPermutionCheck(String str, String pattern) {
         int winS = 0, winE = 0;
@@ -650,6 +635,7 @@ public class SlideWindow
         return result;
     }
 
+
     public static List<Integer> basicPermution(String str, String pattern) {
         int winS = 0, winE = 0;
         Map<Character, Integer> freqMapPattern = new HashMap<>();
@@ -699,6 +685,7 @@ public class SlideWindow
         return result;
 
     }
+
 
     public static List<String> basicSmallestSubstring(String str, String pattern) {
         // base check
@@ -755,6 +742,7 @@ public class SlideWindow
         return result;
     }
 
+    
     public static void main(String[] args) {
         System.out.println("find max");
         int result;
@@ -805,13 +793,6 @@ public class SlideWindow
         System.out.println("Smallest subarray length: " + result + "\n");
 
         // Longest testing
-        System.out.println("\nLongest");
-        System.out.println("Length of the longest substring: " + SlideWindow.basicKCharLongest(2, "araaci"));
-        System.out.println("Length of the longest substring: " + SlideWindow.basicKCharLongest(1, "araaci"));
-        System.out.println("Length of the longest substring: " + SlideWindow.basicKCharLongest(3, "cbbebi"));
-        System.out.println();
-
-        // Longest testing
         System.out.println("\nLongest_OPT");
         System.out.println("Length of the longest substring: " + SlideWindow.basicKCharLongestOPT(2, "araaci"));
         System.out.println("Length of the longest substring: " + SlideWindow.basicKCharLongestOPT(1, "araaci"));
@@ -819,7 +800,7 @@ public class SlideWindow
         System.out.println();
 
         // fruit bucket
-        System.out.println("\nFruit Bucket OPT");
+        System.out.println("\nFruit Bucket ");
         result = SlideWindow.basicFruitTreeBuckets(2, "ABCAC");
         System.out.println("Maximum number of fruits: " + result);
         result = SlideWindow.basicFruitTreeBuckets(2, "ABCBBC");
@@ -827,7 +808,7 @@ public class SlideWindow
         System.out.println();
 
         // fruit bucket
-        System.out.println("\nFruit Bucket");
+        System.out.println("\nFruit Bucket OPT");
         result = SlideWindow.basicFruitTreeBucketsOPT(2, "ABCAC");
         System.out.println("Maximum number of fruits: " + result);
         result = SlideWindow.basicFruitTreeBucketsOPT(2, "ABCBBC");
@@ -835,28 +816,14 @@ public class SlideWindow
         System.out.println();
 
         // Longest All Characters
-        System.out.println("\nLongest All Characters");
+        System.out.println("Longest All Characters");
         result = SlideWindow.basicLongestDiffCharSubstring("aabccbb");
         System.out.println("Length of the longest substring: " + result);
         result = SlideWindow.basicLongestDiffCharSubstring("abbbb");
         System.out.println("Length of the longest substring: " + result);
-        result = SlideWindow.basicLongestDiffCharSubstring("abccccde");
+        result = SlideWindow.basicLongestDiffCharSubstring("abccde");
         System.out.println("Length of the longest substring: " + result);
         result = SlideWindow.basicLongestDiffCharSubstring("abcde");
-        System.out.println("Length of the longest substring: " + result);
-        System.out.println();
-
-        // Longest All Characters Wrong
-        System.out.println("Longest Replacement substring Wong Algorithm!");
-        result = SlideWindow.basicLongestRepSubstringWrong(5, "aabccbb");
-        System.out.println("Length of the longest substring: " + result);
-        result = SlideWindow.basicLongestRepSubstringWrong(3, "abbcb");
-        System.out.println("Length of the longest substring: " + result);
-        result = SlideWindow.basicLongestRepSubstringWrong(3, "abccde");
-        System.out.println("Length of the longest substring: " + result);
-        result = SlideWindow.basicLongestRepSubstringWrong(1, "aaaaaab");
-        System.out.println("Length of the longest substring: " + result);
-        result = SlideWindow.basicLongestRepSubstringRight(1, "aaaaaaa");
         System.out.println("Length of the longest substring: " + result);
         System.out.println();
 
@@ -864,11 +831,11 @@ public class SlideWindow
         System.out.println("Longest Replacement substring RIGHT Algorithm!");
         result = SlideWindow.basicLongestRepSubstringRight(5, "aabccbb");
         System.out.println("Length of the longest substring: " + result);
-        result = SlideWindow.basicLongestRepSubstringRight(3, "abbcb");
+        result = SlideWindow.basicLongestRepSubstringRight(3, "abbbb");
         System.out.println("Length of the longest substring: " + result);
         result = SlideWindow.basicLongestRepSubstringRight(3, "abccde");
         System.out.println("Length of the longest substring: " + result);
-        result = SlideWindow.basicLongestRepSubstringRight(1, "aaaaaab");
+        result = SlideWindow.basicLongestRepSubstringRight(1, "abcde");
         System.out.println("Length of the longest substring: " + result);
         result = SlideWindow.basicLongestRepSubstringRight(1, "aaaaaaa");
         System.out.println("Length of the longest substring: " + result);
