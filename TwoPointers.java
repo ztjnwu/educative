@@ -413,7 +413,7 @@ public class TwoPointers {
             return null;
         }//
         
-        //Initialization
+        //Init
         List<List<Integer>> result = new ArrayList<>();
 
         //Find all of the subarrays whose products are less than target
@@ -422,37 +422,26 @@ public class TwoPointers {
         while(winE < arr.length)
         {
             //For a new subarray
-            
             if(product < targetProduct)
             {
-                
-                for(int i = winS; i <= winE; i++)
+                List<Integer> temp = new ArrayList<>();
+                for(int j = winS; j <= winE; j++)
                 {
-                    List<Integer> temp = new ArrayList<>();
-                    for(int j = i; j <= winE; j++)
-                    {
-                        temp.add(arr[j]);           
-                    }
-                    result.add(temp);
-                }// for
-                
-            }//
-
-            //Update indices
+                    temp.add(arr[j]);           
+                }
+                result.add(temp);
+            }// for
             
-            if(product < targetProduct)
+            //Update indices
+            winS++;
+            product /= arr[winS - 1];
+            if(winS > winE) // winS must be lower thant or eqaul to winE
             {
                 winE++;
-                if(winE <= arr.length - 1)
+                if(winE < arr.length)
                 {
                     product *= arr[winE];
                 }//
-            
-            }//
-            else 
-            {
-                winS++;
-                product /= arr[winS - 1];
             }//
 
         }// while

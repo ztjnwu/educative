@@ -687,7 +687,8 @@ public class SlideWindow
                 }//
 
                 //Update winS
-                curLetter = str.charAt(winS);
+                winS++;
+                curLetter = str.charAt(winS - 1);
                 if(freqMap.containsKey(curLetter))
                 {
                     freqMap.put(curLetter, freqMap.get(curLetter) + 1);
@@ -695,10 +696,8 @@ public class SlideWindow
                     {
                         matchedSum--;
                     }
-                }
-                
-                winS++;
-
+                }//
+            
             }
             else if(winE - winS + 1 < pattern.length())
             {
