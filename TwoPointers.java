@@ -1,7 +1,5 @@
 import java.util.*;
 
-import javax.lang.model.util.ElementScanner6;
-
 public class TwoPointers {
 
     public static List<List<Integer>> findPairs(int[] arr, int targetSum)
@@ -18,7 +16,7 @@ public class TwoPointers {
         List<List<Integer>> result = new ArrayList<>();
 
         //Find a pair with a smaller sum
-        while(r > l)
+        while(l < r)
         {
             //Form a new pair
             if(arr[l] + arr[r] == targetSum)
@@ -34,7 +32,7 @@ public class TwoPointers {
                 //Find the next pair
                 l++;
                 //Skip duplicate elements
-                while(r > l && arr[l] == arr[l - 1])
+                while(l < r && arr[l] == arr[l - 1])
                 {
                     l++;
                 }//
@@ -62,12 +60,12 @@ public class TwoPointers {
             {
                 l++; //r still keeps the same position
                 //Skip duplicate elements
-                while(r > l && arr[l] == arr[l - 1])
+                while(l < r && arr[l] == arr[l - 1])
                 {
                     l++;
                 }//
 
-            }
+            }//
             
         }//while
 
@@ -84,7 +82,7 @@ public class TwoPointers {
             return null;
         }//
 
-        //Initialization
+        //Init
         List<List<Integer>> result = new ArrayList<>();
 
         //Sort the array
@@ -110,7 +108,7 @@ public class TwoPointers {
                     {
                         
                         l++;
-                        while(r > l && arr[l] == arr[l - 1])
+                        while(l < r  && arr[l] == arr[l - 1])
                         {
                             l++;
                         }//
@@ -135,7 +133,7 @@ public class TwoPointers {
                     {
                         l++;
                         //Skip duplicate elements
-                        while(r > l && arr[l] == arr[l - 1])
+                        while(l < r && arr[l] == arr[l - 1])
                         {
                             l++;
                         }//
@@ -188,7 +186,7 @@ public class TwoPointers {
 
         }// while
     
-        //return
+        //Return
         List<Integer> result = new ArrayList<>();
         for(int i = 0; i <= l; i++)
         {
@@ -196,7 +194,6 @@ public class TwoPointers {
         }
 
         return result;
-
     }//
      
 
@@ -222,6 +219,7 @@ public class TwoPointers {
                 arr[l] = arr[r];
             }//
             
+            //update r
             r++;
         }//
 
@@ -244,11 +242,11 @@ public class TwoPointers {
             return null;
         }//
 
-        //Initialization
+        //Init
         List<Integer> result = new ArrayList<>();
         int l = 0, r = arr.length - 1;
 
-        //Square the elements
+        //Square
         while(l <= r)
         {
             if(arr[l] * arr[l] > arr[r] * arr[r])
@@ -261,6 +259,7 @@ public class TwoPointers {
                 result.add(0, arr[r] * arr[r]);
                 r--;
             }// else
+
         }//
 
         //return
