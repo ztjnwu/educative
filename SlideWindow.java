@@ -661,13 +661,14 @@ public class SlideWindow
         while (winE < str.length()) 
         {
             //Filter out
+            if(matchedSum == freqMap.size() && winE - winS + 1 == pattern.length())
+            {
+                result_list.add(str.substring(winS, winE + 1));
+            }
+
+
             if (winE - winS + 1 == pattern.length()) 
             {
-                if(matchedSum == freqMap.size())
-                {
-                    result_list.add(str.substring(winS, winE + 1));
-                }
-            
                 //Update winE
                 winE++;
                 if(winE < str.length())
@@ -757,10 +758,10 @@ public class SlideWindow
 
         Character curLetter = str.charAt(0);
         int matchedSum;
-        if (freqMap.containsKey(curLetter)) 
+        if(freqMap.containsKey(curLetter)) 
         {
             freqMap.put(curLetter, freqMap.get(curLetter) - 1);
-            if (freqMap.get(curLetter) == 0) 
+            if(freqMap.get(curLetter) == 0) 
             {
                 matchedSum = 1;
             } 
@@ -780,33 +781,29 @@ public class SlideWindow
         int winS = 0, winE = 0;
         while (winE < str.length()) 
         {
-            //Find out the targeted substring
-            if(winE - winS + 1 >= pattern.length())
+            //Find out the smallest substring
+            if(matchedSum == freqMap.size())
             {
-                if(matchedSum == freqMap.size())
+                if(minLen > winE - winS + 1)
                 {
-                    if(minLen > winE - winS + 1)
-                    {
-                        minLen = winE - winS + 1;
-                        result.clear();
-                        result.add(str.substring(winS, winE + 1));
-                    }//
+                    minLen = winE - winS + 1;
+                    //result.clear();
+                    result.add(str.substring(winS, winE + 1));
                 }//
-                
-            }// if
+            }//
 
 
             //Update current variables
             if(winE - winS + 1 > pattern.length())
             {
-                if(freqMap.containsKey(str.charAt(winS)))
+                curLetter = str.charAt(winS);
+                if(freqMap.containsKey(curLetter))
                 {
-                    freqMap.put(str.charAt(winS), freqMap.get(str.charAt(winS)) + 1);
-                    if(freqMap.get(str.charAt(winS)) == 1)
+                    freqMap.put(curLetter, freqMap.get(curLetter) + 1);
+                    if(freqMap.get(curLetter) == 1)
                     {
                         matchedSum--;
                     }//
-    
                 }
 
                 winS++;
@@ -816,23 +813,134 @@ public class SlideWindow
                 winE++;
                 if(winE < str.length())
                 {
-                    if(freqMap.containsKey(str.charAt(winE)))
+                    curLetter = str.charAt(winE);
+                    if(freqMap.containsKey(curLetter))
                     {
-                        freqMap.put(str.charAt(winE), freqMap.get(str.charAt(winE)) - 1);
-                        if(freqMap.get(str.charAt(winE)) == 0)
+                        freqMap.put(curLetter, freqMap.get(curLetter) - 1);
+                        if(freqMap.get(curLetter) == 0)
                         {
                             matchedSum++;
                         }//
+
                     }//
                 }//
                 
             }// else
+           
 
         }// while
+
         //return
         return result;
     }
 
+
+    public static List<String> wordsPermutions(String str, String[] words)
+    {
+        //Base check
+        if(str == null || words == null)
+        {
+            return null;
+        }
+
+        //Initialization
+        List<String> result = new ArrayList<>();
+
+        Map<String, Integer> freqMap = new HashMap<>();
+        int totalLength = 0;
+        for(int i = 0; i < words.length; i++)
+        {
+            freqMap.put(words[i], freqMap.getOrDefault(words[i], 0) + 1);
+            totalLength += words[i].length();
+        }//
+
+        int matchedSum = 0;
+        if(freqMap.containsKey(str.substring(0, words[0].length())))
+        {
+            freqMap.put(str.substring(0, words[0].length()), freqMap.get(str.substring(0, words[0].length())) - 1);
+            if(freqMap.get(words[0]) == 0)
+            {
+                matchedSum++;
+            }//
+        }//
+
+        //
+        int winS = 0, winE = 0;
+        while(winE < str.length())
+        {
+            //To Do
+            if(matchedSum == freqMap.size() && (winE - winS + words[0].length()) == totalLength)
+            {
+                result.add(str.substring(winS, winE + words[0].length()));
+            }//
+
+            //
+            String currentWord;
+            if((winE - winS + words[0].length()) == totalLength)
+            {
+                winE += words[0].length();
+                if(winE < str.length())
+                {
+                    currentWord = str.substring(winE, winE + words[0].length());
+                    if(freqMap.containsKey(currentWord))
+                    {
+                        freqMap.put(currentWord, freqMap.get(currentWord) - 1);
+                        if(freqMap.get(currentWord) == 0)
+                        {
+                            matchedSum++;
+                        }// if
+                    }// if
+                }//
+
+                currentWord = str.substring(winS, winS + words[0].length());
+                if(freqMap.containsKey(currentWord))
+                {
+                    freqMap.put(currentWord, freqMap.get(currentWord) + 1);
+                    if(freqMap.get(currentWord) == 1)
+                    {
+                        matchedSum--;
+                    }// if
+
+                }//
+                winS += words[0].length();
+
+            }
+            else if((winE - winS + words[0].length()) < totalLength)
+            {
+                winE += words[0].length();
+                {
+                    currentWord = str.substring(winE, winE + words[0].length());
+                    if(freqMap.containsKey(currentWord))
+                    {
+                        freqMap.put(currentWord, freqMap.get(currentWord) - 1);
+                        if(freqMap.get(currentWord) == 0)
+                        {
+                            matchedSum++;
+                        }
+                    }
+                }//
+
+            }// else if
+            else 
+            {
+                currentWord = str.substring(winS, winS + words[0].length());
+                if(freqMap.containsKey(currentWord))
+                {
+                    freqMap.put(currentWord, freqMap.get(currentWord) + 1);
+                    if(freqMap.get(currentWord) == 1)
+                    {
+                        matchedSum--;
+                    }
+
+                }
+                winS += words[0].length();
+            }// else
+            
+        }//
+
+        //return
+        return result;
+    }
 
     public static void main(String[] args) {
         System.out.println("find max");
@@ -957,6 +1065,14 @@ public class SlideWindow
         System.out.println(SlideWindow.basicSmallestSubstring("abdbca", "abc"));
         System.out.println(SlideWindow.basicSmallestSubstring("adcad", "abc"));
         System.out.println();
+
+
+        //Check a concentration of the words
+        System.out.println("Words concentration");
+        System.out.println(SlideWindow.wordsPermutions("catfoxcat", new String[] { "cat", "fox" }));
+        System.out.println(SlideWindow.wordsPermutions("catcatfoxfox", new String[] { "cat", "fox" }));
+        System.out.println();
+
     }
 
 }// class slidewindow
