@@ -6,7 +6,7 @@ public class TwoPointers {
 
     public static List<List<Integer>> findPairs(int[] arr, int targetSum)
     {
-        //Check Validity
+        //Base Check
         if(arr == null)
         {
             return null;

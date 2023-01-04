@@ -666,7 +666,7 @@ public class SlideWindow
                 result_list.add(str.substring(winS, winE + 1));
             }
 
-
+            //Update winS and winE
             if (winE - winS + 1 == pattern.length()) 
             {
                 //Update winE
@@ -749,6 +749,7 @@ public class SlideWindow
 
         // Initializaton
         List<String> result = new ArrayList<>();
+        int minLen = Integer.MAX_VALUE;
         
         Map<Character, Integer> freqMap = new HashMap<>();
         for (char letter : pattern.toCharArray()) 
@@ -764,7 +765,7 @@ public class SlideWindow
             if(freqMap.get(curLetter) == 0) 
             {
                 matchedSum = 1;
-            } 
+            }//
             else 
             {
                 matchedSum = 0;
@@ -775,40 +776,62 @@ public class SlideWindow
             matchedSum = 0;
         }//
 
-        int minLen = Integer.MAX_VALUE;
         
         //Find the smallest substring
         int winS = 0, winE = 0;
-        while (winE < str.length()) 
+        while (winE < str.length())
         {
             //Find out the smallest substring
             if(matchedSum == freqMap.size())
             {
-                if(minLen > winE - winS + 1)
+                if( winE - winS + 1 < minLen )
                 {
                     minLen = winE - winS + 1;
-                    //result.clear();
+                    result.clear();
                     result.add(str.substring(winS, winE + 1));
                 }//
             }//
 
 
             //Update current variables
-            if(winE - winS + 1 > pattern.length())
+            if(matchedSum == freqMap.size())
             {
-                curLetter = str.charAt(winS);
-                if(freqMap.containsKey(curLetter))
+                if(winE -winS + 1 > pattern.length())
                 {
-                    freqMap.put(curLetter, freqMap.get(curLetter) + 1);
-                    if(freqMap.get(curLetter) == 1)
+                    curLetter = str.charAt(winS);
+                    if(freqMap.containsKey(curLetter))
                     {
-                        matchedSum--;
+                        freqMap.put(curLetter, freqMap.get(curLetter) + 1);
+                        if(freqMap.get(curLetter) == 1)
+                        {
+                            matchedSum--;
+                        }//
                     }//
-                }
+    
+                    winS++;
+                }//
+                else // <= patten.length()
+                {
+                    winE++;
+                    if(winE < str.length())
+                    {
+                        curLetter = str.charAt(winE);
+                        if(freqMap.containsKey(curLetter))
+                        {
+                            freqMap.put(curLetter, freqMap.get(curLetter) - 1);
+                            if(freqMap.get(curLetter) == 0)
+                            {
+                                matchedSum++;
+                            }//
 
-                winS++;
+                        }//if
+
+                    }// if
+
+                }//else
+
             }
-            else if(winE - winS + 1 <= pattern.length())
+            else if(matchedSum < freqMap.size())
             {
                 winE++;
                 if(winE < str.length())
@@ -824,9 +847,7 @@ public class SlideWindow
 
                     }//
                 }//
-                
-            }// else
-           
+            }//
 
         }// while
 
