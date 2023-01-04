@@ -91,7 +91,6 @@ public class TwoPointers {
         //Find a triplet
         for(int i = 0; i <= arr.length - 3; i++)
         {
-            
             if(i == 0 || (i > 0 && arr[i] != arr[i - 1]))
             {
                 int l = i + 1, r = arr.length - 1;
@@ -120,12 +119,11 @@ public class TwoPointers {
                         }//
                     }
                     else if(arr[i] + arr[l] + arr[r] > targetSum)
-                    {
+                    { 
                         r--;
-                        //Skip duplicate elements
                         while(r > l && arr[r] == arr[r + 1])
                         {
-                             r--;
+                            r--;
                         }//
                         
                     }
@@ -267,7 +265,7 @@ public class TwoPointers {
     }
 
 
-    public static List<List<Integer>> findTripletMinimumDifference(int[] arr, int targetSum)
+    public static List<Integer> findTripletMinimumDifference(int[] arr, int targetSum)
     {
         //Base check
         if(arr == null)
@@ -276,7 +274,7 @@ public class TwoPointers {
         }//
 
         //Initailization
-        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
 
         //Sort the array
         Arrays.sort(arr);
@@ -294,12 +292,11 @@ public class TwoPointers {
                     if(Math.abs(arr[i] + arr[l] + arr[r] - targetSum) < minimum)
                     {
                         minimum = Math.abs(arr[i] + arr[l] + arr[r] - targetSum);
-                        if(result.size() != 0)
-                        {
-                            result.remove(0);
-                        }
-                        result.add(0, Arrays.asList(arr[i], arr[l], arr[r]));
-                    }
+                        result.clear();
+                        result.add(arr[i]);
+                        result.add(arr[l]);
+                        result.add(arr[r]);
+                    }// 
 
                     //Update index
                     if(arr[i] + arr[l] + arr[r] - targetSum == 0)
@@ -350,16 +347,16 @@ public class TwoPointers {
             return null;
         }
 
-        //Initialization
+        //Init
         List<List<Integer>> result = new ArrayList<>();
 
-        //Sort the Array
+        //Sort
         Arrays.sort(arr);
 
-        //Find a triplet whose sum is less thant targetSum
+        //Find a triplet
         for(int i = 0; i <= arr.length - 3; i++)
         {
-            if(i == 0 || i > 0 && arr[i] != arr[i - 1])
+            if(i == 0 || arr[i] != arr[i - 1]) //Avoid duplicate elements from left to right
             {
                 int l = i + 1, r = arr.length - 1;
                 while(r > l)
@@ -369,29 +366,33 @@ public class TwoPointers {
                     {
                         for(int k = r; k > l; k--)
                         {
-                            result.add(Arrays.asList(arr[i], arr[l], arr[k]));
-                        }
+                            if((k == r) || (arr[k] != arr[k + 1])) // avoid duplicate elements from right to left
+                            {
+                                result.add(Arrays.asList(arr[i], arr[l], arr[k]));
+                            }//
+                        }//
+
                     }//
 
                     //Update indices
                     if(arr[i] + arr[l] + arr[r] < targetSum)
                     {
                         l++;
-                        while(r > l && arr[l] == arr[l - 1])
-                        {
+                        while(l < r && arr[l] == arr[l - 1])
+                        { 
                             l++;
                         }
-                    }
-                    else 
+                    }//
+                    else // arr[i] + arr[l] + arr[r] == targetSum
                     {
+
                         r--;
                         while(r > l && arr[r] == arr[r + 1])
                         {
                             r--;
-                        }
+                        }//
                     }
-                    
-
+                   
                 }// while
 
             }// if
@@ -577,8 +578,8 @@ public class TwoPointers {
         System.out.println();
 
         System.out.println("Sum < Target ");
-        System.out.println(TwoPointers.findTripletSumLessThanTarget(new int[] { -1, 0, 2, 3 }, 3));
-        System.out.println(TwoPointers.findTripletSumLessThanTarget(new int[] { -1, 4, 2, 1, 3 }, 5));
+        System.out.println(TwoPointers.findTripletSumLessThanTarget(new int[] { -1, 0, 2, 3, 3}, 3));
+        System.out.println(TwoPointers.findTripletSumLessThanTarget(new int[] { -1, 4, 2, 1, 3,}, 5));
         System.out.println();
 
         System.out.println("Product < Target ");
