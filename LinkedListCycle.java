@@ -24,11 +24,12 @@ class LinkedListCycle
             return false;
         }
         
-        //Initialization
+        //Init
         boolean result = false;
         
         //Find a cycle
-        ListNode s = head, f = head.next == null ? null: head.next.next; 
+        ListNode s = head;
+        ListNode f = head.next == null ? null: head.next.next; 
         while(f != null && f != s)
         {
             s = s.next; // move forward one step
@@ -40,7 +41,7 @@ class LinkedListCycle
             {
                 f = null;
             }
-        }
+        }// while
         
         if(f == null)
         {
@@ -53,7 +54,7 @@ class LinkedListCycle
 
         //return
         return result;  
-    } 
+    }// 
 
 
     public static int calculateLength(ListNode head)
@@ -67,8 +68,7 @@ class LinkedListCycle
         //Initialization
         int result = 0;
 
-
-        //Computer the length of the targeted list
+        //Compute the length of the targeted list
         ListNode s = head;
         ListNode f = head.next == null ? null : head.next.next; 
         int length = 1;
@@ -141,7 +141,7 @@ class LinkedListCycle
             return null;
         }
         
-        //Initialization
+        //Init
         ListNode result = null;
         
         //Check a cycle
@@ -160,7 +160,7 @@ class LinkedListCycle
             }
         }//
 
-        //judgement
+        //Judgement
         if(f == null)
         {
             result = null;
@@ -195,7 +195,6 @@ class LinkedListCycle
             
             //set result to p1
             result = start;
-    
         }
     
         //return result
@@ -273,7 +272,7 @@ class LinkedListCycle
             return null;
         }//
 
-        //Initialization
+        //Init
         ListNode result = null;
 
         //Find the position
@@ -292,12 +291,140 @@ class LinkedListCycle
             }//
 
         }//
+        
+        if(f == null)
+        {
+            result = s;
+        }
+        else 
+        {
+            result = null;
+        }
 
         //Return 
-        result = s;
+        return result;
+
+    }//
+    
+
+    public static boolean isPalindrome(ListNode head)
+    {
+        //Base Check
+        if(head == null)
+        {
+            return false;
+        }
+
+        //Init
+        boolean result = false;
+
+        //Check
+        ListNode s = head;
+        ListNode f = head.next == null ? null : head.next.next;
+        while(f != null && f != s)
+        {
+            s = s.next;
+            if(f.next != null)
+            {
+                f = f.next.next;
+            }
+            else 
+            {
+                f = null;
+            }
+        }//
+
+        if(f == s)// There is a cycle
+        {
+            return false;
+        }
+        
+
+        //Reverse the second part
+        ListNode head2 = null;
+        ListNode p = s.next;
+        s.next = null;
+        while(p != null)
+        {
+            ListNode temp = p.next;
+            p.next = null;
+
+            if(head2 == null)
+            {
+                head2 = p;
+            }// 
+            else 
+            {
+                p.next = head2;
+                head2 = p;
+            }//
+            
+            p = temp;
+        }//
+
+    
+        //Compare the first part and the second part
+        ListNode p1 = head, p2 = head2;
+        while(p1 != null && p2 != null)
+        {
+            //To Do
+            if(p1.value != p2.value)
+            {
+                break;
+            }
+
+            //Update p1 and p2
+            p1 = p1.next;
+            p2 = p2.next;
+
+        }//
+
+        if(p1 == null && p2 == null || p1 != null && p2 == null)
+        {
+            result = true;
+        }//
+        else 
+        {
+            result = false;
+        }//
+
+
+        //Restore the second part
+        p = head2;
+        head2 = null;
+        while(p != null)
+        {
+            ListNode temp = p.next;
+            p.next = null;
+
+            if(head2 == null)
+            {
+                head2 = p;
+            }// 
+            else 
+            {
+                p.next = head2;
+                head2 = p;
+            }//
+
+            p = temp;
+        }// 
+
+        //Concacinate the first part and second part
+        s.next = head2;
+
+        System.out.print("Restore to the original form: ");
+        p = head;
+        while(p != null)
+        {
+            System.out.print(" " + p.value);
+            p = p.next;
+        }
+        System.out.println();
+
+        //return
         return result;
     }
-    
 
     public static void main(String[] args)
     {   
@@ -327,7 +454,7 @@ class LinkedListCycle
         }//
         System.out.println("\n");
         
-        //check cycle
+        //Check cycle
         System.out.println("Detect cycle");
         System.out.println(LinkedListCycle.hasCycle(head));
         head.next.next.next.next.next.next = head.next.next;
@@ -336,7 +463,7 @@ class LinkedListCycle
         System.out.println(LinkedListCycle.hasCycle(head));
         System.out.println();
 
-        //calculate length
+        //Calculate length
         System.out.println("Calculate length");
         head.next.next.next.next.next.next = null; //head.next.next;
         System.out.println(LinkedListCycle.calculateLength(head));
@@ -344,7 +471,7 @@ class LinkedListCycle
         System.out.println(LinkedListCycle.calculateLength(head));
         System.out.println();
 
-        //find the start of the cycle
+        //Find the start of the cycle
         System.out.println("Find the start of the cycle");
         head.next.next.next.next.next.next = head.next.next;
         System.out.println(LinkedListCycle.findCycleStart(head).value);
@@ -381,6 +508,21 @@ class LinkedListCycle
         }
 
         System.out.println("Middle Node: " + LinkedListCycle.findMiddleItem(head1).value);
+        System.out.println();
+
+
+        //Test palapriemde list
+        System.out.println("Find if it is Palindrome");
+        head = new ListNode(2);
+        head.next = new ListNode(4);
+        head.next.next = new ListNode(6);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(2);
+        System.out.println(LinkedListCycle.isPalindrome(head));
+        head.next.next.next.next.next = new ListNode(2);
+        System.out.println(LinkedListCycle.isPalindrome(head));
+
+        
 
     } 
     
