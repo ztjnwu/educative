@@ -543,13 +543,6 @@ public class TwoPointers {
                 //update i
                 i++;
             }//
-
-            for(int j = 0; j < arr.length; j++)
-            {
-                System.out.print(" " + arr[j]);
-            }//            
-            System.out.println();
-            System.out.println();
         }
 
         //return
@@ -561,6 +554,80 @@ public class TwoPointers {
         return result;
     }
 
+
+    public static List<List<Integer>> findQuadruple(int arr[], int targetSum)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            return null;
+        }
+
+        //Init
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(arr);
+
+        //Search for a quadraple
+        for(int i = 0; i <= arr.length - 4; i++)
+        {
+            if(i == 0 || arr[i] != arr[i - 1])
+            {
+                for(int j = i + 1; j < arr.length - 3; j++)
+                {
+                    int l = j + 1, r = arr.length - 1;
+                    while(l < r)
+                    {
+                        //Form a quadraple 
+                        if(arr[i] + arr[j] + arr[l] + arr[r] == targetSum)
+                        {
+                            result.add(Arrays.asList(arr[i], arr[j], arr[l], arr[r]));
+                        }//
+
+                        //Update index
+                        if(arr[i] + arr[j] + arr[l] + arr[r] == targetSum)
+                        {
+                            l++;
+                            while(l < r && arr[l] == arr[l + 1])
+                            {
+                                l++;
+                            }//
+                            
+                            r--;
+                            while(r > l && arr[r] == arr[r - 1])
+                            {
+                                r--;
+                            }//
+
+                        }// if
+                        else if(arr[i] + arr[j] + arr[l] + arr[r] < targetSum)
+                        {
+                            l++;
+                            while(l < r && arr[l] == arr[l - 1])
+                            {
+                                l++;
+                            }//
+
+                        }
+                        else 
+                        {
+                            r--;
+                            while(r > l && arr[r] == arr[r - 1])
+                            {
+                                r--;
+                            }//
+
+                        }//
+                        
+                    }// while
+
+                }// for
+            }// if
+        }// for
+
+
+        //return
+        return result;
+    }//
 
     public static void main(String[] args){
     
@@ -619,9 +686,18 @@ public class TwoPointers {
         System.out.println();
 
 
-        System.out.println("Sort 3 types of elements ");
+        System.out.println("Dutch color ");
         System.out.println(TwoPointers.basicSortThreeElements(new int[] { 1, 0, 2, 1, 0 }));
         System.out.println(TwoPointers.basicSortThreeElements(new int[] { 2, 2, 0, 1, 2, 0 }));
+        System.out.println();
+
+        System.out.println("QuadralTrip");
+        System.out.println(TwoPointers.findQuadruple(new int[] { 4, 1, 2, -1, 1, -3 }, 1));
+        System.out.println(TwoPointers.findQuadruple(new int[] { 2, 0, -1, 1, -2, 2 }, 2));
+        System.out.println();
+
+        
+
 
     }
 }//Class
