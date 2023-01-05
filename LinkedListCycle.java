@@ -379,7 +379,7 @@ class LinkedListCycle
 
         }//
 
-        if(p1 == null && p2 == null || p1 != null && p2 == null)
+        if(p1 == null && p2 == null || p1 != null && p2 == null) // the length of the list is even, and the length of the list is odd
         {
             result = true;
         }//
@@ -423,6 +423,95 @@ class LinkedListCycle
         System.out.println();
 
         //return
+        return result;
+    }//
+
+
+    public static ListNode reorder(ListNode head)
+    {
+        //Base Check
+        if(head == null)
+        {
+            return null;
+        }
+
+        //Init
+        ListNode result = null;
+
+        //Find the middle node
+        ListNode s = head;
+        ListNode f = head.next == null ? null : head.next.next;
+        while(f != null && f != s)
+        {
+            s = s.next;
+            if(f.next != null)
+            {
+                f = f.next.next;
+            }
+            else
+            {
+                f = null;
+            }//
+        }//
+        
+        if(f == s)
+        {
+            return null;
+        }//
+
+
+        //Reverse the seconde part
+        ListNode head2 = null;
+        ListNode p = s.next;
+        s.next = null;
+        while(p != null)
+        {
+            ListNode temp = p.next;
+            p.next = null;
+
+            if(head2 == null)
+            {
+                head2 = p;
+            }
+            else 
+            {
+                p.next = head2;
+                head2 = p;
+            }
+
+            p = temp;
+        }//
+
+        //Reorder the first part
+        ListNode p1 = head;
+        ListNode p2 = head2;
+        while(p1 != null && p2 != null)
+        {
+            //init
+            ListNode temp = p2.next;
+            p2.next = null;
+            
+            //To Do
+            p2.next = p1.next;
+            p1.next = p2;
+
+            //update 
+            p1 = p1.next.next;
+            p2 = temp;
+        }//
+
+        //Display the new list
+        System.out.print("Restored list: ");
+        p = head;
+        while(p != null)
+        {
+            System.out.print(" " + p.value);
+            p = p.next;
+        }
+        System.out.println();
+    
+        //return
+        result = head;
         return result;
     }
 
@@ -489,7 +578,6 @@ class LinkedListCycle
         System.out.println(LinkedListCycle.findHappyNumber(2));
         System.out.println();
 
-
         //Find the middle item
         System.out.println("Find the middle item");
         ListNode head1 = null;
@@ -521,9 +609,23 @@ class LinkedListCycle
         System.out.println(LinkedListCycle.isPalindrome(head));
         head.next.next.next.next.next = new ListNode(2);
         System.out.println(LinkedListCycle.isPalindrome(head));
+        System.out.println();
 
+        //Rearrange a single linked list
+        System.out.println("Rearrange a single linked list");
+        head = new ListNode(2);
+        head.next = new ListNode(4);
+        head.next.next = new ListNode(6);
+        head.next.next.next = new ListNode(8);
+        head.next.next.next.next = new ListNode(10);
+        head.next.next.next.next.next = new ListNode(12);
+        LinkedListCycle.reorder(head);
+        System.out.println();
+
+        //Cycle an array
         
 
+        
     } 
     
 }//Class
