@@ -379,13 +379,12 @@ public class TwoPointers {
                     {
                         l++;
                         while(l < r && arr[l] == arr[l - 1])
-                        { 
+                        {
                             l++;
-                        }
+                        }// 
                     }//
                     else // arr[i] + arr[l] + arr[r] == targetSum
                     {
-
                         r--;
                         while(r > l && arr[r] == arr[r + 1])
                         {
@@ -413,7 +412,7 @@ public class TwoPointers {
             return null;
         }//
         
-        //Init
+        //Initialization
         List<List<Integer>> result = new ArrayList<>();
 
         //Find all of the subarrays whose products are less than target
@@ -424,23 +423,34 @@ public class TwoPointers {
             //For a new subarray
             if(product < targetProduct)
             {
-                List<Integer> temp = new ArrayList<>();
-                for(int j = winS; j <= winE; j++)
+                for(int i = winS; i <= winE; i++)
                 {
-                    temp.add(arr[j]);           
-                }
-                result.add(temp);
-            }// for
-            
+                    List<Integer> temp = new ArrayList<>();
+                    for(int j = i; j <= winE; j++)
+                    {
+                        temp.add(arr[j]);           
+                    }
+                    result.add(temp);
+                }// for
+                
+            }//
+
             //Update indices
-            winS++;
-            product /= arr[winS - 1];
-            if(winS > winE) // winS must be lower thant or eqaul to winE
+            if(product < targetProduct)
             {
                 winE++;
-                if(winE < arr.length)
+                if(winE <= arr.length - 1)
                 {
                     product *= arr[winE];
+                }//
+            
+            }//
+            else  //product >= targetProduct
+            {
+                winS++;
+                if(winS <= winE)
+                {
+                    product /= arr[winS - 1];
                 }//
             }//
 
@@ -493,35 +503,62 @@ public class TwoPointers {
     }
 
 
-    public static boolean basicSortThreeElements(int arr[]){
-        //base check
-        if(arr == null || arr.length <= 0){
-            return false;
+    public static List<Integer> basicSortThreeElements(int arr[])
+    {
+        //Base Check
+        if(arr == null || arr.length <= 0)
+        {
+            return null;
         }
 
-        //Loop
-        int pL = -1, pR = arr.length;
-        int i = 0;
+        //Init
+        List<Integer> result = new ArrayList<>();
 
-        while(i < pR){// make sure the index of i is less than the right bound of the array
-            System.out.println(" " + arr[i]);
+        //Sort
+        int l = 0, r = arr.length - 1;
+        int i = 0;
+        while(i <= r)
+        {   
             if(arr[i] == 0)
             {
-                arr[i] = 1;
-            }
-            else if(arr[i] == 2){
-                arr[i] = arr[pR - 1];
-                arr[pR - 1] = 2;
-                pR--;
-            }
-            else {// arr[i] == 1
+                int temp = arr[i];
+                arr[i] = arr[l];
+                arr[l] = temp; 
+                
+                //update l and i
+                l++;
+                i++; //arr[l] have to be 0 or 1, not 2 
+            }//
+            else if(arr[i] == 2)
+            {
+                int temp = arr[i];
+                arr[i] = arr[r];
+                arr[r] = temp;
+                
+                //update r
+                r--;
+            }//
+            else //arr[i] == 1
+            {
+                //update i
                 i++;
-            }
+            }//
+
+            for(int j = 0; j < arr.length; j++)
+            {
+                System.out.print(" " + arr[j]);
+            }//            
+            System.out.println();
+            System.out.println();
         }
 
         //return
-        System.out.println("result: " + Arrays.toString(arr));
-        return true;
+        for(i = 0; i < arr.length; i++)
+        {
+            result.add(arr[i]);
+        }
+
+        return result;
     }
 
 
@@ -568,7 +605,7 @@ public class TwoPointers {
 
         System.out.println("Sum < Target ");
         System.out.println(TwoPointers.findTripletSumLessThanTarget(new int[] { -1, 0, 2, 3, 3}, 3));
-        System.out.println(TwoPointers.findTripletSumLessThanTarget(new int[] { -1, 4, 2, 1, 3,}, 5));
+        System.out.println(TwoPointers.findTripletSumLessThanTarget(new int[] { -1, 4, 2, 1, 3, 2}, 5));
         System.out.println();
 
         System.out.println("Product < Target ");
