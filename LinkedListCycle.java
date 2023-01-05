@@ -513,6 +513,43 @@ class LinkedListCycle
         //return
         result = head;
         return result;
+    }//
+
+
+    public static boolean loopExists(int[] arr)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            return false;
+        }
+
+        //Init
+        boolean result = false;
+
+        //Check
+        for(int i = 0; i < arr.length; i++)
+        {
+            int direction = arr[0] > 0 ? 1 : 0;
+            int s = 0, f = arr[0] + arr[arr[0]];
+            if(direction == 1)
+            {
+                f = arr[0] + arr[arr[0]];
+            }//
+            else 
+            {
+                f = arr[0] + arr[arr]
+            }//
+
+
+            while(s != f)
+            {
+
+            }
+        }
+        
+
+
     }
 
     public static void main(String[] args)
@@ -623,7 +660,12 @@ class LinkedListCycle
         System.out.println();
 
         //Cycle an array
-        
+        System.out.println("Cycle in a array");
+        System.out.println(LinkedListCycle.loopExists(new int[] { 1, 2, -1, 2, 2 }));
+        System.out.println(LinkedListCycle.loopExists(new int[] { 2, 2, -1, 2 }));
+        System.out.println(LinkedListCycle.loopExists(new int[] { 2, 1, -1, -2 }));
+
+
 
         
     } 
