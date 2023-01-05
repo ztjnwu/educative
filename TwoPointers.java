@@ -768,6 +768,117 @@ public class TwoPointers {
         return result;
     }
 
+
+    public static List<Integer> sortSubarray(int[] arr)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            return null;
+        }
+
+        //Init
+        List<Integer> result = new ArrayList<>();
+
+        //Search for the targeted subarray
+        int l = 0, r = arr.length - 1;
+        while(l < arr.length - 1 && arr[l] <= arr[l + 1])
+        {
+            l++;
+        }//
+
+        if(l == arr.length - 1)
+        {
+            for(int i = 0; i < arr.length; i++)
+            {
+                result.add(arr[i]);
+            }//
+
+            return result;
+        }//
+        else 
+        {
+            l++;
+        }// 
+        
+
+        while(r != 0 && arr[r] >= arr[r - 1])
+        {
+            r--;
+        }//
+
+        if(r == 0)
+        {
+            for(int i = 0; i < arr.length; i++)
+            {
+                result.add(arr[i]);
+            }
+            
+            return result;
+        }// 
+        else 
+        {
+            r--;
+        }// 
+        
+        
+
+        int maximum = Integer.MIN_VALUE, minimum = Integer.MAX_VALUE;
+        for(int i = l; i <= r; i++)
+        {
+            if(arr[i] < minimum)
+            {
+                minimum = arr[i];
+            }
+
+            if(arr[i] > maximum)
+            {
+                maximum = arr[i];
+            }//   
+        }//
+      
+
+        //Search for the left part
+        int k = l - 1;
+        while(k != -1 && arr[k] > minimum)
+        {
+            k--;
+        }//
+
+        if(k == -1)
+        {
+            l = 0;
+        }
+        else if(arr[k] <= minimum)
+        {
+            l = k + 1;
+        }
+
+        //Search for the right part
+        k = r + 1;
+        while(k != arr.length && maximum > arr[k])
+        {
+            k++;
+        }
+        
+        if(k == arr.length)
+        {
+            r = arr.length -1;
+        }    
+        else if(maximum <= arr[k])
+        {
+            r = k - 1;
+        }
+        
+        //return
+        for(int i = l; i <= r; i++)
+        {
+            result.add(arr[i]);
+        }
+
+        return result;
+    }
+
     public static void main(String[] args){
     
         System.out.println("Find a pair with a targeted sum");
@@ -843,9 +954,14 @@ public class TwoPointers {
         System.out.println();
 
 
+        System.out.println("Sort Subarray ");
+        System.out.println(TwoPointers.sortSubarray(new int[] { 1, 2, 5, 3, 7, 10, 9, 12 }));
+        System.out.println(TwoPointers.sortSubarray(new int[] { 1, 3, 2, 0, -1, 7, 10 }));
+        System.out.println(TwoPointers.sortSubarray(new int[] { 1, 2, 3 }));
+        System.out.println(TwoPointers.sortSubarray(new int[] { 3, 2, 1 }));
+        System.out.println(TwoPointers.sortSubarray(new int[] { 3, 2, 1, -1, -2, -3, 6, 7 ,8, 6, 5, 1 }));
+        System.out.println();
 
-
-
-
+    
     }
 }//Class
