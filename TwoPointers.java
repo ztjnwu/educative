@@ -629,6 +629,145 @@ public class TwoPointers {
         return result;
     }//
 
+
+    public static boolean checkBackspace(String str1, String str2)
+    {
+        //Base Check
+        if(str1 == null || str2 == null)
+        {
+            return false;
+        }// 
+
+        //Init
+        boolean result = false;
+
+        //Check backspace
+        int p1 = str1.length() -1, p2 = str2.length() - 1;
+        int count1 = 0, count2 = 0;
+        while(p1 != -1)
+        {
+            //judegment
+            if(str1.charAt(p1) != '#' && count1 == 0) 
+            {
+                break;
+            }// if
+
+            //update index and count1
+            if(str1.charAt(p1) == '#')
+            {
+                count1++;
+            }
+            else 
+            {
+                count1--;
+            }
+
+            p1--;
+
+        }// while
+
+        while(p2 != -1)
+        {
+            //Judegment
+            if(str2.charAt(p2) != '#' && count2 == 0)
+            {
+                break;
+            }
+            
+            //Update index and count2
+            if(str2.charAt(p2) == '#')
+            {
+                count2++;
+            }
+            else 
+            {
+                count2--;
+            }
+
+            p2--;
+
+        }// while
+
+        while(p1 != -1 && p2 != -1)
+        {
+            //Judgement
+            if(str1.charAt(p1) != str2.charAt(p2))
+            {
+                break;
+            }// if
+
+            //Update p1 
+            p1--;
+            while(p1 != -1)
+            {
+                //judegment
+                if(str1.charAt(p1) != '#' && count1 == 0) 
+                {
+                    break;
+                }
+
+                //Update index and count1
+                if(str1.charAt(p1) == '#')
+                {
+                    count1++;
+                }
+                else 
+                {
+                    count1--;
+                }
+
+                p1--;
+
+            }// while
+
+
+            //Update p2
+            p2--;
+            while(p2 != -1)
+            {
+                //Judgement
+                if(str2.charAt(p2) != '#' && count2 == 0)
+                {
+                    break;
+                }
+                
+                //Update index and count2
+                if(str2.charAt(p2) == '#')
+                {
+                    count2++;
+                }
+                else 
+                {
+                    count2--;
+                }
+
+                p2--;
+
+            }// while
+
+        }//
+
+        //Update result
+        if(p1 == -1)
+        {
+            if(p2 == -1)
+            {
+                result = true;
+            }
+            else 
+            {
+                result = false;
+            }
+        }
+        else
+        {
+            result = false;
+        }
+
+        //return
+        return result;
+    }
+
     public static void main(String[] args){
     
         System.out.println("Find a pair with a targeted sum");
@@ -691,12 +830,21 @@ public class TwoPointers {
         System.out.println(TwoPointers.basicSortThreeElements(new int[] { 2, 2, 0, 1, 2, 0 }));
         System.out.println();
 
-        System.out.println("QuadralTrip");
+        System.out.println("QuadralTrip ");
         System.out.println(TwoPointers.findQuadruple(new int[] { 4, 1, 2, -1, 1, -3 }, 1));
         System.out.println(TwoPointers.findQuadruple(new int[] { 2, 0, -1, 1, -2, 2 }, 2));
         System.out.println();
 
-        
+        System.out.println("Backspace ");
+        System.out.println(TwoPointers.checkBackspace("xy#z", "xzz#"));
+        System.out.println(TwoPointers.checkBackspace("xy#z", "xyz#"));
+        System.out.println(TwoPointers.checkBackspace("xp#", "xyz##"));    
+        System.out.println(TwoPointers.checkBackspace("dxywrrmp", "dd#xywrrmu#p"));
+        System.out.println();
+
+
+
+
 
 
     }
