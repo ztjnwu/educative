@@ -789,11 +789,6 @@ public class TwoPointers {
 
         if(l == arr.length - 1)
         {
-            for(int i = 0; i < arr.length; i++)
-            {
-                result.add(arr[i]);
-            }//
-
             return result;
         }//
         else 
@@ -820,7 +815,6 @@ public class TwoPointers {
         {
             r--;
         }// 
-        
         
 
         int maximum = Integer.MIN_VALUE, minimum = Integer.MAX_VALUE;
@@ -878,6 +872,7 @@ public class TwoPointers {
 
         return result;
     }
+
 
     public static void main(String[] args){
     
@@ -962,6 +957,6 @@ public class TwoPointers {
         System.out.println(TwoPointers.sortSubarray(new int[] { 3, 2, 1, -1, -2, -3, 6, 7 ,8, 6, 5, 1 }));
         System.out.println();
 
-    
     }
+
 }//Class
