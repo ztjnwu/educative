@@ -15,6 +15,49 @@ class Interval
 
 }//interval
 
+
+class Job
+{
+    int start;
+    int end;
+    int load;
+    
+    public Job(int start, int end, int load)
+    {
+        this.start = start;
+        this.end = end;
+        this.load = load;
+    }//
+}
+
+
+class Meeting
+{
+    int start;
+    int end;
+
+    public Meeting(int start, int end)
+    {
+        this.start = start;
+        this.end = end;
+    }
+}
+
+class Employee
+{
+    Interval inter;
+    int employeeID;
+    int intervalID;
+
+    public static Employee(Interval inter, int employeeID, int intervalID)
+    {
+        this.inter = inter;
+        this.employeeID = employeeID;
+        this.intervalID = intervalID;
+    }//
+}//
+
+
 public class MergeIntervals 
 {
 
@@ -26,7 +69,7 @@ public class MergeIntervals
             return null;
         }//
 
-        //Initialization
+        //Init
         List<Interval> result = new ArrayList<>();
 
         //Sort the intervals on the start time in a ascending order 
@@ -222,6 +265,150 @@ public class MergeIntervals
 
     }//
 
+
+    public static int findMaxRooms(List<Interval> input)
+    {
+        //Base Check
+        if(input == null || input.size() == 0)
+        {
+            return 0;
+        }//
+
+        //Init
+        int result = 0;
+
+        //Sort
+        Collections.sort(input, (a, b) -> a.start - b.start);
+
+        //Compute the number of rooms
+        PriorityQueue<Interval> minHeap = new PriorityQueue<Interval>((a, b) -> a.end - b.end);
+        minHeap.offer(input.get(0));
+        int currentRooms = 1;
+        int max = Integer.MIN_VALUE;
+        for(int i = 1; i < input.size(); i++)
+        {
+            
+            //Filter out non-active meetings
+            Interval currentInterval = input.get(i);
+            while(!minHeap.isEmpty() && minHeap.peek().end <= currentInterval.start)
+            {
+                minHeap.poll();
+            }//
+            
+            //Add a new meeting
+            minHeap.offer(currentInterval);
+
+            //Update currentRooms
+            currentRooms = minHeap.size();
+            max = Math.max(max, currentRooms);
+        }//
+
+        //return
+        result = max;
+        return result;
+    }
+
+
+    public static int findMaxCpuLoad(List<Job> input)
+    {
+        //Base Check
+        if(input == null || input.size() == 0)
+        {
+            return 0;
+        }
+
+        //Init
+        int result = 0;
+
+        //Sort
+        Collections.sort(input, (a, b) -> a.start - b.start);
+
+        //Compute the maximum workload
+        PriorityQueue<Job> minHeap = new PriorityQueue<>((a, b) -> a.end - b.end);
+        minHeap.offer(input.get(0));
+        int currentLoad = input.get(0).load;
+        int maxLoad = Integer.MIN_VALUE;
+        for(int i = 1; i < input.size(); i++)
+        {
+            //Filter out unqualified
+            while(!minHeap.isEmpty() && input.get(i).start >= minHeap.peek().end)
+            {
+                currentLoad -= minHeap.poll().load;
+            }// while
+
+            //Add
+            minHeap.offer(input.get(i));
+
+            //Update
+            currentLoad += input.get(i).load;
+            maxLoad = Math.max(maxLoad, currentLoad);
+
+        }// For
+
+
+        //return
+        result = maxLoad;
+        return result;
+
+    }//
+
+
+    public static List<Interval> findEmployeeFreeTime(List<List<Interval>> input)
+    {
+        //Base Check
+        if(input == null || input.size() == 0)
+        {
+            return null;
+        }//
+
+        //Init
+        List<Interval> result = new ArrayList<>();
+
+        //Flatten input
+        List<Interval> input_flattern = new ArrayList<>();
+        for(int i = 0 ; i < input.size(); i++)
+        {
+            for(int j = 0; j < input.get(i).size(); j++)
+            {
+                input_flattern.add(input.get(i).get(j));
+            }//
+        }//
+        for(int i = 0 ; i < input_flattern.size(); i++)
+        {
+            System.out.print("[" + input_flattern.get(i).start + ", " + input_flattern.get(i).end + "] ");
+        }//
+
+        //Sort
+        Collections.sort(input_flattern, (a, b) -> a.start - b.start);
+
+        //Free intervals
+        PriorityQueue<Interval> minHeap = new PriorityQueue<>((a, b) -> a.end - b.end);
+        minHeap.offer(input_flattern.get(0));
+        for(int i = 1; i < input_flattern.size(); i++)
+        {
+            Interval temp = null;
+            while(!minHeap.isEmpty() && input_flattern.get(i).start > minHeap.peek().end)
+            {
+                temp = minHeap.poll();
+            }//
+
+            if(minHeap.isEmpty())
+            {
+                result.add(new Interval(temp.end, input_flattern.get(i).start));
+            }//
+
+            //ADD
+            minHeap.offer(input_flattern.get(i));
+
+        }//
+        
+        //return 
+        return result;
+
+    }
+    
+
+
     public static void main(String[] args)
     {
         //Merge intervals
@@ -369,7 +556,96 @@ public class MergeIntervals
             }// for
         }//
         System.out.println();
+        System.out.println();
 
-    }  
+
+
+        //Find Max rooms
+        System.out.println("Compute the minimum rooms required for meetings");
+        input = new ArrayList<Interval>() 
+        {
+        {
+            add(new Interval(1, 4));
+            add(new Interval(2, 5));
+            add(new Interval(7, 9));
+        }
+        };
+        System.out.println(MergeIntervals.findMaxRooms(input));
+
+        input = new ArrayList<Interval>() 
+        {
+        {
+            add(new Interval(6, 7));
+            add(new Interval(2, 4));
+            add(new Interval(8, 12));
+        }
+        };
+        System.out.println(MergeIntervals.findMaxRooms(input));
+
+        input = new ArrayList<Interval>()
+        {
+        {
+            add(new Interval(1, 4));
+            add(new Interval(2, 3));
+            add(new Interval(3, 6));
+        }
+        };
+        
+        System.out.println(MergeIntervals.findMaxRooms(input));;
+
+        input = new ArrayList<Interval>() {
+        {
+            add(new Interval(4, 5));
+            add(new Interval(2, 3));
+            add(new Interval(2, 4));
+            add(new Interval(3, 5));
+        }
+        };
+        System.out.println(MergeIntervals.findMaxRooms(input));
+        System.out.println();
+
+        //Find the maximum workload
+        System.out.println("Find the maximum workload");
+        List<Job> input_job = new ArrayList<Job>(Arrays.asList(new Job(1, 4, 3), new Job(2, 5, 4), new Job(7, 9, 6)));
+        System.out.println(MergeIntervals.findMaxCpuLoad(input_job));
+        input_job = new ArrayList<Job>(Arrays.asList(new Job(6, 7, 10), new Job(2, 4, 11), new Job(8, 12, 15)));
+        System.out.println(MergeIntervals.findMaxCpuLoad(input_job));
+        input_job = new ArrayList<Job>(Arrays.asList(new Job(1, 4, 2), new Job(2, 4, 1), new Job(3, 6, 5)));
+        System.out.println(MergeIntervals.findMaxCpuLoad(input_job));
+        System.out.println();
+
+        //Find the free intervals
+        System.out.println("Find the free intervals");
+        List<List<Interval>> input_interval = new ArrayList<>();
+        input_interval.add(new ArrayList<Interval>(Arrays.asList(new Interval(1, 3), new Interval(5, 6))));
+        input_interval.add(new ArrayList<Interval>(Arrays.asList(new Interval(2, 3), new Interval(6, 8))));
+        List<Interval> result_employee = MergeIntervals.findEmployeeFreeTime(input_interval);
+        System.out.print("Free intervals: ");
+        for (Interval interval : result_employee)
+            System.out.print("[" + interval.start + ", " + interval.end + "] ");
+        System.out.println();
+
+        input_interval = new ArrayList<>();
+        input_interval.add(new ArrayList<Interval>(Arrays.asList(new Interval(1, 3), new Interval(9, 12))));
+        input_interval.add(new ArrayList<Interval>(Arrays.asList(new Interval(2, 4))));
+        input_interval.add(new ArrayList<Interval>(Arrays.asList(new Interval(6, 8))));
+        result_employee = MergeIntervals.findEmployeeFreeTime(input_interval);
+        System.out.print("Free intervals: ");
+        for (Interval interval : result_employee)
+            System.out.print("[" + interval.start + ", " + interval.end + "] ");
+        System.out.println();
+
+        input_interval = new ArrayList<>();
+        input_interval.add(new ArrayList<Interval>(Arrays.asList(new Interval(1, 3))));
+        input_interval.add(new ArrayList<Interval>(Arrays.asList(new Interval(2, 4))));
+        input_interval.add(new ArrayList<Interval>(Arrays.asList(new Interval(3, 5), new Interval(7, 9))));
+        result_employee = MergeIntervals.findEmployeeFreeTime(input_interval);
+        System.out.print("Free intervals: ");
+        for (Interval interval : result_employee)
+            System.out.print("[" + interval.start + ", " + interval.end + "] ");
+        
+        System.out.println();
+
+    }// main
     
 }//Class
