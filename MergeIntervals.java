@@ -373,10 +373,6 @@ public class MergeIntervals
                 input_flattern.add(input.get(i).get(j));
             }//
         }//
-        for(int i = 0 ; i < input_flattern.size(); i++)
-        {
-            System.out.print("[" + input_flattern.get(i).start + ", " + input_flattern.get(i).end + "] ");
-        }//
 
         //Sort
         Collections.sort(input_flattern, (a, b) -> a.start - b.start);
