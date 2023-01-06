@@ -127,11 +127,11 @@ public class ReverseLinkedList
         ListNode result = null;
 
         //Reverse every K elements
+        ListNode resultHead = new ListNode(Integer.MAX_VALUE);
+        ListNode reversedRear = resultHead;
         ListNode rear = null;
-        ListNode reversedStart = null, reversedRear = null;
         ListNode p = head;
         int index = 0;
-        head = null;
         while(p != null)
         {
             //Store next node
@@ -139,16 +139,8 @@ public class ReverseLinkedList
             p.next = null;
 
             //Add current node into the tail of resulting list
-            if(reversedRear == null)
-            {
-                reversedRear = p;
-                reversedStart = reversedRear;
-            }
-            else 
-            {
-                p.next = reversedRear.next;
-                reversedRear.next = p;
-            }// 
+            p.next = reversedRear.next;
+            reversedRear.next = p;
 
             //Update resulting set
             if(index == 0)
@@ -167,9 +159,8 @@ public class ReverseLinkedList
         }// while
 
         //return
-        result = reversedStart;
+        result = resultHead.next;
         return result;
-
     }
 
     public static void main(String[] args) 
