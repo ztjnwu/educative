@@ -164,6 +164,62 @@ public class ReverseLinkedList
     }
 
 
+    public static ListNode reverseEveryAlternativeKElements(ListNode head, int K)
+    {
+        //Base Check
+        if(head == null || K == -1)
+        {
+            return null;
+        }
+
+        //Init
+        ListNode result = null;
+
+        //Reverse
+        ListNode reversedStart = new ListNode(Integer.MAX_VALUE);
+        ListNode reversedRear = reversedStart;
+        ListNode p = head;
+        ListNode rear = null;
+        int index = 0;
+        while(p != null)
+        {
+            //Store
+            ListNode temp = p.next;
+            p.next = null;
+
+            //Insert
+            if(index >= 0 && index <= K - 1)
+            {
+                p.next = reversedRear.next;
+                reversedRear.next = p;
+            }
+            else 
+            {
+                reversedRear.next = p;
+                reversedRear = p;
+            }
+
+            //Updare reversedRear
+            if(index == 0)
+            {
+                rear = p;
+            }
+            else if(index == K - 1)
+            {
+                reversedRear = rear;
+            }//
+
+            //Update p and index
+            p = temp;
+            index = (index + 1) % (2 * K);
+        }
+
+        //return
+        result = reversedStart.next;
+        return result;
+
+    }
+
     public static void main(String[] args) 
     {
 
@@ -231,6 +287,28 @@ public class ReverseLinkedList
         }//
 
         System.out.println("\n");
+
+        //Reverse Alternative k element sublist
+        System.out.println("Reverse Alternative k element sublist");
+        head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+        head.next.next.next.next.next = new ListNode(6);
+        head.next.next.next.next.next.next = new ListNode(7);
+        head.next.next.next.next.next.next.next = new ListNode(8);
+    
+        ListNode result = ReverseLinkedList.reverseEveryAlternativeKElements(head, 2);
+        System.out.print("Nodes of the reversed LinkedList are: ");
+        while (result != null) 
+        {
+          System.out.print(result.value + " ");
+          result = result.next;
+        }//
+
+        System.out.println("\n");
+
     }
 
 }
