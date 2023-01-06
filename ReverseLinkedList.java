@@ -218,6 +218,51 @@ public class ReverseLinkedList
         result = reversedStart.next;
         return result;
 
+    }//
+
+    public static ListNode rotateKElements(ListNode head, int K)
+    {
+        //Base Check
+        if(head == null || K < 0)
+        {
+            return null;
+        }
+
+        //Init
+        ListNode result = null;
+
+        //Compute the length of the list
+        int length = 0;
+        ListNode p = head;
+        while(p.next != null)
+        {
+            length++;
+            p = p.next;
+        }
+        length++;
+        System.out.println("length==" + length);
+
+        //Compute the real K
+        K = K % length;
+
+        //Construct a cycle
+        p.next = head; 
+
+        //Find the new head;
+        ListNode pre = null;
+        p = head;
+        int i = 0;
+        while(i != length - K)
+        {
+            pre = p;
+            p = p.next;
+            i++;
+        }//
+        pre.next = null;
+
+        //return
+        result = p;
+        return result;
     }
 
     public static void main(String[] args) 
@@ -300,7 +345,6 @@ public class ReverseLinkedList
         head.next.next.next.next.next.next.next = new ListNode(8);
     
         ListNode result = ReverseLinkedList.reverseEveryAlternativeKElements(head, 2);
-        System.out.print("Nodes of the reversed LinkedList are: ");
         while (result != null) 
         {
           System.out.print(result.value + " ");
@@ -308,6 +352,30 @@ public class ReverseLinkedList
         }//
 
         System.out.println("\n");
+
+        //Rotate k element sublist
+        System.out.println("Rotate Alternative k element sublist");
+        head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+        head.next.next.next.next.next = new ListNode(6);
+        head.next.next.next.next.next.next = new ListNode(7);
+        head.next.next.next.next.next.next.next = new ListNode(8);
+    
+        result = ReverseLinkedList.rotateKElements(head, 2);
+        while (result != null) 
+        {
+          System.out.print(result.value + " ");
+          result = result.next;
+        }//
+
+        System.out.println("\n");
+
+
+
+        
 
     }
 
