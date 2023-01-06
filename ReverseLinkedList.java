@@ -1,10 +1,12 @@
 import java.util.*;
 
-class ListNode {
+class ListNode 
+{
     int value = 0;
     ListNode next;
 
-    ListNode(int value) {
+    ListNode(int value) 
+    {
         this.value = value;
         this.next = null;
     }
@@ -121,67 +123,51 @@ public class ReverseLinkedList
             return null;
         }
 
-        //Intitializaiont
+        //Initializaion
         ListNode result = null;
 
         //Reverse every K elements
-        ListNode start = null, rear = null;
+        ListNode rear = null;
         ListNode reversedStart = null, reversedRear = null;
         ListNode p = head;
         int index = 0;
         head = null;
         while(p != null)
         {
-            //
+            //Store next node
             ListNode temp = p.next;
+            p.next = null;
 
-            //update {start, rear}
-            if(start == null && rear == null)
+            //Add current node into the tail of resulting list
+            if(reversedRear == null)
             {
-                start = p;
-                rear = p;
-                rear.next = null;
+                reversedRear = p;
+                reversedStart = reversedRear;
             }
             else 
             {
-                p.next = start;
-                start = p;
+                p.next = reversedRear.next;
+                reversedRear.next = p;
             }// 
 
-            //update {reversedStart, reversedRear}
-            if(index == K - 1)
+            //Update resulting set
+            if(index == 0)
             {
-                if(reversedRear != null)
-                {
-                    reversedRear.next = start;
-                    reversedRear = rear;
-
-                }// if
-                else 
-                {
-                    reversedRear = rear;
-                    if(head == null)
-                    {
-                        reversedStart = start;
-                    }//
-                }
-
-                start = null;
-                rear = null; 
-
+                rear = p;
+            }
+            else if(index == K - 1)
+            {
+                reversedRear = rear;
             }//
 
-            //Update
+            //Update index and p
             p = temp;
             index = (index + 1) % K;
 
         }// while
 
-        reversedRear.next = start;
-        head = reversedStart;
-
         //return
-        result = head;
+        result = reversedStart;
         return result;
 
     }
