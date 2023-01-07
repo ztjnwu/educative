@@ -320,8 +320,51 @@ public class DFS {
         dFSFindAllOfSubPathsSumEqualtoSumUsingPrefixArray(root.left,  copy, currentSum, target, result);
         dFSFindAllOfSubPathsSumEqualtoSumUsingPrefixArray(root.right, copy, currentSum, target, result);
 
-    }
+    }//
 
+    public static int findDiameter(BST bst)
+    {
+        //Base Check
+        if(bst == null)
+        {
+            return -1;
+        }//
+
+        //Init
+        List<Integer> maxDiameter = new ArrayList<>();
+
+        //Find diameter
+        
+        maxDiameter.add(Integer.MIN_VALUE);
+        dfsHeight(bst.getRoot(), maxDiameter);
+        
+        //Return
+        return maxDiameter.get(0);
+    }
+    
+    public static int dfsHeight(TreeNode root, List<Integer> maxDiameter)
+    {
+        //Base Check
+        if(root == null)
+        {
+            return 0;
+        }//
+
+        //dfs left substree and right subtree
+        int heightLeft = dfsHeight(root.left, maxDiameter);
+        int heightRight = dfsHeight(root.right, maxDiameter);
+
+        //Root Node
+        if(root.left != null && root.right != null)
+        {
+            int max = Math.max(maxDiameter.get(0), heightLeft + heightRight + 1);
+            maxDiameter.clear();
+            maxDiameter.add(max);
+        }// 
+
+        return 1 + Math.max(heightLeft, heightRight); 
+    }
+    
     
     public static void main(String[] argv)
     {
@@ -404,12 +447,18 @@ public class DFS {
         //Find the path with a given sum
         System.out.println("\n Find the path with a given sum!");
         bst = new BST(new int[] {12, 7, 1, 4, 10, 5});
-        System.out.println("result: " + findAllOfSubPathsSumEqualtoSum(bst, 12));
+        System.out.println("result: " + DFS.findAllOfSubPathsSumEqualtoSum(bst, 12));
 
         //Find the path with a given sum USING prefix array
         System.out.println("\n Find the path with a given sum USING pre=1fix array!");
         bst = new BST(new int[] {12, 7, 1, 4, 10, 5});
-        System.out.println("result: " + findAllOfSubPathsSumEqualtoSumUsingPrefixArray(bst, 12));
+        System.out.println("result: " + DFS.findAllOfSubPathsSumEqualtoSumUsingPrefixArray(bst, 12));
+
+        //Find the diameter of a binary tree
+        System.out.println("\n Find the diameter of a binary tree");
+        bst = new BST(new int[] {12, 7, 1, 4, 10, 5});
+        System.out.println("result: " + DFS.findDiameter(bst));
+
 
     }//
        
