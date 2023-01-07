@@ -538,7 +538,7 @@ class LinkedListCycle
             }//
             else 
             {
-                f = arr[0] + arr[arr]
+                f = arr[0] + arr[arr];
             }//
 
 
