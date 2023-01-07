@@ -2,16 +2,21 @@ import java.util.*;
 
 import javax.crypto.NullCipher;
 
-public class DFS {
-    public static void findPathSum(TreeNode root, int preNodeSum, int sum, List<Boolean> result) {
-        if (root == null) {
+public class DFS 
+{
+    public static void findPathSum(TreeNode root, int preNodeSum, int sum, List<Boolean> result) 
+    {
+        if (root == null) 
+        {
             return;
         }
 
         // related operations on current nodes
-        if (root.left == null && root.right == null) {
+        if (root.left == null && root.right == null) 
+        {
 
-            if (root.value + preNodeSum == sum) {
+            if (root.value + preNodeSum == sum) 
+            {
                 result.add(true);
             }
 
@@ -29,7 +34,8 @@ public class DFS {
     {
 
         // Check validity
-        if (root == null) {
+        if (root == null) 
+        {
             return;
         }
 
@@ -37,8 +43,10 @@ public class DFS {
         List<Integer> updatePath = new ArrayList<>(currentPath);
 
         //
-        if (root.left == null && root.right == null) {
-            if (root.value + preNodeSum == sum) {
+        if (root.left == null && root.right == null) 
+        {
+            if (root.value + preNodeSum == sum) 
+            {
                 updatePath.add(root.value);
                 allPaths.add(updatePath);
                 updatePath.remove(updatePath.size() - 1);
@@ -350,7 +358,7 @@ public class DFS {
             return 0;
         }//
 
-        //dfs left substree and right subtree
+        //Dfs left substree and right subtree
         int heightLeft = dfsHeight(root.left, maxDiameter);
         int heightRight = dfsHeight(root.right, maxDiameter);
 
@@ -363,9 +371,51 @@ public class DFS {
         }// 
 
         return 1 + Math.max(heightLeft, heightRight); 
+    }//
+
+    public static int findPathWithMaxSum(BST bst)
+    {
+        //Base Check
+        if(bst == null)
+        {
+            return -1;
+        }//
+
+        //Init
+        List<Integer> result = new ArrayList<>();
+        result.add(Integer.MIN_VALUE);
+
+        //Find the max path
+        dfsMaximumPath(bst.getRoot(), result);
+
+        //Return
+        return result.get(0);
+    }//
+
+    public static int dfsMaximumPath(TreeNode root, List<Integer> result)
+    {
+        //Base Check
+        if(root == null)
+        {
+            return 0;
+        }//
+
+        //Left subtree and right subtree
+        int maxLeft, maxRight;
+        maxLeft = dfsMaximumPath(root.left, result);
+        maxRight = dfsMaximumPath(root.right, result);
+
+        //Current Node
+        int max;
+        max = Math.max(result.get(0), maxLeft + maxRight + root.value);
+        result.clear();
+        result.add(max);
+        
+        //return
+        return root.value + Math.max(maxLeft, maxRight);
     }
-    
-    
+
+
     public static void main(String[] argv)
     {
         System.out.println("Find a path of sum S");
@@ -459,7 +509,12 @@ public class DFS {
         bst = new BST(new int[] {12, 7, 1, 4, 10, 5});
         System.out.println("result: " + DFS.findDiameter(bst));
 
+        //Find the path with the maximum sum
+        System.out.println("\n Find the path with the maximum sum");
+        bst = new BST(new int[] {12, 7, 1, 4, 10, 5});
+        System.out.println("result: " + DFS.findPathWithMaxSum(bst));
 
+    
     }//
        
 }// DFS
@@ -486,18 +541,22 @@ class BST {
         this.root = create(arr);
     }
 
-    public TreeNode getRoot() {
+    public TreeNode getRoot() 
+    {
         return this.root;
     }
 
     // Create a BST tree
-    private TreeNode create(int[] arr) {
-        if (arr == null) {
+    private TreeNode create(int[] arr)
+    {
+        if (arr == null) 
+        {
             return null;
         }
 
         TreeNode root = null;
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++)
+        {
             root = insert(root, arr[i]);
         }
         // return
@@ -506,16 +565,20 @@ class BST {
     }
 
     // Insert nodes into a BST
-    private TreeNode insert(TreeNode root, int x) {
+    private TreeNode insert(TreeNode root, int x) 
+    {
         // the proper postion to be insertednull
-        if (root == null) {
+        if (root == null) 
+        {
             return new TreeNode(x);
         } // if
 
         // Select a branch to insert a given node into the tree
-        if (x < root.value) {
+        if (x < root.value) 
+        {
             root.left = insert(root.left, x);
-        } else if(x > root.value)
+        }
+        else if(x > root.value)
         {
             root.right = insert(root.right, x);
         }
@@ -526,8 +589,10 @@ class BST {
     }//
 
     // Traverse a BST in preorder
-    public void preOrder(TreeNode root) {
-        if (root == null) {
+    public void preOrder(TreeNode root) 
+    {
+        if (root == null) 
+        {
             return;
         }
 
@@ -539,8 +604,10 @@ class BST {
     }//
 
     // Traverse a BST in inorder
-    public void inOrder(TreeNode root) {
-        if (root == null) {
+    public void inOrder(TreeNode root) 
+    {
+        if (root == null) 
+        {
             return;
         }
 
@@ -552,8 +619,10 @@ class BST {
     }//
 
     // Traverse a BST in postOrder
-    public void postOrder(TreeNode root) {
-        if (root == null) {
+    public void postOrder(TreeNode root) 
+    {
+        if (root == null) 
+        {
             return;
         }
 
