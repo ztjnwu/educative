@@ -3,7 +3,7 @@ import java.util.*;
 public class BFS 
 {
 
-    //traverse a bst in layer
+    //Traverse a bst in layer
     public static List<List<Integer>> traverse(BST bst)
     {
         //Check validity
@@ -303,15 +303,69 @@ public class BFS
     //connect level order successor
     public static boolean connectLevelOrderSuccsor(BST bst)
     {
+        //Base Check
         if(bst == null)
         {
             return false;
         }
 
+        //Init
+        boolean result = true;
+
+        //Connect level order successors
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(bst.getRoot());
         
+        while(!queue.isEmpty())
+        {
+            int length;
+            length = queue.size();
 
+            for(int i = 0; i < length; i++)
+            {
+                TreeNode temp = queue.poll();
+                if(temp.left != null)
+                {
+                    queue.offer(temp.left);
+                }
+                
+                if(temp.right != null)
+                {
+                    queue.offer(temp.right);
+                }
+                if(i == length - 1)
+                {
+                    temp.next = null;
+                }
+                else 
+                {
+                    temp.next = queue.peek();
+                }//
+
+            }// for
+        }// while
+        
+        //return
+        return result;
+    }
+
+
+    //connect level order successor
+    public static boolean connectAllLevelOrderSuccsor(BST bst)
+    {
+        //Base Check
+        if(bst == null)
+        {
+            return false;
+        }
+
+        //Init
+        boolean result = true;
+
+        //Connect level order successors
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(bst.getRoot());
+        
         while(!queue.isEmpty())
         {
             int length;
@@ -331,14 +385,56 @@ public class BFS
                 }
 
                 temp.next = queue.peek();
-            }
-        }
+            }// for
+        }// while
         
         //return
-        return true;
+        return result;
     }
 
 
+    public static List<TreeNode> rightViewOfBinaryTree(BST bst)
+    {
+        //Base Tree
+        if(bst == null)
+        {
+            return null;
+        }//
+
+        //Init
+        List<TreeNode> result = new ArrayList<>();
+        
+        //Find the right view of a binary tree
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(bst.getRoot());
+        while(!queue.isEmpty())
+        {
+            int length = queue.size();
+            for(int i = 0; i < length; i++)
+            {
+                TreeNode current = queue.poll();
+                if(current.left != null)
+                {
+                    queue.offer(current.left);
+                }
+                
+                if(current.right != null)
+                {
+                    queue.offer(current.right);
+                }
+
+                //
+                if(i == length - 1)
+                {
+                    result.add(current);
+                }//
+            }//
+        }//
+
+        //return
+        return result;
+
+    }
 
     public static void main(String[] args)
     {   
@@ -399,42 +495,65 @@ public class BFS
         {
             System.out.println("Last node, no successor");
         }
+        System.out.println();
 
         //Connect the level order successor
-        System.out.println("\n CONNECT layer order successor");
+        System.out.println("CONNECT layer order successor");
         bst = new BST(new int[]{12, 7, 1, 9, 10, 5});
         TreeNode temp = bst.getRoot();
         BFS.connectLevelOrderSuccsor(bst);
         while(temp != null)
         {
-            System.out.print(" "+ temp.value);
+            System.out.print(" " + temp.value);
             temp = temp.next;
         }
+        System.out.println("\n");
+
+        //Connect the level order successor
+        System.out.println("CONNECT All layer order successors");
+        bst = new BST(new int[]{12, 7, 1, 9, 10, 5});
+        temp = bst.getRoot();
+        BFS.connectAllLevelOrderSuccsor(bst);
+        while(temp != null)
+        {
+            System.out.print(" " + temp.value);
+            temp = temp.next;
+        }
+        System.out.println("\n");
+
+        //The right view of a binary tree
+        System.out.println("The right view of a binary tree");
+        bst = new BST(new int[]{12, 7, 1, 9, 10, 5, 3});
+        temp = bst.getRoot();
+        List<TreeNode> result_nodes = BFS.rightViewOfBinaryTree(bst);
+        for(int i = 0; i < result_nodes.size(); i++)
+        {
+            System.out.println(result_nodes.get(i).value);
+        }//
+
         System.out.println();
-
-
-        //
 
     }//
     
 }//
 
-
-
-// TreeNode
-class TreeNode {
+//TreeNode
+class TreeNode 
+{
     int value;
     TreeNode left;
     TreeNode right;
     TreeNode next;
 
-    TreeNode(int value) {
+    TreeNode(int value) 
+    {
         this.value = value;
         this.left  = null;
         this.right = null;
         this.next  = null;
     }// construction function
-}
+
+}//
 
 // BST
 class BST 
@@ -442,16 +561,19 @@ class BST
     private TreeNode root;
 
     // Construction function
-    BST(int[] arr) {
+    BST(int[] arr) 
+    {
         this.root = create(arr);
     }
 
-    public TreeNode getRoot() {
+    public TreeNode getRoot() 
+    {
         return this.root;
     }
 
     // Create a BST tree
-    private TreeNode create(int[] arr) {
+    private TreeNode create(int[] arr) 
+    {
         if (arr == null) {
             return null;
         }
@@ -466,7 +588,8 @@ class BST
     }
 
     // Insert nodes into a BST
-    private TreeNode insert(TreeNode root, int x) {
+    private TreeNode insert(TreeNode root, int x) 
+    {
         // the proper postion to be insertednull
         if (root == null) {
             return new TreeNode(x);
@@ -512,8 +635,10 @@ class BST
     }//
 
     // Traverse a BST in postOrder
-    public void postOrder(TreeNode root) {
-        if (root == null) {
+    public void postOrder(TreeNode root) 
+    {
+        if (root == null) 
+        {
             return;
         }
 
