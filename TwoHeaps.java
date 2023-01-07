@@ -154,14 +154,14 @@ public class TwoHeaps
         }//
 
 
-        //Initialization
+        //Init
         Map<Integer, Integer> capitalProfit = new HashMap<Integer, Integer>();
         for(int i = 0; i < capitals.length; i++)
         {
             capitalProfit.put(capitals[i], profits[i]);
         }//
 
-        //Initialization
+        //Init
         PriorityQueue<Map.Entry<Integer, Integer>> minHeapCap    = new PriorityQueue<>((a, b) -> a.getKey() - b.getKey());
         for(Map.Entry<Integer, Integer> entry : capitalProfit.entrySet())
         {
@@ -187,6 +187,65 @@ public class TwoHeaps
         return currCapital;
     }
 
+
+    public static Map<Interval, Interval> findNextInterval(Interval[] input)
+    {
+        //Base Check
+        if(input == null)
+        {
+            return null;
+        }//
+
+        //Init
+        Map<Interval, Interval> result = new HashMap<>();
+        PriorityQueue<Interval> maxEndHeap = new PriorityQueue<Interval>((a, b) -> b.end - a.end);
+        PriorityQueue<Interval> maxStartHeap = new PriorityQueue<Interval>((a, b) -> b.start - a.start);
+
+        for(int i = 0; i < input.length; i++)
+        {
+            result.put(input[i], new Interval(-1, -1));
+            maxEndHeap.offer(input[i]);
+            maxStartHeap.offer(input[i]);
+        }//
+
+        //Find next interval
+        while(!maxEndHeap.isEmpty())
+        {
+            //Take out the top item
+            Interval item = maxEndHeap.poll();
+
+            //TO DO
+            Interval startItem = null;
+            while(!maxStartHeap.isEmpty() && maxStartHeap.peek().start >= item.end)
+            {
+                startItem = maxStartHeap.poll();
+            }//
+
+            if(!maxStartHeap.isEmpty())
+            {
+                if(startItem != null)
+                {
+                    result.put(item, startItem);
+                }//
+            }//
+            else 
+            {
+                startItem = null;
+            }//
+
+            //Update
+            if(startItem != null)
+            {
+                maxStartHeap.offer(startItem);
+            }//
+
+        }//
+
+        //return
+        return result;
+
+    }//
+
     public static void main(String[] argv)
     {
         //Find the median of a number string
@@ -202,9 +261,10 @@ public class TwoHeaps
         TwoHeaps.insertNum(2);
         System.out.println("The median is: " + TwoHeaps.findMedian());
         System.out.println();
+        System.out.println();
 
         //Find the medians of all subarraies of size K
-        System.out.println("Find the median of a number string");
+        System.out.println("Find the median of all subarraies of size K");
         List<Double> result_double = TwoHeaps.findMediansOfAllSubarries(new int[] { 1, 2, -1, 3, 5 }, 2);
         System.out.print("Sliding window medians are: ");
         for (double num : result_double)
@@ -216,13 +276,37 @@ public class TwoHeaps
         for (double num : result_double)
             System.out.print(num + " ");
         System.out.println();
+        System.out.println();
 
         //Find the maximum capitals
+        System.out.println("Find the maximum capitals");
         int result = TwoHeaps.findMaximumProfits(new int[] { 0, 1, 2 }, new int[] { 1, 2, 3 }, 2, 1);
         System.out.println("Maximum capital: " + result);
         result = TwoHeaps.findMaximumProfits(new int[] { 0, 1, 2, 3 }, new int[] { 1, 2, 3, 5 }, 3, 0);
         System.out.println("Maximum capital: " + result);
-        
-    }
+        System.out.println();
+
+        //Find the next intervals
+        System.out.println("Find the next intervals");
+        Interval[] intervals = new Interval[] { new Interval(2, 3), new Interval(3, 4), new Interval(5, 6) };
+        Map<Interval, Interval> result_intervals = TwoHeaps.findNextInterval(intervals);
+        for(Map.Entry<Interval, Interval> item : result_intervals.entrySet())
+        {
+            System.out.print("[" + item.getKey().start + ", " + item.getKey().end + "]");
+            System.out.println(", [" + item.getValue().start + ", " + item.getValue().end + "]");
+        }
+        System.out.println();
     
-}
+        intervals = new Interval[] { new Interval(3, 4), new Interval(1, 5), new Interval(4, 6) };
+        result_intervals = TwoHeaps.findNextInterval(intervals);
+        for(Map.Entry<Interval, Interval> item : result_intervals.entrySet())
+        {
+            System.out.print("[" + item.getKey().start + ", " + item.getKey().end + "]");
+            System.out.println(", [" + item.getValue().start + ", " + item.getValue().end + "]");
+        }
+        System.out.println();
+      
+
+    }// main
+    
+}//
