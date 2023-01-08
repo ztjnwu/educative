@@ -131,6 +131,67 @@ public class KWayMerge
         
     }//
 
+    
+    public static List<Integer> findSmallestRange(List<List<Integer>> input)
+    {
+        //Base Check
+        if(input == null)
+        {
+            return null;
+        }
+
+        //Init
+        List<Integer> result = new ArrayList<>();
+        PriorityQueue<Node> minHeap = new PriorityQueue<>((a, b) -> a.value - b.value);
+        for(int i = 0; i < input.size(); i++)
+        {
+            minHeap.offer(new Node(i, 0, (int) input.get(i).get(0)));
+        }//
+
+        //Find the smallest range
+
+        //Return
+        return null;
+        
+    }//
+
+
+    public static List<List<Integer>> findKLargestPairs(int[] l1, int[] l2, int K)
+    {
+        //Base Check
+        if(l1 == null || l2 == null || K < 0)
+        {
+            return null;
+        }//
+
+        //Init
+        List<List<Integer>> result = new ArrayList<>();
+        PriorityQueue<Pairs> minHeap = new PriorityQueue<>((a, b) -> (a.x + a.y) - (b.x + b.y));
+
+        //Find the K pairs
+        for(int i = 0; i < l1.length; i++)
+        {
+            for(int j = 0; j < l2.length; j++)
+            {
+                minHeap.offer(new Pairs(l1[i], l2[j]));
+                if(minHeap.size() > K)
+                {
+                    minHeap.poll();
+                }//
+
+            }//
+
+        }// for
+
+        //return
+        while(!minHeap.isEmpty())
+        {
+            result.add(0, Arrays.asList(minHeap.peek().x, minHeap.peek().y));
+            minHeap.poll();
+        }//
+
+        return result;
+    }//
 
 
     public static void main(String[] argv)
@@ -184,12 +245,27 @@ public class KWayMerge
         System.out.print("Kth smallest number is: " + result_int);
         System.out.println();
 
+        //Find the smallest range
 
-        
-        
-    }//public
+
+        //Find the K pairs with the largest sum
+        System.out.println("\nFind the K pairs with the largest sum");
+        int[] ll1 = new int[] { 9, 8, 2 };
+        int[] ll2 = new int[] { 6, 3, 1 };
+        List<List<Integer>> result_list = KWayMerge.findKLargestPairs(ll1, ll2, 3);
+        for (int i = 0; i < result_list.size(); i++)
+        {
+            System.out.print("[" + result_list.get(i).get(0) + ", " + result_list.get(i).get(1) + "] ");
+        }//for
+        System.out.println();
+          
+      
+    }// main
+
+
+}//class
     
-}
+
 
 
 class ListNode
@@ -218,3 +294,15 @@ class Node
     }//
 
 }
+
+class Pairs
+{
+    int x;
+    int y;
+
+    Pairs(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }//
+}//

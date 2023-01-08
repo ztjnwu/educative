@@ -4,13 +4,13 @@ public class TopKNumbers
 {
     public static List<Integer> findKLargestNumbers(int[] arr, int K)
     {
-        //
+        //Base Check
         if(arr == null || arr.length <= 0)
         {
             return null;
         }
 
-        //Initialization
+        //Init
         PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>((a, b) -> a - b);
         for(int j = 0; j < arr.length; j++)
         {
