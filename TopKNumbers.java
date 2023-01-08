@@ -459,7 +459,75 @@ public class TopKNumbers
         }
         
         return result;
+    }//
+
+    public static String rearrangeStringWithKDistance(String str, int K)
+    {
+        //Base Check
+        if(str == null)
+        {
+            return null;
+        }
+
+        //Init
+        String result = null;
+
+        Map<Character, Integer> freqMap = new HashMap<>();
+        for(int i = 0; i < str.length(); i++)
+        {
+            freqMap.put(str.charAt(i), freqMap.getOrDefault(str.charAt(i), 0) + 1);
+        }//
+
+        PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
+        for(Map.Entry<Character, Integer> item : freqMap.entrySet())
+        {
+            maxHeap.offer(item);
+            System.out.print("[" + item.getKey() + " " + item.getValue() + "]");
+        }//
+        System.out.println();
+
+        //Rearrange the targeted String
+        StringBuilder newString = new StringBuilder();
+        while(maxHeap.size() >= K)
+        {
+            //Get current letter 
+            int i = 0;
+            while(i != K)
+            {
+                Map.Entry<Character, Integer> item = maxHeap.poll();
+
+                newString.append(item.getKey());
+                item.setValue(item.getValue() - 1);
+                if(item.getValue() != 0)
+                {
+                    maxHeap.offer(item);
+                }//
+                System.out.println(" " + item.getKey());
+
+                i++;
+            }//
+
+        }// while
+
+        while(!maxHeap.isEmpty())
+        {
+            Map.Entry<Character, Integer> item = maxHeap.poll();
+            newString.append(item.getKey());
+        }//
+        
+        //return
+        if(newString.length() == str.length())
+        {
+            result = newString.toString();
+        }//
+        else
+        {
+            result = null;
+        }//
+
+        return result;
     }
+
 
     public static void main(String[] argv)
     {
@@ -548,10 +616,19 @@ public class TopKNumbers
         System.out.println();
 
         //Rearrange a string;
-        System.out.println("Rearrange a string");
+        System.out.println("Rearrange a string with 2 distance apart");
         System.out.println("Rearranged string: " + TopKNumbers.rearrangeString("aappp"));
         System.out.println("Rearranged string: " + TopKNumbers.rearrangeString("Programming"));
         System.out.println("Rearranged string: " + TopKNumbers.rearrangeString("aapa"));
+        System.out.println();
+
+        //Rearragne a string
+        System.out.println("Rearrange a string K distance apart!");
+        System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("aappp", 2));
+        System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("Programming", 3));
+        System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("aab", 2));
+        System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("apbab", 3));
+
     }//
 
 }//
