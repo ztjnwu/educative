@@ -390,7 +390,9 @@ public class TopKNumbers
             return null;
         }//
 
-        //Initialization
+        //Init
+        String result = null;
+
         Map<Character, Integer> freMap = new HashMap<>();
         char[] arr = str.toCharArray();
         for(int i = 0; i < arr.length; i++)
@@ -398,7 +400,7 @@ public class TopKNumbers
             freMap.put(arr[i], freMap.getOrDefault(arr[i], 0) + 1);
         }
 
-        //Initialization
+        //Init
         PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
         for(Map.Entry<Character, Integer> entry : freMap.entrySet())
         {
@@ -406,30 +408,57 @@ public class TopKNumbers
         }//
 
         //Build an arrangement of the targeted string
-        StringBuilder result = new StringBuilder();
-        Map.Entry<Character, Integer> previous = null;
-        Map.Entry<Character, Integer> current = null;
-        while(maxHeap.size() != 0)
+        StringBuilder newString = new StringBuilder();
+        Map.Entry<Character, Integer> first = null;
+        Map.Entry<Character, Integer> second = null;
+        while(maxHeap.size() >= 2)
         {
-            current = maxHeap.poll();
-            if(previous != null)
+            //Get the first and second item
+            first = maxHeap.poll();
+            second = maxHeap.poll();
+
+            //Build targeted string
+            newString.append(first.getKey());
+            newString.append(second.getKey());
+            
+            //Update first and second item
+            first.setValue(first.getValue() - 1);
+            if(first.getValue() != 0)
             {
-                if(previous.getValue() != 0)
-                {
-                    maxHeap.offer(previous);
-                }//
+                maxHeap.offer(first);
+            }//
+ 
+            second.setValue(second.getValue() - 1);
+            if(second.getValue() != 0)
+            {
+                maxHeap.offer(second);
             }//
 
-            result.append(current.getKey());
+        }// while
 
-            //update
-            current.setValue(current.getValue() - 1);
-            previous = current;
+        if(!maxHeap.isEmpty())
+        {
+            if(maxHeap.peek().getValue() >= 2)
+            {
+                newString = null;
+            }//
+            else 
+            {
+                newString.append(maxHeap.peek().getKey());   
+            }//
         }//
 
-        //return
-        return result.length() == str.length() ? result.toString() : null;
-
+        //Return
+        if(newString != null)
+        {
+            result = newString.toString();
+        }
+        else
+        {
+            result = null;
+        }
+        
+        return result;
     }
 
     public static void main(String[] argv)
