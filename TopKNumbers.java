@@ -474,11 +474,15 @@ public class TopKNumbers
         StringBuilder newString = new StringBuilder();
         while(!maxHeap.isEmpty())
         {
+            //
             Map.Entry<Character, Integer> item = maxHeap.poll();
             
+            //
             newString.append(item.getKey());
             item.setValue(item.getValue() - 1);
             queue.offer(item);
+            
+            //
             if(queue.size() == K)
             {
                 Map.Entry<Character, Integer> queueItem = queue.poll();
@@ -502,7 +506,64 @@ public class TopKNumbers
         }//
 
         return result;
-    }
+    }//
+
+    public static String findIntervals(char[] tasks, int K)
+    {
+        //Base Check
+        if(tasks == null || K < 0)
+        {
+            return null;
+        }//
+
+        //Init
+        List<Character> result = new ArrayList<>();
+
+        Map<Character, Integer> freqMap = new HashMap<>();
+        for(int i = 0; i < tasks.length; i++)
+        {
+            freqMap.put(tasks[i], freqMap.getOrDefault(tasks[i], 0) + 1);
+        }//
+
+        PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
+        for(Map.Entry<Character, Integer> item : freqMap.entrySet())
+        {
+            maxHeap.offer(item);
+        }//
+
+        Queue<Map.Entry<Character, Integer>> queue = new LinkedList<>();
+
+        //Schedule tasks
+        StringBuilder newString = new StringBuilder();
+        while(!maxHeap.isEmpty())
+        {
+            Map.Entry<Character, Integer> item = maxHeap.poll();
+
+            newString.append(item.getKey());
+            item.setValue(item.getValue() - 1);
+            queue.offer(item);
+            
+            if(queue.size() == K + 1)
+            {
+                Map.Entry<Character, Integer> queueItem = queue.poll();
+                queueItem.setValue(queueItem.getValue() - 1);
+                if(queueItem.getValue() > 0)
+                {
+                    maxHeap.offer(queueItem);
+                }//
+                else
+                {
+                    newString.append("I");
+                }//
+
+            }//
+
+        }//
+
+        //Return
+        return newString.toString(); 
+
+    }//
 
 
     public static void main(String[] argv)
@@ -604,6 +665,12 @@ public class TopKNumbers
         System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("Programming", 3));
         System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("aab", 2));
         System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("apbab", 3));
+
+        //Schecule tasks
+        char[] tasks = new char[] { 'a', 'a', 'a', 'b', 'c', 'c' };
+        System.out.println(TopKNumbers.findIntervals(tasks, 2));
+        tasks = new char[] { 'a', 'b', 'a' };
+        System.out.println(TopKNumbers.findIntervals(tasks, 3));
 
     }//
 
