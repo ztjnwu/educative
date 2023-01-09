@@ -334,13 +334,123 @@ public class ModifiedBinarySearch {
             else
             {
                 end = mid;
-            }
+            }//
+
         }//
 
         //return 
         return arr[start];
 
-    }
+    }//
+
+    public static int findTargetedItemBotinicArray(int[] arr, int key)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            return -1;
+        }//
+
+        //Init
+        int result = -1;
+
+        //Find the max in the botanic array
+        int start = 0, end = arr.length - 1;
+        int max = Integer.MIN_VALUE;
+        while(start < end)
+        {
+            int mid = start + (end - start) / 2;
+            if(arr[mid] > arr[mid + 1])
+            {
+                end = mid;
+            }//
+            else 
+            {
+                start = mid + 1;
+            }//
+
+        }//
+        max = arr[start];
+        
+        //Binary Search
+        int index = -1;
+        int start_org = start;
+        if(key < max)
+        {
+            end = start - 1;
+            start = 0;
+            while(start <= end)
+            {
+                int mid = start + (end - start) / 2;
+                if(arr[mid] == key)
+                {
+                    break;
+                }//
+                else if(arr[mid] < key)
+                {
+                    start = mid + 1;
+                }
+                else 
+                {
+                    end = mid - 1;
+                }//
+    
+            }//
+    
+            if(start <= end)
+            {
+                index = start + (end - start) / 2;
+            }
+            else 
+            {
+                index = -1;
+                start = start_org;
+                end = arr.length - 1;
+                while(start <= end)
+                {
+                    int mid = start + (end - start) / 2;
+                    if(arr[mid] == key)
+                    {
+                        break;
+                    }//
+                    else if(arr[mid] < key)
+                    {
+                        start = mid + 1;
+                    }
+                    else 
+                    {
+                        end = mid - 1;
+                    }//
+        
+                }//
+
+                if(start <= end)
+                {
+                    index = start + (end - start) / 2;
+                }//
+                else
+                {
+                    index = -1;
+                }//
+
+            }//
+
+        }
+        else if(key > max)
+        {
+            index = -1;
+        }//
+        else  //key == max
+        {
+            index = start;
+        }//
+        
+       
+        //return
+        result = index;
+        return result;
+
+    }//
 
     public static void main(String[] args)
     {
@@ -409,9 +519,13 @@ public class ModifiedBinarySearch {
         System.out.println(ModifiedBinarySearch.findMaximumInBotinicArray(new int[] { 1, 3, 8, 12 }));
         System.out.println(ModifiedBinarySearch.findMaximumInBotinicArray(new int[] { 10, 9, 8 }));
         System.out.println();
-
-
-
+        
+        //Find the targeted element
+        System.out.println("Find the targeted item in a botinic array!");
+        System.out.println(ModifiedBinarySearch.findTargetedItemBotinicArray(new int[] { 1, 3, 8, 4, 3 }, 4));
+        System.out.println(ModifiedBinarySearch.findTargetedItemBotinicArray(new int[] { 3, 8, 3, 1 }, 8));
+        System.out.println(ModifiedBinarySearch.findTargetedItemBotinicArray(new int[] { 1, 3, 8, 12 }, 12));
+        System.out.println(ModifiedBinarySearch.findTargetedItemBotinicArray(new int[] { 10, 9, 8 }, 10));
 
     }//main
 
