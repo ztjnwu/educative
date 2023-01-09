@@ -324,7 +324,36 @@ public class Subsets {
             
         }//
         return result;
-    }
+    }//
+    
+    public static int countBSTNumber(int start, int end)
+    {
+        //Case1
+        if(start >= end)
+        {
+            int result;
+            result = 1;
+            return result;
+        }//
+
+        //Case2
+        int totalSum = 0;
+        for(int i = start; i <= end; i++)
+        {
+            int leftSubtree, rightSubtree;
+            leftSubtree = countBSTNumber(start, i - 1);
+            rightSubtree = countBSTNumber(i + 1, end);
+            totalSum += leftSubtree * rightSubtree;
+        }//
+        
+        int result;
+        result = totalSum;
+        return result;
+
+    }//
+
+
+
     
     public static void main(String[] args)
     {
@@ -365,10 +394,20 @@ public class Subsets {
         result = Subsets.differentExpression("2*3-4-5");
         System.out.println("Expression evaluations: " + result);
 
+        System.out.println();
+
         //Build unique BST tree
-        System.out.println(" Different BST tree ");
+        System.out.println("Different BST tree ");
         List<TreeNode> result_tree = Subsets.buildBST(1, 10);
         System.out.println(result_tree.size());
+        System.out.println();
+
+        //Count the number of BST tree built with the numbe between 1 and n
+        System.out.println("The number ");
+        int result_count = Subsets.countBSTNumber(1, 10);
+        System.out.println(result_count);
+        System.out.println();
+
 
     }// main
     
