@@ -168,7 +168,7 @@ public class XOR
                 matrix[i][length - 1 - j] = matrix[i][length - 1 - j] ^ 1;
             }//
 
-            if(matrix[0].length %2 != 0)
+            if(matrix[0].length %2 != 0) //deak with the middle items
             {
                 matrix[i][matrix[0].length %2] = matrix[i][matrix[0].length %2] ^ 1;
             }
