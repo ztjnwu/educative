@@ -393,74 +393,58 @@ public class TopKNumbers
         //Init
         String result = null;
 
-        Map<Character, Integer> freMap = new HashMap<>();
+        Map<Character, Integer> freqMap = new HashMap<>();
         char[] arr = str.toCharArray();
         for(int i = 0; i < arr.length; i++)
         {
-            freMap.put(arr[i], freMap.getOrDefault(arr[i], 0) + 1);
+            freqMap.put(arr[i], freqMap.getOrDefault(arr[i], 0) + 1);
         }
 
         //Init
         PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
-        for(Map.Entry<Character, Integer> entry : freMap.entrySet())
+        for(Map.Entry<Character, Integer> entry : freqMap.entrySet())
         {
             maxHeap.offer(entry);
         }//
 
+        Queue<Map.Entry<Character, Integer>> queue = new LinkedList<>();
+
         //Build an arrangement of the targeted string
         StringBuilder newString = new StringBuilder();
-        Map.Entry<Character, Integer> first = null;
-        Map.Entry<Character, Integer> second = null;
-        while(maxHeap.size() >= 2)
+        while(!maxHeap.isEmpty())
         {
-            //Get the first and second item
-            first = maxHeap.poll();
-            second = maxHeap.poll();
-
-            //Build targeted string
-            newString.append(first.getKey());
-            newString.append(second.getKey());
-            
-            //Update first and second item
-            first.setValue(first.getValue() - 1);
-            if(first.getValue() != 0)
+            Map.Entry<Character, Integer> item = maxHeap.poll();
+        
+            newString.append(item.getKey());
+            item.setValue(item.getValue() - 1);
+            queue.offer(item);
+            if(queue.size() == 2)
             {
-                maxHeap.offer(first);
+                Map.Entry<Character, Integer> topItem = queue.poll();
+                if(topItem.getValue() != 0)
+                {
+                    maxHeap.offer(topItem);
+                }//
+                
             }//
  
-            second.setValue(second.getValue() - 1);
-            if(second.getValue() != 0)
-            {
-                maxHeap.offer(second);
-            }//
-
         }// while
 
-        if(!maxHeap.isEmpty())
-        {
-            if(maxHeap.peek().getValue() >= 2)
-            {
-                newString = null;
-            }//
-            else 
-            {
-                newString.append(maxHeap.peek().getKey());   
-            }//
-        }//
-
         //Return
-        if(newString != null)
+        if(newString.length() == str.length())
         {
             result = newString.toString();
-        }
+        }//
         else
         {
             result = null;
-        }
+        }//
+
         
         return result;
     }//
 
+    
     public static String rearrangeStringWithKDistance(String str, int K)
     {
         //Base Check
@@ -482,40 +466,32 @@ public class TopKNumbers
         for(Map.Entry<Character, Integer> item : freqMap.entrySet())
         {
             maxHeap.offer(item);
-            System.out.print("[" + item.getKey() + " " + item.getValue() + "]");
         }//
-        System.out.println();
+
+        Queue<Map.Entry<Character, Integer>> queue = new LinkedList<>();
 
         //Rearrange the targeted String
         StringBuilder newString = new StringBuilder();
-        while(maxHeap.size() >= K)
+        while(!maxHeap.isEmpty())
         {
-            //Get current letter 
-            int i = 0;
-            while(i != K)
+            Map.Entry<Character, Integer> item = maxHeap.poll();
+            
+            newString.append(item.getKey());
+            item.setValue(item.getValue() - 1);
+            queue.offer(item);
+            if(queue.size() == K)
             {
-                Map.Entry<Character, Integer> item = maxHeap.poll();
-
-                newString.append(item.getKey());
-                item.setValue(item.getValue() - 1);
-                if(item.getValue() != 0)
+                Map.Entry<Character, Integer> queueItem = queue.poll();
+                if(queueItem.getValue() != 0)
                 {
-                    maxHeap.offer(item);
+                    maxHeap.offer(queueItem);
                 }//
-                System.out.println(" " + item.getKey());
 
-                i++;
             }//
 
         }// while
 
-        while(!maxHeap.isEmpty())
-        {
-            Map.Entry<Character, Integer> item = maxHeap.poll();
-            newString.append(item.getKey());
-        }//
-        
-        //return
+        //Return
         if(newString.length() == str.length())
         {
             result = newString.toString();
