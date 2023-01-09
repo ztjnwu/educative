@@ -145,6 +145,42 @@ public class XOR
     }
 
 
+    public static int[][] flipInvertMatrix(int[][] matrix)
+    {
+        //Base Check
+        if(matrix == null)
+        {
+            return matrix;
+        }
+
+        //Flip and Invert
+        for(int i = 0; i < matrix.length; i++)
+        {
+            int length = matrix[0].length;
+            for(int j = 0; j < length / 2; j++)
+            {
+
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[i][length - 1 - j];
+                matrix[i][length - 1 -j] = temp;
+
+                matrix[i][j] = matrix[i][j] ^ 1;
+                matrix[i][length - 1 - j] = matrix[i][length - 1 - j] ^ 1;
+            }//
+
+            if(matrix[0].length %2 != 0)
+            {
+                matrix[i][matrix[0].length %2] = matrix[i][matrix[0].length %2] ^ 1;
+            }
+            
+
+        }//
+
+        //return
+        return matrix;
+
+    }
+
     public static void main(String[] args)
     {
         //Find missing number
@@ -160,6 +196,7 @@ public class XOR
         System.out.println();
 
         //Find two different numbers
+        System.out.println("Find two different numbers");
         arr = new int[] { 1, 4, 2, 1, 3, 5, 6, 2, 3, 5 };
         System.out.println(XOR.findTwoNumber(arr));
         arr = new int[] { 2, 1, 3, 2 };
@@ -167,8 +204,38 @@ public class XOR
         System.out.println();
 
         //Find the complement
+        System.out.println("Find the complement");
         System.out.println(XOR.findComplement(8));
         System.out.println(XOR.findComplement(10));
+        System.out.println();
+
+
+        //Flip and Invert
+        System.out.println("Flip and Invert");
+        int[][] arr1 = {{1, 0, 1}, {1, 1, 1}, {0, 1, 1}};
+        XOR.flipInvertMatrix(arr1);
+        for(int i = 0; i < arr1.length; i++)
+        {
+            for(int j = 0; j < arr1[0].length; j++)
+            {
+                System.out.print(" " + arr1[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println();
+       
+    
+        int[][] arr2 = {{1,1,0,0},{1,0,0,1},{0,1,1,1},{1,0,1,0}};
+        XOR.flipInvertMatrix(arr2);
+        for(int i = 0; i < arr2.length; i++)
+        {
+            for(int j = 0; j < arr2[0].length; j++)
+            {
+                System.out.print(" " + arr2[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println();
         
     }
 
