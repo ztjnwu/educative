@@ -665,12 +665,30 @@ public class TopKNumbers
         System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("Programming", 3));
         System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("aab", 2));
         System.out.println("Rearranged string: " + TopKNumbers.rearrangeStringWithKDistance("apbab", 3));
+        System.out.println();
 
         //Schecule tasks
+        System.out.println("Schecule tasks!");
         char[] tasks = new char[] { 'a', 'a', 'a', 'b', 'c', 'c' };
         System.out.println(TopKNumbers.findIntervals(tasks, 2));
         tasks = new char[] { 'a', 'b', 'a' };
         System.out.println(TopKNumbers.findIntervals(tasks, 3));
+        System.out.println();
+
+        //Create a frequency stack
+        System.out.println("Create a frequency stack!");
+        FrequencyStack frequencyStack = new FrequencyStack();
+        frequencyStack.push(1);
+        frequencyStack.push(2);
+        frequencyStack.push(3);
+        frequencyStack.push(2);
+        frequencyStack.push(1);
+        frequencyStack.push(2);
+        frequencyStack.push(5);
+        System.out.println(frequencyStack.pop());
+        System.out.println(frequencyStack.pop());
+        System.out.println(frequencyStack.pop());
+        System.out.println();
 
     }//
 
@@ -697,5 +715,81 @@ class Point
         result = (int)Math.sqrt(x * x + y * y);
         return result;
     }
+
+}//
+
+class Element
+{
+    int number;
+    int frequency;
+    int index;
+
+    Element(int number, int frequency, int index)
+    {
+        this.number = number;
+        this.frequency = frequency;
+        this.index = index;
+    }//
+}//
+
+class ElementComparator implements Comparator<Element> 
+{
+    public int compare(Element a, Element b)
+    {
+        if(a.frequency != b.frequency)
+        {
+            return b.frequency - a.frequency;
+        }//
+        else 
+        {
+            return b.index - a.index;
+        }//
+
+    }//
+
+}//
+
+
+class FrequencyStack
+{
+    int index;
+    PriorityQueue<Element> maxHeap = new PriorityQueue<>(new ElementComparator());
+    Map<Integer, Integer> freqMap = new HashMap<>();
+
+    FrequencyStack()
+    {
+        this.index = -1;
+    }//
+
+    public void push(int value)
+    {
+        //Update index
+        index++;
+
+        //Enter into frequency map
+        freqMap.put(value, freqMap.getOrDefault(value, 0) + 1);
+        
+        //Enter into heap
+        maxHeap.offer(new Element(value, freqMap.get(value), index));
+    }//
+
+    public int pop()
+    {
+        //Base Check
+        if(maxHeap.isEmpty())
+        {
+            return -1;
+        }//
+
+        //Init
+        int result = -1;
+
+        //Pop top element
+        result = maxHeap.poll().number;
+        
+        //Return
+        return result;
+
+    }//
 
 }
