@@ -529,22 +529,36 @@ public class ModifiedBinarySearch {
 
         //Find max item
         int start = 0, end = arr.length - 1;
+        int index = -1;
         while(start < end)
         {
             int mid = start + (end - start) / 2;
+            if(mid < end && arr[mid] > arr[mid + 1])
+            {
+                index = mid;
+                break;
+            }
+
+            if(start < mid && arr[mid - 1] > arr[mid])
+            {
+                index = mid - 1;
+                break;
+            }
+            
             if(arr[mid] > arr[start])
             {
-                start = mid;
+                start = mid + 1;
             }
-            else 
+            else
             {
-                end = mid;
-            }//
+                end = mid - 1;
+            }
 
         }//
 
         //Return
-        result = arr[start];
+        
+        result = arr[index];
         return result;
     }// 
 
@@ -638,8 +652,6 @@ public class ModifiedBinarySearch {
         System.out.println(ModifiedBinarySearch.findMAXRotatedArray(new int[] { 1, 3, 8, 10}));
         System.out.println(ModifiedBinarySearch.findMAXRotatedArray(new int[] { 10, 8, 3, 1}));
         System.out.println();
-
-
 
     }//main
 
