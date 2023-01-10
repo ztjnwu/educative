@@ -269,12 +269,69 @@ class CyclicSort
         }//
         return result;
 
-    }
+    }//
+
+    public static List<Integer> findKMissingPositiveNumber(int[] arr, int K)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            List<Integer> result = new ArrayList<>();
+            result.add(null);
+            return result;
+        }//
+
+        //Init
+        List<Integer> result = new ArrayList<>();
+
+        //Find K number
+        for(int i = 0; i < arr.length; i++)
+        {
+            while(arr[i] - 1 > 0 && arr[i] - 1 <= arr.length - 1 && arr[i] - 1 != i && arr[i] != arr[arr[i] - 1])
+            {
+                int temp = arr[arr[i] - 1];
+                arr[arr[i] - 1] = arr[i];
+                arr[i] = temp;
+            }//
+
+        }//
+
+        //Return
+        List<Integer> missingNumberList = new ArrayList<>();
+        List<Integer> containedList = new ArrayList<>();
+        for(int i = 0; i < arr.length; i++)
+        {
+            if(arr[i] - 1 != i)
+            {
+                if(missingNumberList.size() != K)
+                {
+                    missingNumberList.add(i + 1);
+                    containedList.add(arr[i]);
+                }//
+
+            }//
+        }//
+
+        int next = arr.length + 1;
+        while(missingNumberList.size() != K)
+        {
+            if(!containedList.contains(next))
+            {
+                missingNumberList.add(next);
+            }//
+
+            next++;
+        }// while
+
+
+        //Return
+        result = missingNumberList;
+        return result;
+    }//
 
 
     public static void main(String[] args)
     {
-        
         //Cyclic Sort
         System.out.println("Cyclic sort!");
         int[] arr = new int[] {3, 1, 2, 3, 6, 4};
@@ -345,7 +402,14 @@ class CyclicSort
         System.out.println(CyclicSort.findSmallestMissingPositiveNumber(new int[] { -3, 1, 5, 4, 2 }));
         System.out.println(CyclicSort.findSmallestMissingPositiveNumber(new int[] { 3, -2, 0, 1, 2 }));
         System.out.println(CyclicSort.findSmallestMissingPositiveNumber(new int[] { 3, 2, 5, 1 }));
+        System.out.println();
 
+        //Find K missing positive number
+        System.out.println("Find K missing postive number");
+        System.out.println(CyclicSort.findKMissingPositiveNumber(new int[] { 3, -1, 4, 5, 5 }, 3));
+        System.out.println(CyclicSort.findKMissingPositiveNumber(new int[] { 2, 3, 4 }, 3));
+        System.out.println(CyclicSort.findKMissingPositiveNumber(new int[] { -2, -3, 4 }, 2));
+        System.out.println();
 
     }//
 
