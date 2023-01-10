@@ -30,7 +30,7 @@ class CyclicSort
         return true;
     }
 
-    
+
     public static int findMissingNumber(int[] arr)
     {
         //Check validity
@@ -159,9 +159,8 @@ class CyclicSort
         if(arr == null)
         {
             return null;
-        }
+        }//
         
-    
         //swap
         for(int i = 0; i < arr.length; i++)
         {
@@ -172,28 +171,77 @@ class CyclicSort
                 arr[i] = temp;
             }//
 
-        }
+        }//
         
-        //form result
+        //Form Result
         List<Integer> result = new ArrayList<>();
         for(int k = 0; k < arr.length; k++)
         {        
             if(arr[k] - 1 != k )
             {
                 result.add(arr[k]);
-            }
-        }
+            }//
+        }//
        
         //return
         return result;
-    }
+
+    }//
+
+
+    public static List<Integer> findNumbers(int[] arr)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            List<Integer> result = new ArrayList<>();
+            result.add(null);
+            return result;
+        }//
+
+        //Init
+        List<Integer> result = new ArrayList<>();
+
+        //Find numbers
+        for(int i = 0; i < arr.length; i++)
+        {
+            //Place right position
+            while((arr[i] - 1) <= arr.length - 1 && (arr[i] - 1) != i && (arr[i] != arr[arr[i] - 1]))
+            {
+                int temp = arr[arr[i] - 1];
+                arr[arr[i] - 1] = arr[i];
+                arr[i] = temp;
+            }//
+
+        }//
+
+        //Count the duplicate number
+        int index = -1;
+        for(int i = 0; i < arr.length; i++)
+        {
+            System.out.print(" " + arr[i]);
+            if(arr[i] - 1 != i)
+            {
+                index = i;
+                result.clear();
+                result.add(arr[i]);
+                result.add(index);
+            } 
+        }//
+
+        //Return
+        return result;
+
+    }//
+
 
     public static void main(String[] args)
     {
         
         //Cyclic Sort
         System.out.println("Cyclic sort!");
-        int[] arr = new int[] { 3, 1, 5, 4, 2 };
+        int[] arr = new int[] {3, 1, 2, 3, 6, 4};
+        //arr = new int[] { 3, 1, 5, 4, 2 , 3};
         CyclicSort.cyclicSort(arr);
         for (int num : arr)
             System.out.print(num + " ");
@@ -248,6 +296,12 @@ class CyclicSort
         System.out.println(CyclicSort.findAllDuplicateNumber(arr));
         System.out.println();
 
+        //Find corrupt number
+        System.out.println("Find corrupt number");
+        arr = new int[] {3, 1, 2, 5, 2};
+        System.out.println(" " + CyclicSort.findNumbers(arr));
+        arr = new int[] {3, 1, 2, 3, 6, 4};
+        System.out.println(" " + CyclicSort.findNumbers(arr));
         
 
     }//
