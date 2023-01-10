@@ -343,6 +343,7 @@ public class ModifiedBinarySearch {
 
     }//
 
+
     public static int findTargetedItemBotinicArray(int[] arr, int key)
     {
         //Base Check
@@ -452,6 +453,103 @@ public class ModifiedBinarySearch {
 
     }//
 
+
+    public static int findTargetedItemRotatedArray(int[] arr, int key)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            return -1;
+        }//
+
+        //Init
+        int result = -1;
+
+        //Find targeted item
+        int index = -1;
+        int start = 0, end = arr.length - 1;
+        while(start <= end)
+        {
+            int mid = start + (end - start) / 2;
+            if(arr[mid] == key)
+            {
+                break;
+            }//
+            else if(arr[start] <= arr[mid]) //left part
+            {
+                if(key < arr[mid] && key >= arr[start])//arr[mid] > key
+                {
+                    end = mid - 1;
+                }//
+                else
+                {
+                    start = mid + 1;
+                }//
+
+            }//
+            else //right part
+            {
+                if(key > arr[mid] && key <= arr[end])
+                {
+                    start = mid + 1;
+                }//
+                else
+                {
+                    end = mid - 1;
+                }// else
+
+            }// else
+
+        }// while
+
+        if(start <= end)
+        {
+            index = start + (end - start) / 2;
+        }//
+        else
+        {
+            index = -1;
+        }//
+
+        //Return
+        result = index;
+        return result;
+    }//
+
+    public static int findMAXRotatedArray(int[] arr)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            return -1;
+        }//
+
+        //Init
+        int result = -1;
+
+        //Find max item
+        int start = 0, end = arr.length - 1;
+        while(start < end)
+        {
+            int mid = start + (end - start) / 2;
+            if(arr[mid] > arr[start])
+            {
+                start = mid;
+            }
+            else 
+            {
+                end = mid;
+            }//
+
+        }//
+
+        //Return
+        result = arr[start];
+        return result;
+    }// 
+
+
+
     public static void main(String[] args)
     {
         //Search for a number
@@ -526,6 +624,22 @@ public class ModifiedBinarySearch {
         System.out.println(ModifiedBinarySearch.findTargetedItemBotinicArray(new int[] { 3, 8, 3, 1 }, 8));
         System.out.println(ModifiedBinarySearch.findTargetedItemBotinicArray(new int[] { 1, 3, 8, 12 }, 12));
         System.out.println(ModifiedBinarySearch.findTargetedItemBotinicArray(new int[] { 10, 9, 8 }, 10));
+        System.out.println();
+
+        //Find the targeted element in a rotated array
+        System.out.println("Find the targeted element in a rotated array!");
+        System.out.println(ModifiedBinarySearch.findTargetedItemRotatedArray(new int[] { 10, 15, 1, 3, 8 }, 15));
+        System.out.println(ModifiedBinarySearch.findTargetedItemRotatedArray(new int[] { 4, 5, 7, 9, 10, -1, 2 }, 10));
+        System.out.println();
+
+        System.out.println("Find the MAX element in a rotated array!");
+        System.out.println(ModifiedBinarySearch.findMAXRotatedArray(new int[] { 10, 15, 16, 1, 3, 8 }));
+        System.out.println(ModifiedBinarySearch.findMAXRotatedArray(new int[] { 4, 5, 7, 9, 10, -1, 2 }));
+        System.out.println(ModifiedBinarySearch.findMAXRotatedArray(new int[] { 1, 3, 8, 10}));
+        System.out.println(ModifiedBinarySearch.findMAXRotatedArray(new int[] { 10, 8, 3, 1}));
+        System.out.println();
+
+
 
     }//main
 
