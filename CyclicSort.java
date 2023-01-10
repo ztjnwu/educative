@@ -234,6 +234,43 @@ class CyclicSort
 
     }//
 
+    public static List<Integer> findSmallestMissingPositiveNumber(int[] arr)
+    {
+        //Base Check
+        if(arr == null)
+        {
+            List<Integer> result = new ArrayList<>();
+            result.add(null);
+            return result;
+        }//
+
+        //Init
+        List<Integer> result = new ArrayList<>();
+        
+        //Find the mallest positive number
+        for(int i = 0; i < arr.length; i++)
+        {
+            while(arr[i] - 1 >= 0 && arr[i] - 1<= arr.length - 1 && arr[i] - 1 != i && arr[i] != arr[arr[i] - 1])
+            {
+                int temp = arr[arr[i] - 1];
+                arr[arr[i] - 1] = arr[i];
+                arr[i] = temp;
+            }//
+
+        }//
+
+        //return
+        for(int i = 0; i < arr.length; i++)
+        {
+            if(arr[i] - 1 != i)
+            {
+                result.add(i + 1);
+            }
+        }//
+        return result;
+
+    }
+
 
     public static void main(String[] args)
     {
@@ -302,7 +339,13 @@ class CyclicSort
         System.out.println(" " + CyclicSort.findNumbers(arr));
         arr = new int[] {3, 1, 2, 3, 6, 4};
         System.out.println(" " + CyclicSort.findNumbers(arr));
-        
+
+        //Find the smallest misssing positive
+        System.out.println("Find the smallest missing postive number");
+        System.out.println(CyclicSort.findSmallestMissingPositiveNumber(new int[] { -3, 1, 5, 4, 2 }));
+        System.out.println(CyclicSort.findSmallestMissingPositiveNumber(new int[] { 3, -2, 0, 1, 2 }));
+        System.out.println(CyclicSort.findSmallestMissingPositiveNumber(new int[] { 3, 2, 5, 1 }));
+
 
     }//
 
